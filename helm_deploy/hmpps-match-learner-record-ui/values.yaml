@@ -49,7 +49,7 @@ generic-service:
     #   AUTH_CODE_CLIENT_SECRET: 'AUTH_CODE_CLIENT_SECRET'    
     # hmpps-match-learner-record-ui-session-secret:
     #   SESSION_SECRET: 'SESSION_SECRET'
-    hmpps-match-learner-record-ui-elasticache-redis:
+    match-learner-record-ui-elasticache-redis:
       REDIS_HOST: 'primary_endpoint_address'
       REDIS_AUTH_TOKEN: 'auth_token'
     application-insights:
