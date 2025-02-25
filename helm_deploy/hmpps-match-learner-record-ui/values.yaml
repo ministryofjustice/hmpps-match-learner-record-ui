@@ -15,7 +15,7 @@ generic-service:
   ingress:
     enabled: true
     host: app-hostname.local # override per environment
-    tlsSecretName: hmpps-match-learner-record-ui-cert
+    tlsSecretName: hmpps-match-learner-record-dev-cert
 
   livenessProbe:
     httpGet:
