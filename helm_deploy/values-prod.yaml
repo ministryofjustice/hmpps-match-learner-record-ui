@@ -3,7 +3,7 @@
 
 generic-service:
   ingress:
-    host: match-learner-record-ui.hmpps.service.justice.gov.uk
+    host: match-learner-record.hmpps.service.justice.gov.uk
 
   env:
     INGRESS_URL: "https://match-learner-record-ui.hmpps.service.justice.gov.uk"

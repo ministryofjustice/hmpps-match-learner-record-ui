@@ -5,7 +5,7 @@ generic-service:
   replicaCount: 2
 
   ingress:
-    host: match-learner-record-ui-dev.hmpps.service.justice.gov.uk
+    host: match-learner-record-dev.hmpps.service.justice.gov.uk
 
   env:
     INGRESS_URL: "https://match-learner-record-ui-dev.hmpps.service.justice.gov.uk"
