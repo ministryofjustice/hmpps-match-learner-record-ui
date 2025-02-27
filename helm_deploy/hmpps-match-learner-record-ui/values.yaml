@@ -45,11 +45,11 @@ generic-service:
 #     hmpps-match-learner-record-ui-client-creds:
        CLIENT_CREDS_CLIENT_ID: 'CLIENT_CREDS_CLIENT_ID'
        CLIENT_CREDS_CLIENT_SECRET: 'CLIENT_CREDS_CLIENT_SECRET'
-#     hmpps-match-learner-record-ui-auth-code:
+     hmpps-match-learner-record-ui-session-secret:
+       SESSION_SECRET: 'SESSION_SECRET'
+     hmpps-match-learner-record-ui-auth-code:
        AUTH_CODE_CLIENT_ID: 'AUTH_CODE_CLIENT_ID'
        AUTH_CODE_CLIENT_SECRET: 'AUTH_CODE_CLIENT_SECRET'
-#     hmpps-match-learner-record-ui-session-secret:
-       SESSION_SECRET: 'SESSION_SECRET'
      match-learner-record-ui-elasticache-redis:
       REDIS_HOST: 'primary_endpoint_address'
       REDIS_AUTH_TOKEN: 'auth_token'
