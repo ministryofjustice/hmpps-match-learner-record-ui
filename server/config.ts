@@ -92,6 +92,10 @@ export default {
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
     },
+    prisonersApi: {
+      url: get('PRISONERS_API_URL', 'http://localhost:7070/changeMe', requiredInProduction),
+      healthPath: '/health/ping',
+    },
   },
   sqs: {
     audit: auditConfig(),

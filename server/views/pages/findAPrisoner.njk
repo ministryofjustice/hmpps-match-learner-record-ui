@@ -1,0 +1,96 @@
+{% extends "../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - Find a prisoner" %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{%- from "moj/components/search/macro.njk" import mojSearch -%}
+{%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
+{%- from "govuk/components/table/macro.njk" import govukTable -%}
+
+
+{% block content %}
+
+  <h1>Find the prisoner you want to match</h1>
+
+  {{ data[0].firstName }}
+
+  {% set searchContent %}
+    {{ mojSearch({
+      action: "#",
+      method: "post",
+      input: {
+        id: "search",
+        name: "search"
+      },
+      label: {
+        text: "Find a prisoner",
+        classes: "govuk-!-font-weight-bold"
+      },
+      hint: {
+        text: "Name or prison number"
+      },
+      button: {
+        text: "Search"
+      },
+      hidden: [{
+        name: "_csrf",
+        value: csrfToken
+      }]
+    }) }}
+  {% endset %}
+
+
+  {{ mojTicketPanel({
+    items: [{
+      html: searchContent
+    }]
+  }) }}
+
+  {% set tableRows = [] %}
+  
+  {% for prisoner in data %}
+    {% set row = [
+      { text: prisoner.firstName + " " + prisoner.lastName },
+      { text: prisoner.prisonerNumber },
+      { text: prisoner.nationality },
+      { text: prisoner.age or "N/A" }
+    ] %}
+    {% set tableRows = (tableRows.push(row), tableRows) %}
+  {% endfor %}
+
+{{ govukTable({
+    attributes: {
+      "data-module": "moj-sortable-table"
+    },
+    head: [
+      {
+        text: "Name",
+        attributes: {
+          "aria-sort": "ascending"
+        }
+      },
+      {
+        text: "Prison number",
+        attributes: {
+          "aria-sort": "none"
+        }
+      },
+      {
+        text: "Location",
+        attributes: {
+          "aria-sort": "none"
+        }
+      },
+      {
+        text: "Age",
+        attributes: {
+          "aria-sort": "none"
+        },
+        format: "numeric"
+      }
+    ],
+    rows: tableRows
+  }) }}
+
+
+{% endblock %}
