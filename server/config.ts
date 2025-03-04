@@ -92,12 +92,12 @@ export default {
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
     },
-    prisonersApi: {
-      url: get('PRISONERS_API_URL', 'http://localhost:7070/changeMe', requiredInProduction),
-      healthPath: '/health/ping',
-    },
     prisonerSearch: {
-      url: get('PRISONER_SEARCH_API_URL', 'http://localhost:8083', requiredInProduction),
+      url: get(
+        'PRISONER_SEARCH_API_URL',
+        'https://prisoner-search-dev.prison.service.justice.gov.uk',
+        requiredInProduction,
+      ),
       healthPath: '/health/ping',
       timeout: {
         response: Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 15000)),
