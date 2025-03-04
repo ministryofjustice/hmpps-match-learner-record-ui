@@ -12,33 +12,25 @@
 
   <h1>Find the prisoner you want to match</h1>
 
-  {{ data[0].firstName }}
-
   {% set searchContent %}
-    {{ mojSearch({
-      action: "#",
-      method: "post",
-      input: {
-        id: "search",
-        name: "search"
-      },
-      label: {
-        text: "Find a prisoner",
-        classes: "govuk-!-font-weight-bold"
-      },
-      hint: {
-        text: "Name or prison number"
-      },
-      button: {
-        text: "Search"
-      },
-      hidden: [{
-        name: "_csrf",
-        value: csrfToken
-      }]
-    }) }}
+    <div class="moj-search">
+      <form action="#" method="post">
+        <div class="govuk-form-group">
+          <label class="govuk-label moj-search__label govuk-!-font-weight-bold" for="search">
+            Find a prisoner
+          </label>
+          <div id="search-hint" class="govuk-hint moj-search__hint ">
+            Name or prison number
+          </div>
+          <input class="govuk-input moj-search__input " id="search" name="search" type="search" aria-describedby="search-hint">
+        </div>
+        <button type="submit" class="govuk-button moj-search__button " data-module="govuk-button">
+          Search
+        </button>
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+      </form>
+    </div>
   {% endset %}
-
 
   {{ mojTicketPanel({
     items: [{
@@ -58,39 +50,45 @@
     {% set tableRows = (tableRows.push(row), tableRows) %}
   {% endfor %}
 
-{{ govukTable({
-    attributes: {
-      "data-module": "moj-sortable-table"
-    },
-    head: [
-      {
-        text: "Name",
-        attributes: {
-          "aria-sort": "ascending"
-        }
+  {% if data and data | length > 0 %}
+    {{ govukTable({
+      attributes: {
+        "data-module": "moj-sortable-table"
       },
-      {
-        text: "Prison number",
-        attributes: {
-          "aria-sort": "none"
-        }
-      },
-      {
-        text: "Location",
-        attributes: {
-          "aria-sort": "none"
-        }
-      },
-      {
-        text: "Age",
-        attributes: {
-          "aria-sort": "none"
+      head: [
+        {
+          text: "Name",
+          attributes: {
+            "aria-sort": "ascending"
+          }
         },
-        format: "numeric"
-      }
-    ],
-    rows: tableRows
-  }) }}
+        {
+          text: "Prison number",
+          attributes: {
+            "aria-sort": "none"
+          }
+        },
+        {
+          text: "Location",
+          attributes: {
+            "aria-sort": "none"
+          }
+        },
+        {
+          text: "Age",
+          attributes: {
+            "aria-sort": "none"
+          },
+          format: "numeric"
+        }
+      ],
+      rows: tableRows
+    }) }}
+  {% elseif data and data | length == 0 %}
+    <p>Search returned no results - try searching again.</p>
+  {% else %}
+    <p>No results to show - please perform a search.</p>
+  {% endif %}
 
 
 {% endblock %}

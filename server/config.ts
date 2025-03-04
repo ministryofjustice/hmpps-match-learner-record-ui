@@ -96,6 +96,15 @@ export default {
       url: get('PRISONERS_API_URL', 'http://localhost:7070/changeMe', requiredInProduction),
       healthPath: '/health/ping',
     },
+    prisonerSearch: {
+      url: get('PRISONER_SEARCH_API_URL', 'http://localhost:8083', requiredInProduction),
+      healthPath: '/health/ping',
+      timeout: {
+        response: Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 15000)),
+        deadline: Number(get('PRISONER_SEARCH_TIMEOUT_DEADLINE', 15000)),
+      },
+      agent: new AgentConfig(Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 15000))),
+    },
   },
   sqs: {
     audit: auditConfig(),

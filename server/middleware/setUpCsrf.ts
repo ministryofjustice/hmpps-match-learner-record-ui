@@ -7,7 +7,7 @@ export default function setUpCsrf(): Router {
   const router = Router({ mergeParams: true })
 
   // CSRF protection
-  if (testMode) {
+  if (!testMode) {
     const {
       csrfSynchronisedProtection, // This is the default CSRF protection middleware.
     } = csrfSync({
