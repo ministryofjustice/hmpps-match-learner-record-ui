@@ -1,0 +1,115 @@
+{% extends "../../partials/layout.njk" %}
+
+{% set pageTitle = "Search for a learner record" %}
+
+{% block content %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "#"
+  }) }}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-l">Search for {{ prisonerSummary.firstName | safe }} {{ prisonerSummary.lastName | safe }}'s learner record</h1>
+      <p class="govuk-body">Search for {{ prisonerSummary.firstName | safe }} {{ prisonerSummary.lastName | safe }}'s learner record using either their ULN or their personal information.</p>
+
+      {{ mojSubNavigation({
+        label: "Sub navigation",
+        items: [{
+          text: "Unique learner number",
+          href: "/search-for-learner-record-by-uln"
+        }, {
+          text: "Personal information",
+          active: true,
+          href: "#"
+        }]
+      }) }}
+
+      {{ govukInput({
+        label: {
+          text: "Given name",
+          classes: "govuk-!-font-weight-bold"
+        },
+        id: "givenName",
+        name: "givenName",
+        classes: "govuk-input--width-20"
+      }) }}
+
+      {{ govukInput({
+        label: {
+          text: "Family name",
+          classes: "govuk-!-font-weight-bold"
+        },
+        id: "familyName",
+        name: "familyName",
+        classes: "govuk-input--width-20"
+      }) }}
+
+      {{ govukDateInput({
+        id: "dob",
+        namePrefix: "dob",
+        fieldset: {
+          legend: {
+            text: "Date of birth",
+            classes: "govuk-!-font-weight-bold"
+          }
+        },
+        items: [
+          {
+            name: "day",
+            classes: "govuk-input--width-2",
+            autocomplete: "bday-day"
+          },
+          {
+            name: "month",
+            classes: "govuk-input--width-2",
+            autocomplete: "bday-month"
+          },
+          {
+            name: "year",
+            classes: "govuk-input--width-4",
+            autocomplete: "bday-year"
+          }
+        ]
+      }) }}
+
+      {{ govukInput({
+        label: {
+          text: "Postcode (optional)",
+          classes: "govuk-!-font-weight-bold"
+        },
+        id: "postcode",
+        name: "postcode",
+        classes: "govuk-input--width-10"
+      }) }}
+
+      {{ govukSelect({
+        id: "sex",
+        name: "sex",
+        label: {
+          text: "Sex (optional)",
+          classes: "govuk-!-font-weight-bold"
+        },
+        items: [
+          {
+            value: "",
+            text: "Select their sex",
+            selected: true
+          },
+          {
+            value: "male",
+            text: "Male"
+          },
+          {
+            value: "female",
+            text: "Female"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Search"
+      }) }}
+    </div>
+  </div>
+{% endblock %}
