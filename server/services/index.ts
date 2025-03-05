@@ -1,7 +1,7 @@
 import { dataAccess } from '../data'
-import PrisonerSearchClient from '../data/prisonerSearchClient'
+import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
 import AuditService from './auditService'
-import PrisonerSearchService from './prisonerSearchService'
+import PrisonerSearchService from './prisonerSearch/prisonerSearchService'
 
 export const services = () => {
   const { applicationInfo, hmppsAuditClient, hmppsAuthClient } = dataAccess()

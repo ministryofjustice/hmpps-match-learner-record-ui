@@ -1,6 +1,6 @@
 import { plainToInstance } from 'class-transformer'
-import config from '../config'
-import RestClient from './restClient'
+import config from '../../config'
+import RestClient from '../restClient'
 import PrisonerSearchResult from './prisonerSearchResult'
 
 export interface PrisonerSearchByPrisonerNumber {

@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import nock from 'nock'
-import config from '../config'
+import config from '../../config'
 import PrisonSearchClient from './prisonerSearchClient'
 
 describe('prisonerSearchClient', () => {

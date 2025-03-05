@@ -1,6 +1,6 @@
-import { HmppsAuthClient } from '../data'
-import PrisonerSearchClient, { PrisonerSearchRequest } from '../data/prisonerSearchClient'
-import PrisonerSearchResult from '../data/prisonerSearchResult'
+import { HmppsAuthClient } from '../../data'
+import PrisonerSearchClient, { PrisonerSearchRequest } from '../../data/prisonerSearch/prisonerSearchClient'
+import PrisonerSearchResult from '../../data/prisonerSearch/prisonerSearchResult'
 
 export default class PrisonerSearchService {
   constructor(

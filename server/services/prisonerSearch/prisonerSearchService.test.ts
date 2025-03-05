@@ -1,9 +1,9 @@
-import HmppsAuthClient from '../data/hmppsAuthClient'
-import PrisonerSearchClient from '../data/prisonerSearchClient'
+import HmppsAuthClient from '../../data/hmppsAuthClient'
+import PrisonerSearchClient from '../../data/prisonerSearch/prisonerSearchClient'
 import PrisonerSearchService from './prisonerSearchService'
 
-jest.mock('../data/prisonerSearchClient')
-jest.mock('../data')
+jest.mock('../../data/prisonerSearch/prisonerSearchClient')
+jest.mock('../../data/hmppsAuthClient')
 
 describe('PrisonerSearchService', () => {
   let prisonerSearchService: PrisonerSearchService
