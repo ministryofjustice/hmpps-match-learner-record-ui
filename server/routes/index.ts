@@ -3,6 +3,7 @@ import { type RequestHandler, Router } from 'express'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import { Page } from '../services/auditService'
+import matchConfirmedRoutes from './matchConfirmed'
 
 export default function routes({ auditService }: Services): Router {
   const router = Router()
@@ -13,6 +14,8 @@ export default function routes({ auditService }: Services): Router {
 
     res.render('pages/index')
   })
+
+  router.use(matchConfirmedRoutes(auditService))
 
   return router
 }
