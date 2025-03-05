@@ -22,7 +22,7 @@
 
 {% block main %}
     {% block beforeContent %}{% endblock %}
-    <main class="govuk-main-wrapper govuk-!-padding-top-0 {{ mainClasses }}" id="main-content" role="main">
+    <main class="govuk-main-wrapper {{ mainClasses }}" id="main-content" role="main">
       {% if errors.length > 0 %}
       <div class="govuk-width-container">
         <div class="govuk-grid-row">
