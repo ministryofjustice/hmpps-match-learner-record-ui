@@ -8,4 +8,8 @@ declare module 'forms' {
     postcode?: string
     sex?: string
   }
+
+  export interface SearchByUlnForm {
+    uln: string
+  }
 }

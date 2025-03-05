@@ -1,4 +1,4 @@
-import type { SearchByInformationForm } from 'forms'
+import type { SearchByInformationForm, SearchByUlnForm } from 'forms'
 import { HmppsUser } from '../../interfaces/hmppsUser'
 
 export declare module 'express-session' {
@@ -7,6 +7,7 @@ export declare module 'express-session' {
     returnTo: string
     nowInMinutes: number
     searchByInformationForm: SearchByInformationForm
+    searchByUlnForm: SearchByUlnForm
   }
 }
 

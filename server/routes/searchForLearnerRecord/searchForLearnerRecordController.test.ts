@@ -2,15 +2,17 @@ import { Request, Response } from 'express'
 import validateSearchByInformationForm from './searchByInformationValidator'
 import AuditService from '../../services/auditService'
 import SearchForLearnerRecordController from './searchForLearnerRecordController'
+import validateSearchByUlnForm from './searchByUlnValidator'
 
 jest.mock('../../services/auditService')
 jest.mock('./searchByInformationValidator')
+jest.mock('./searchByUlnValidator')
 
 describe('searchForLearnerRecordController', () => {
-  // const mockedSearchByInformationValidator = jest.fn()
   const mockedSearchByInformationValidator = validateSearchByInformationForm as jest.MockedFn<
     typeof validateSearchByInformationForm
   >
+  const mockedSearchByUlnValidator = validateSearchByUlnForm as jest.MockedFn<typeof validateSearchByUlnForm>
   const auditService = new AuditService(null) as jest.Mocked<AuditService>
   const controller = new SearchForLearnerRecordController(auditService)
 
@@ -59,6 +61,17 @@ describe('searchForLearnerRecordController', () => {
       await controller.postSearchForLearnerRecordByInformation(req, res, next)
 
       expect(res.redirectWithErrors).toHaveBeenCalledWith('/search-for-learner-record-by-information', errors)
+    })
+  })
+
+  describe('postSearchForLearnerRecordByUln', () => {
+    it('should redirect to the same page if errors are present', async () => {
+      errors = [{ href: '#uln', text: 'some-error' }]
+      mockedSearchByUlnValidator.mockReturnValue(errors)
+
+      await controller.postSearchForLearnerRecordByUln(req, res, next)
+
+      expect(res.redirectWithErrors).toHaveBeenCalledWith('/search-for-learner-record-by-uln', errors)
     })
   })
 })

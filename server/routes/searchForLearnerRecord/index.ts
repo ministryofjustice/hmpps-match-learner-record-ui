@@ -14,4 +14,5 @@ export default (router: Router, services: Services) => {
     '/search-for-learner-record-by-information',
     searchForLearnerRecordController.postSearchForLearnerRecordByInformation,
   )
+  router.post('/search-for-learner-record-by-uln', searchForLearnerRecordController.postSearchForLearnerRecordByUln)
 }
