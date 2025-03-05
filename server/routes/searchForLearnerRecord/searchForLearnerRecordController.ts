@@ -19,6 +19,8 @@ export default class SearchForLearnerRecordController {
     req.session.searchByInformationForm = searchByInformationForm
 
     const errors = validateSearchByInformationForm(searchByInformationForm)
+    console.log(errors)
+
     if (errors.length > 0) {
       return res.redirectWithErrors('/search-for-learner-record-by-information', errors)
     }

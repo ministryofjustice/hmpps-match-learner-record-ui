@@ -4,8 +4,10 @@ import AuditService from '../../services/auditService'
 import SearchForLearnerRecordController from './searchForLearnerRecordController'
 
 jest.mock('../../services/auditService')
+jest.mock('./searchByInformationValidator')
 
 describe('searchForLearnerRecordController', () => {
+  // const mockedSearchByInformationValidator = jest.fn()
   const mockedSearchByInformationValidator = validateSearchByInformationForm as jest.MockedFn<
     typeof validateSearchByInformationForm
   >
@@ -30,7 +32,6 @@ describe('searchForLearnerRecordController', () => {
 
   beforeEach(() => {
     jest.resetAllMocks()
-    // res.locals =
     errors = []
   })
 
@@ -47,6 +48,17 @@ describe('searchForLearnerRecordController', () => {
       await controller.getSearchForLearnerRecordViewByInformation(req, res, next)
 
       expect(res.render).toHaveBeenCalledWith('pages/searchForLearnerRecord/byInformation', {})
+    })
+  })
+
+  describe('postSearchForLearnerRecordByInformation', () => {
+    it('should redirect to the same page if errors are present', async () => {
+      errors = [{ href: '#givenName', text: 'some-error' }]
+      mockedSearchByInformationValidator.mockReturnValue(errors)
+
+      await controller.postSearchForLearnerRecordByInformation(req, res, next)
+
+      expect(res.redirectWithErrors).toHaveBeenCalledWith('/search-for-learner-record-by-information', errors)
     })
   })
 })
