@@ -104,7 +104,7 @@ describe('prisonerSearchClient', () => {
         mostSeriousOffence: 'Burglary',
         category: 'B',
         nationality: 'British',
-        dateOfBirth: new Date(Date.UTC(1990, 0, 2)),
+        dateOfBirth: '02-01-1990',
         sentenceExpiryDate: new Date(Date.UTC(2020, 8, 20)),
         licenceExpiryDate: new Date(Date.UTC(2020, 8, 21)),
         paroleEligibilityDate: new Date(Date.UTC(2020, 8, 22)),

@@ -22,7 +22,7 @@
           <div id="search-hint" class="govuk-hint moj-search__hint ">
             Name or prison number
           </div>
-          <input class="govuk-input moj-search__input " id="search" name="search" type="search" aria-describedby="search-hint">
+          <input class="govuk-input moj-search__input " id="search" name="search" type="search" aria-describedby="search-hint" value="{{ search }}">
         </div>
         <button type="submit" class="govuk-button moj-search__button " data-module="govuk-button">
           Search
@@ -42,10 +42,10 @@
   
   {% for prisoner in data %}
     {% set row = [
-      { text: prisoner.firstName + " " + prisoner.lastName },
-      { text: prisoner.prisonerNumber },
-      { text: prisoner.nationality },
-      { text: prisoner.age or "N/A" }
+      { html: '<a class="govuk-link" href="/">' + prisoner.firstName + " " + prisoner.lastName + '</a>' },
+      { text: prisoner.prisonerNumber or "Not Specified" },
+      { text: prisoner.cellLocation or "Not Specified" },
+      { text: prisoner.dateOfBirth or "Not Specified" }
     ] %}
     {% set tableRows = (tableRows.push(row), tableRows) %}
   {% endfor %}
@@ -75,7 +75,7 @@
           }
         },
         {
-          text: "Age",
+          text: "Date of birth",
           attributes: {
             "aria-sort": "none"
           },
