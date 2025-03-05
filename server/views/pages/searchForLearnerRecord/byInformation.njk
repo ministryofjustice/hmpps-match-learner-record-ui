@@ -3,6 +3,7 @@
 {% set pageTitle = "Search for a learner record" %}
 
 {% block content %}
+<div class="govuk-width-container">
   {{ govukBackLink({
     text: "Back",
     href: "#"
@@ -25,91 +26,104 @@
         }]
       }) }}
 
-      {{ govukInput({
-        label: {
-          text: "Given name",
-          classes: "govuk-!-font-weight-bold"
-        },
-        id: "givenName",
-        name: "givenName",
-        classes: "govuk-input--width-20"
-      }) }}
-
-      {{ govukInput({
-        label: {
-          text: "Family name",
-          classes: "govuk-!-font-weight-bold"
-        },
-        id: "familyName",
-        name: "familyName",
-        classes: "govuk-input--width-20"
-      }) }}
-
-      {{ govukDateInput({
-        id: "dob",
-        namePrefix: "dob",
-        fieldset: {
-          legend: {
-            text: "Date of birth",
+      <form class="form" method="post" novalidate="">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        {{ govukInput({
+          label: {
+            text: "Given name",
             classes: "govuk-!-font-weight-bold"
-          }
-        },
-        items: [
-          {
-            name: "day",
-            classes: "govuk-input--width-2",
-            autocomplete: "bday-day"
           },
-          {
-            name: "month",
-            classes: "govuk-input--width-2",
-            autocomplete: "bday-month"
-          },
-          {
-            name: "year",
-            classes: "govuk-input--width-4",
-            autocomplete: "bday-year"
-          }
-        ]
-      }) }}
+          id: "givenName",
+          name: "givenName",
+          value: form.givenName,
+          classes: "govuk-input--width-20",
+          errorMessage: errors | findError("givenName")
+        }) }}
 
-      {{ govukInput({
-        label: {
-          text: "Postcode (optional)",
-          classes: "govuk-!-font-weight-bold"
-        },
-        id: "postcode",
-        name: "postcode",
-        classes: "govuk-input--width-10"
-      }) }}
-
-      {{ govukSelect({
-        id: "sex",
-        name: "sex",
-        label: {
-          text: "Sex (optional)",
-          classes: "govuk-!-font-weight-bold"
-        },
-        items: [
-          {
-            value: "",
-            text: "Select their sex",
-            selected: true
+        {{ govukInput({
+          label: {
+            text: "Family name",
+            classes: "govuk-!-font-weight-bold"
           },
-          {
-            value: "male",
-            text: "Male"
-          },
-          {
-            value: "female",
-            text: "Female"
-          }
-        ]
-      }) }}
+          id: "familyName",
+          name: "familyName",
+          value: form.familyName,
+          classes: "govuk-input--width-20",
+          errorMessage: errors | findError("familyName")
+        }) }}
 
-      {{ govukButton({
-        text: "Search"
-      }) }}
+        {{ govukDateInput({
+          id: "dob",
+          namePrefix: "dob",
+          fieldset: {
+            legend: {
+              text: "Date of birth",
+              classes: "govuk-!-font-weight-bold"
+            }
+          },
+          errorMessage: errors | findError("dob"),
+          items: [
+            {
+              name: "day",
+              classes: "govuk-input--width-2",
+              autocomplete: "bday-day",
+              value: form['dob-day']
+            },
+            {
+              name: "month",
+              classes: "govuk-input--width-2",
+              autocomplete: "bday-month",
+              value: form['dob-month']
+            },
+            {
+              name: "year",
+              classes: "govuk-input--width-4",
+              autocomplete: "bday-year",
+              value: form['dob-year']
+            }
+          ]
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Postcode (optional)",
+            classes: "govuk-!-font-weight-bold"
+          },
+          id: "postcode",
+          name: "postcode",
+          classes: "govuk-input--width-10"
+        }) }}
+
+        {{ govukSelect({
+          id: "sex",
+          name: "sex",
+          label: {
+            text: "Sex (optional)",
+            classes: "govuk-!-font-weight-bold"
+          },
+          items: [
+            {
+              value: "",
+              text: "Select their sex",
+              selected: true
+            },
+            {
+              value: "male",
+              text: "Male"
+            },
+            {
+              value: "female",
+              text: "Female"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Search",
+          type: "submit"
+        }) }}
+      </form>
     </div>
+  </div>
   </div>
 {% endblock %}
