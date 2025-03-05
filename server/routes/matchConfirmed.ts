@@ -5,7 +5,6 @@ import AuditService, { Page } from '../services/auditService'
 export default function matchConfirmedRoutes(auditService: AuditService): Router {
   const router = Router()
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
-  const post = (path: string | string[], handler: RequestHandler) => router.post(path, asyncMiddleware(handler))
 
   get('/match-confirmed', async (req, res) => {
     const { firstName, lastName, uln, prisonerNumber } = req.query
