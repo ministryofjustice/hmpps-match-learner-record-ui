@@ -35,7 +35,7 @@ describe('GET /find-a-prisoner', () => {
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain('Find the prisoner you want to match')
-        expect(auditService.logPageView).toHaveBeenCalledWith(Page.EXAMPLE_PAGE, {
+        expect(auditService.logPageView).toHaveBeenCalledWith(Page.PRISONER_SEARCH_PAGE, {
           who: user.username,
           correlationId: expect.any(String),
         })
@@ -82,7 +82,7 @@ describe('POST /find-a-prisoner', () => {
         expect(res.text).toContain('Find the prisoner you want to match')
         expect(res.text).toContain('Example')
         expect(res.text).toContain('Person')
-        expect(auditService.logPageView).toHaveBeenCalledWith(Page.EXAMPLE_PAGE, {
+        expect(auditService.logPageView).toHaveBeenCalledWith(Page.PRISONER_SEARCH_PAGE, {
           who: user.username,
           correlationId: expect.any(String),
         })

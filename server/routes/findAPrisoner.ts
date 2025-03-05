@@ -9,12 +9,18 @@ export default function findAPrisonerRoutes(services: Services): Router {
   const post = (path: string | string[], handler: RequestHandler) => router.post(path, asyncMiddleware(handler))
 
   get('/find-a-prisoner', async (req, res) => {
-    await services.auditService.logPageView(Page.EXAMPLE_PAGE, { who: res.locals.user.username, correlationId: req.id })
+    await services.auditService.logPageView(Page.PRISONER_SEARCH_PAGE, {
+      who: res.locals.user.username,
+      correlationId: req.id,
+    })
     res.render('pages/findAPrisoner')
   })
 
   post('/find-a-prisoner', async (req, res) => {
-    await services.auditService.logPageView(Page.EXAMPLE_PAGE, { who: res.locals.user.username, correlationId: req.id })
+    await services.auditService.logPageView(Page.PRISONER_SEARCH_PAGE, {
+      who: res.locals.user.username,
+      correlationId: req.id,
+    })
     const searchResult = await services.prisonerSearchService.searchPrisoners(req.body.search, 'default-username')
     res.render('pages/findAPrisoner', { data: searchResult, search: req.body.search })
   })
