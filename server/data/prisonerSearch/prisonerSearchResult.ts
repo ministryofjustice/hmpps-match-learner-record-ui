@@ -21,68 +21,11 @@ export default class PrisonerSearchResult {
   @Expose()
   cellLocation: string
 
-  @Expose()
-  pncNumber: string
-
-  @Expose()
-  croNumber: string
-
   @Transform(({ value }) => (value ? value.toLocaleDateString('en-GB').replace(/\//g, '-') : null))
   @Type(() => Date)
   @Expose()
   dateOfBirth: Date
 
   @Expose()
-  mostSeriousOffence: string
-
-  @Expose()
-  category: string
-
-  @Expose()
   nationality: string
-
-  @Type(() => Date)
-  @Expose()
-  sentenceExpiryDate: Date
-
-  @Type(() => Date)
-  @Expose()
-  licenceExpiryDate: Date
-
-  @Type(() => Date)
-  @Expose()
-  paroleEligibilityDate: Date
-
-  @Type(() => Date)
-  @Expose()
-  homeDetentionCurfewEligibilityDate: Date
-
-  @Type(() => Date)
-  @Expose()
-  releaseDate: Date
-
-  @Expose()
-  alerts?: object[]
-
-  @Expose()
-  restrictedPatient: boolean
-
-  @Expose()
-  locationDescription: string
-
-  @Expose()
-  lastMovementTypeCode: string
-
-  @Expose()
-  lastMovementReasonCode: string
-
-  @Expose()
-  indeterminateSentence: boolean
-
-  @Expose()
-  recall: boolean
-
-  @Type(() => Date)
-  @Expose()
-  conditionalReleaseDate: Date
 }
