@@ -3,7 +3,7 @@ import validateSearchByInformationForm from './searchByInformationValidator'
 
 let standardForm: SearchByInformationForm
 
-describe('searchByInformationValidator', () => {
+describe('validateSearchByInformationForm', () => {
   beforeEach(() => {
     standardForm = {
       givenName: 'John',
