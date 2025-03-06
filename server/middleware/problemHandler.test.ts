@@ -4,7 +4,7 @@ import problemHandler from './problemHandler'
 
 jest.mock('../../logger')
 
-describe('problemHandler Middleware', () => {
+describe('problemHandler', () => {
   let req: Partial<Request>
   let res: Partial<Response>
   let next: NextFunction
