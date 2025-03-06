@@ -17,7 +17,7 @@ export default function routes(services: Services): Router {
   })
 
   searchForLearnerRecord(router, services)
-  learnerSearchResults(router, services)
+  learnerSearchResults(router)
 
   return router
 }

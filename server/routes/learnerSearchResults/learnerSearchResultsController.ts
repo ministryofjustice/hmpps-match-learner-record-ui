@@ -6,7 +6,6 @@ export default class LearnerSearchResultsController {
   getLearnerSearchResults: RequestHandler = async (req, res, next): Promise<void> => {
     const results = req.session.searchByInformationResults
 
-    console.log('results', results)
     if (!results) {
       // Exit journey
       return res.redirect('/')

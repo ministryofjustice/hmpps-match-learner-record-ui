@@ -4,6 +4,7 @@ import AuditService from '../../services/auditService'
 import validateSearchByInformationForm from './searchByInformationValidator'
 import validateSearchByUlnForm from './searchByUlnValidator'
 import LearnerRecordsService from '../../services/learnerRecordsService'
+import logger from '../../../logger'
 
 export default class SearchForLearnerRecordController {
   constructor(
@@ -45,7 +46,7 @@ export default class SearchForLearnerRecordController {
       req.session.searchByInformationResults = searchResult
       return res.redirect('/learner-search-results')
     } catch (error) {
-      console.error(`Error communicating with prisoners api:`, error)
+      logger.error(`Error communicating with prisoners api:`, error)
       return res.redirect(500, '/find-a-prisoner')
     }
   }
