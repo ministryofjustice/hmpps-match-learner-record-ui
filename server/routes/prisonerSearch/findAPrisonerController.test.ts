@@ -23,6 +23,7 @@ describe('FindPrisonerController', () => {
   const res = {
     render: jest.fn(),
     redirect: jest.fn(),
+    status: jest.fn(),
     locals: { user: { username: 'test-user' } },
   } as unknown as Response
 
@@ -75,7 +76,8 @@ describe('FindPrisonerController', () => {
     it('should redirect with 500 if search fails', async () => {
       prisonerSearchService.searchPrisoners.mockRejectedValue(new Error('Search failed'))
       await controller.postFindAPrisoner(req, res, next)
-      expect(res.redirect).toHaveBeenCalledWith(500, '/find-a-prisoner')
+      expect(res.status).toHaveBeenCalledWith(500)
+      expect(res.redirect).toHaveBeenCalledWith('/find-a-prisoner')
     })
   })
 })

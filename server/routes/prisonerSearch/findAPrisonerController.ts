@@ -28,7 +28,8 @@ export default class FindAPrisonerController {
       return res.render('pages/findAPrisoner', { data: searchResult, search: req.body.search })
     } catch (error) {
       logger.error(`Error communicating with prisoners api:${error}`)
-      return res.redirect(500, '/find-a-prisoner')
+      res.status(500)
+      return res.redirect('/find-a-prisoner')
     }
   }
 }
