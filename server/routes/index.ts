@@ -5,6 +5,7 @@ import type { Services } from '../services'
 import { Page } from '../services/auditService'
 import searchForLearnerRecord from './searchForLearnerRecord'
 import learnerSearchResults from './learnerSearchResults'
+import findAPrisonerRoutes from './prisonerSearch'
 
 export default function routes(services: Services): Router {
   const router = Router()
@@ -18,6 +19,7 @@ export default function routes(services: Services): Router {
 
   searchForLearnerRecord(router, services)
   learnerSearchResults(router)
+  findAPrisonerRoutes(router, services)
 
   return router
 }
