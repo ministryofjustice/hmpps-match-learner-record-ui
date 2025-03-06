@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express'
 import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
-import logger from '../../../logger'
 
 export default class FindAPrisonerController {
   constructor(
