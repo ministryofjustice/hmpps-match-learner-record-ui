@@ -4,6 +4,7 @@ import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import { Page } from '../services/auditService'
 import searchForLearnerRecord from './searchForLearnerRecord'
+import learnerSearchResults from './learnerSearchResults'
 
 export default function routes(services: Services): Router {
   const router = Router()
@@ -16,6 +17,7 @@ export default function routes(services: Services): Router {
   })
 
   searchForLearnerRecord(router, services)
+  learnerSearchResults(router, services)
 
   return router
 }
