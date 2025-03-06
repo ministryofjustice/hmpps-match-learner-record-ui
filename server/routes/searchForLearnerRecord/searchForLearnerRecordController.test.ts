@@ -3,6 +3,7 @@ import validateSearchByInformationForm from './searchByInformationValidator'
 import AuditService from '../../services/auditService'
 import SearchForLearnerRecordController from './searchForLearnerRecordController'
 import validateSearchByUlnForm from './searchByUlnValidator'
+import LearnerRecordsService from '../../services/learnerRecordsService'
 
 jest.mock('../../services/auditService')
 jest.mock('./searchByInformationValidator')
@@ -14,7 +15,8 @@ describe('searchForLearnerRecordController', () => {
   >
   const mockedSearchByUlnValidator = validateSearchByUlnForm as jest.MockedFn<typeof validateSearchByUlnForm>
   const auditService = new AuditService(null) as jest.Mocked<AuditService>
-  const controller = new SearchForLearnerRecordController(auditService)
+  const learnerRecordsService = new LearnerRecordsService(null, null) as jest.Mocked<LearnerRecordsService>
+  const controller = new SearchForLearnerRecordController(auditService, learnerRecordsService)
 
   const req = {
     session: {},
