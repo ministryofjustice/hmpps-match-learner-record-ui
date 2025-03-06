@@ -26,7 +26,7 @@ export default class PrisonerSearchClient {
   async search(searchRequest: PrisonerSearchRequest, token: string): Promise<PrisonerSearchResult[]> {
     try {
       const results = await PrisonerSearchClient.restClient(token).post<PrisonerSearchResult[]>({
-        path: `/prisoner-search/match-prisoners`,
+        path: '/prisoner-search/match-prisoners',
         data: {
           includeAliases: false,
           ...searchRequest,
