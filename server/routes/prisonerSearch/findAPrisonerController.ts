@@ -27,9 +27,7 @@ export default class FindAPrisonerController {
       const searchResult = await this.prisonerSearchService.searchPrisoners(req.body.search, 'default-username')
       return res.render('pages/findAPrisoner', { data: searchResult, search: req.body.search })
     } catch (error) {
-      logger.error(`Error communicating with prisoners api:${error}`)
-      res.status(500)
-      return res.redirect('/find-a-prisoner')
+      return next(error)
     }
   }
 }
