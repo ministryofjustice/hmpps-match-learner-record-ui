@@ -1,3 +1,5 @@
+import type { SearchByInformationForm, SearchByUlnForm } from 'forms'
+import type { LearnersResponse } from 'learnerRecordsApi'
 import { HmppsUser } from '../../interfaces/hmppsUser'
 
 export declare module 'express-session' {
@@ -5,6 +7,9 @@ export declare module 'express-session' {
   interface SessionData {
     returnTo: string
     nowInMinutes: number
+    searchByInformationForm: SearchByInformationForm
+    searchByUlnForm: SearchByUlnForm
+    searchByInformationResults: LearnersResponse
   }
 }
 
@@ -14,6 +19,12 @@ export declare global {
       username: string
       token: string
       authSource: string
+    }
+
+    interface Response {
+      redirectWithSuccess?(path: string, message: string): void
+
+      redirectWithErrors?(path: string, message: Record<string, string>[]): void
     }
 
     interface Request {
