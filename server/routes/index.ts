@@ -3,9 +3,9 @@ import { type RequestHandler, Router } from 'express'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import { Page } from '../services/auditService'
-import matchConfirmedRoutes from './matchConfirmed'
 import findAPrisonerRoutes from './prisonerSearch'
 import thereIsAProblemRoutes from './problem'
+import matchConfirmedRoutes from './matchConfirmed'
 
 export default function routes(services: Services): Router {
   const router = Router()
@@ -18,7 +18,7 @@ export default function routes(services: Services): Router {
 
   findAPrisonerRoutes(router, services)
   thereIsAProblemRoutes(router)
-  router.use(matchConfirmedRoutes(services.auditService))
+  matchConfirmedRoutes(router, services)
 
   return router
 }
