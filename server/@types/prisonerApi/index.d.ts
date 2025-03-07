@@ -11,13 +11,13 @@ declare module 'prisonerApi' {
     middleNames?: string
     lastName: string
     dateOfBirth: string
-    gender: string
-    ethnicity: string
-    youthOffender: boolean
-    maritalStatus: string
-    religion: string
-    nationality: string
-    status: string
+    gender?: string
+    ethnicity?: string
+    youthOffender?: boolean
+    maritalStatus?: string
+    religion?: string
+    nationality?: string
+    status?: string
     lastMovementTypeCode?: string
     lastMovementReasonCode?: string
     inOutStatus?: 'IN' | 'OUT' | 'TRN'
@@ -41,7 +41,7 @@ declare module 'prisonerApi' {
       | 'OTHER'
     imprisonmentStatus?: string
     imprisonmentStatusDescription?: string
-    mostSeriousOffence: string
+    mostSeriousOffence?: string
     recall?: boolean
     indeterminateSentence?: boolean
     sentenceStartDate?: string
