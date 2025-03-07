@@ -2,6 +2,7 @@ import HmppsAuditClient, { AuditEvent } from '../data/hmppsAuditClient'
 
 export enum Page {
   EXAMPLE_PAGE = 'EXAMPLE_PAGE',
+  PRISONER_SEARCH_PAGE = 'PRISONER_SEARCH_PAGE',
   MATCH_CONFIRMED_PAGE = 'MATCH_CONFIRMED_PAGE',
 }
 

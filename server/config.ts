@@ -92,6 +92,19 @@ export default {
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
     },
+    prisonerSearch: {
+      url: get(
+        'PRISONER_SEARCH_API_URL',
+        'https://prisoner-search-dev.prison.service.justice.gov.uk',
+        requiredInProduction,
+      ),
+      healthPath: '/health/ping',
+      timeout: {
+        response: Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 15000)),
+        deadline: Number(get('PRISONER_SEARCH_TIMEOUT_DEADLINE', 15000)),
+      },
+      agent: new AgentConfig(Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 15000))),
+    },
   },
   sqs: {
     audit: auditConfig(),
