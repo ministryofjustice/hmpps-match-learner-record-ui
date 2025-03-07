@@ -6,7 +6,7 @@
 <div class="govuk-width-container">
   {{ govukBackLink({
     text: "Back",
-    href: "#"
+    href: "/find-a-prisoner"
   }) }}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -18,7 +18,7 @@
         label: "Sub navigation",
         items: [{
           text: "Unique learner number",
-          href: "/search-for-learner-record-by-uln"
+          href: "/search-for-learner-record-by-uln/" + prisonerSummary.prisonerNumber
         }, {
           text: "Personal information",
           active: true,

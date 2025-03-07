@@ -10,95 +10,98 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block content %}
+  <div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1>Find the prisoner you want to match</h1>
 
-  <h1>Find the prisoner you want to match</h1>
+        {% set searchContent %}
+          <div class="moj-search">
+            <form action="#" method="post">
 
-  {% set searchContent %}
-    <div class="moj-search">
-      <form action="#" method="post">
+              {{ govukInput({
+                label: {
+                  text: "Find a prisoner",
+                  classes: "moj-search__label govuk-!-font-weight-bold",
+                  isPageHeading: true
+                },
+                hint: {
+                  text: "Name or prison number"
+                },
+                id: "search-hint",
+                name: "search",
+                classes: "moj-search__input"
+              }) }}
 
-        {{ govukInput({
-          label: {
-            text: "Find a prisoner",
-            classes: "moj-search__label govuk-!-font-weight-bold",
-            isPageHeading: true
-          },
-          hint: {
-            text: "Name or prison number"
-          },
-          id: "search-hint",
-          name: "search",
-          classes: "moj-search__input"
+              {{ govukButton({
+                text: "Search",
+                classes: "moj-search__button",
+                type: "submit"
+              }) }}
+              
+              <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            </form>
+          </div>
+        {% endset %}
+
+        {{ mojTicketPanel({
+          items: [{
+            html: searchContent
+          }]
         }) }}
 
-        {{ govukButton({
-          text: "Search",
-          classes: "moj-search__button",
-          type: "submit"
-        }) }}
+        {% set tableRows = [] %}
         
-        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-      </form>
+        {% for prisoner in data %}
+          {% set row = [
+            { html: '<a class="govuk-link" href="/search-for-learner-record-by-uln/' + prisoner.prisonerNumber + '">' + prisoner.firstName + " " + prisoner.lastName + '</a>' },
+            { text: prisoner.prisonerNumber or "Not Specified" },
+            { text: prisoner.cellLocation or "Not Specified" },
+            { text: prisoner.dateOfBirth or "Not Specified" }
+          ] %}
+          {% set tableRows = (tableRows.push(row), tableRows) %}
+        {% endfor %}
+
+        {% if data and data | length > 0 %}
+          {{ govukTable({
+            attributes: {
+              "data-module": "moj-sortable-table"
+            },
+            head: [
+              {
+                text: "Name",
+                attributes: {
+                  "aria-sort": "ascending"
+                }
+              },
+              {
+                text: "Prison number",
+                attributes: {
+                  "aria-sort": "none"
+                }
+              },
+              {
+                text: "Location",
+                attributes: {
+                  "aria-sort": "none"
+                }
+              },
+              {
+                text: "Date of birth",
+                attributes: {
+                  "aria-sort": "none"
+                },
+                format: "numeric"
+              }
+            ],
+            rows: tableRows
+          }) }}
+        {% elseif data and data | length == 0 %}
+          <p class="govuk-body">Search returned no results - try searching again.</p>
+        {% else %}
+          <p class="govuk-body">No results to show - please perform a search.</p>
+        {% endif %}
+      </div>
     </div>
-  {% endset %}
-
-  {{ mojTicketPanel({
-    items: [{
-      html: searchContent
-    }]
-  }) }}
-
-  {% set tableRows = [] %}
-  
-  {% for prisoner in data %}
-    {% set row = [
-      { html: '<a class="govuk-link" href="/">' + prisoner.firstName + " " + prisoner.lastName + '</a>' },
-      { text: prisoner.prisonerNumber or "Not Specified" },
-      { text: prisoner.cellLocation or "Not Specified" },
-      { text: prisoner.dateOfBirth or "Not Specified" }
-    ] %}
-    {% set tableRows = (tableRows.push(row), tableRows) %}
-  {% endfor %}
-
-  {% if data and data | length > 0 %}
-    {{ govukTable({
-      attributes: {
-        "data-module": "moj-sortable-table"
-      },
-      head: [
-        {
-          text: "Name",
-          attributes: {
-            "aria-sort": "ascending"
-          }
-        },
-        {
-          text: "Prison number",
-          attributes: {
-            "aria-sort": "none"
-          }
-        },
-        {
-          text: "Location",
-          attributes: {
-            "aria-sort": "none"
-          }
-        },
-        {
-          text: "Date of birth",
-          attributes: {
-            "aria-sort": "none"
-          },
-          format: "numeric"
-        }
-      ],
-      rows: tableRows
-    }) }}
-  {% elseif data and data | length == 0 %}
-    <p class="govuk-body">Search returned no results - try searching again.</p>
-  {% else %}
-    <p class="govuk-body">No results to show - please perform a search.</p>
-  {% endif %}
-
-
+  </div>
 {% endblock %}

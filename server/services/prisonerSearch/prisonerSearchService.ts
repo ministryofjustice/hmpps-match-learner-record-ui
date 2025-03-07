@@ -1,3 +1,4 @@
+import type { Prisoner } from 'prisonerApi'
 import { HmppsAuthClient } from '../../data'
 import PrisonerSearchClient, { PrisonerSearchRequest } from '../../data/prisonerSearch/prisonerSearchClient'
 import PrisonerSearchResult from '../../data/prisonerSearch/prisonerSearchResult'
@@ -25,5 +26,11 @@ export default class PrisonerSearchService {
 
     const token = await this.hmppsAuthClient.getSystemClientToken(username)
     return this.prisonerSearchClient.search(requestObject, token)
+  }
+
+  async getPrisonerByPrisonNumber(prisonNumber: string, username: string): Promise<Prisoner> {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+    const prisoner: Prisoner = await this.prisonerSearchClient.getPrisonerByPrisonNumber(prisonNumber, systemToken)
+    return prisoner
   }
 }

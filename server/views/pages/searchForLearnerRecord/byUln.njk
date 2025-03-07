@@ -6,7 +6,7 @@
 <div class="govuk-width-container">
   {{ govukBackLink({
     text: "Back",
-    href: "#"
+    href: "/find-a-prisoner"
   }) }}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -22,7 +22,7 @@
           href: "#"
         }, {
           text: "Personal information",
-          href: "/search-for-learner-record-by-information"
+          href: "/search-for-learner-record-by-information/" + prisonerSummary.prisonerNumber
         }]
       }) }}
 
