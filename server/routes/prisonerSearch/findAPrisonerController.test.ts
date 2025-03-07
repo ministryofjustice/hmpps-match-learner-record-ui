@@ -73,11 +73,11 @@ describe('FindPrisonerController', () => {
       })
     })
 
-    it('should redirect with 500 if search fails', async () => {
+    it('should pass errors to middleware for handling', async () => {
+      const error = new Error('Search failed')
       prisonerSearchService.searchPrisoners.mockRejectedValue(new Error('Search failed'))
       await controller.postFindAPrisoner(req, res, next)
-      expect(res.status).toHaveBeenCalledWith(500)
-      expect(res.redirect).toHaveBeenCalledWith('/find-a-prisoner')
+      expect(next).toHaveBeenCalledWith(error)
     })
   })
 })
