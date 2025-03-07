@@ -1,7 +1,9 @@
 import type { Prisoner } from 'prisonerApi'
+import type { PrisonerSummary } from 'viewModels'
 import { HmppsAuthClient } from '../../data'
 import PrisonerSearchClient, { PrisonerSearchRequest } from '../../data/prisonerSearch/prisonerSearchClient'
 import PrisonerSearchResult from '../../data/prisonerSearch/prisonerSearchResult'
+import toPrisonerSummary from '../../data/mappers/prisonerToPrisonerSummaryMapper'
 
 export default class PrisonerSearchService {
   constructor(
@@ -28,9 +30,9 @@ export default class PrisonerSearchService {
     return this.prisonerSearchClient.search(requestObject, token)
   }
 
-  async getPrisonerByPrisonNumber(prisonNumber: string, username: string): Promise<Prisoner> {
+  async getPrisonerByPrisonNumber(prisonNumber: string, username: string): Promise<PrisonerSummary> {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
     const prisoner: Prisoner = await this.prisonerSearchClient.getPrisonerByPrisonNumber(prisonNumber, systemToken)
-    return prisoner
+    return toPrisonerSummary(prisoner)
   }
 }
