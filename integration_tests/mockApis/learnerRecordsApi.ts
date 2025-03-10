@@ -1,6 +1,6 @@
 import { stubFor } from './wiremock'
 
-const ping = () =>
+const learnerRecordsPing = () =>
   stubFor({
     request: {
       method: 'GET',
@@ -12,5 +12,5 @@ const ping = () =>
   })
 
 export default {
-  stubLearnerRecordsHealth: ping,
+  stubLearnerRecordsHealth: learnerRecordsPing,
 }
