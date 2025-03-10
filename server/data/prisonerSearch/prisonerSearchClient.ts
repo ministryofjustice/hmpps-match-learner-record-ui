@@ -1,4 +1,5 @@
 import { plainToInstance } from 'class-transformer'
+import type { Prisoner } from 'prisonerApi'
 import config from '../../config'
 import RestClient from '../restClient'
 import PrisonerSearchResult from './prisonerSearchResult'
@@ -36,5 +37,11 @@ export default class PrisonerSearchClient {
     } catch {
       throw new Error('Error communicating with the Prisoner Search API')
     }
+  }
+
+  async getPrisonerByPrisonNumber(prisonNumber: string, token: string): Promise<Prisoner> {
+    return PrisonerSearchClient.restClient(token).get<Prisoner>({
+      path: `/prisoner/${prisonNumber}`,
+    })
   }
 }
