@@ -12,5 +12,5 @@ const ping = () =>
   })
 
 export default {
-  stubAuthPing: ping,
+  stubLearnerRecordsHealth: ping,
 }
