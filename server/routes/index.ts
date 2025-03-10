@@ -3,6 +3,8 @@ import { type RequestHandler, Router } from 'express'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import { Page } from '../services/auditService'
+import searchForLearnerRecord from './searchForLearnerRecord'
+import learnerSearchResults from './learnerSearchResults'
 import findAPrisonerRoutes from './prisonerSearch'
 import thereIsAProblemRoutes from './problem'
 import viewRecordRoutes from './viewRecord'
@@ -16,6 +18,8 @@ export default function routes(services: Services): Router {
     res.render('pages/index')
   })
 
+  searchForLearnerRecord(router, services)
+  learnerSearchResults(router)
   findAPrisonerRoutes(router, services)
   thereIsAProblemRoutes(router)
   viewRecordRoutes(router)
