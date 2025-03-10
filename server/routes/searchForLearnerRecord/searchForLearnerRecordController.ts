@@ -60,7 +60,7 @@ export default class SearchForLearnerRecordController {
     if (errors.length > 0) {
       return res.redirectWithErrors('/search-for-learner-record-by-uln', errors)
     }
-
+    // Todo request to get record by ULN and demographic details & redirect to record page
     return res.render('pages/searchForLearnerRecord/byUln', {})
   }
 }
