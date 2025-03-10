@@ -1,3 +1,5 @@
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
 {% extends "govuk/template.njk" %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
@@ -17,6 +19,16 @@
 
 {% block header %}
   {% include "./header.njk" %}
+
+  {% if backLink is string %}
+    <div class="govuk-width-container">
+    {{ govukBackLink({
+      text: "Back",
+      href: backLink
+    }) }}
+    </div>
+  {% endif %}
+
 {% endblock %}
 
 {% block bodyStart %}

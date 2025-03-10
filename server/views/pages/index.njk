@@ -1,3 +1,5 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
 {% extends "../partials/layout.njk" %}
 
 {% set pageTitle = applicationName + " - Home" %}
@@ -5,7 +7,20 @@
 
 {% block content %}
 
-  <h1>This site is under construction...</h1>
-  <p>Please check back later when there is content to view.</p>
+  <h1 class="govuk-heading-l">Match someone's learner record</h1>
+
+  <p class="govuk-body">Use this product to:</p>
+
+  <ul class="govuk-list govuk-list--bullet">
+    <li>search for possible matches from the Learning Records Service (LRS)</li>
+    <li>match someone to their unique learner number (ULN)</li>
+    <li>identify if you need to create a ULN for someone</li>
+  </ul>
+
+  {{ govukButton({
+    text: "Start now",
+    href: "/find-a-prisoner",
+    isStartButton: true
+  }) }}
 
 {% endblock %}
