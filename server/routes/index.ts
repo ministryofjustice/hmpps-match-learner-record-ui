@@ -5,6 +5,7 @@ import type { Services } from '../services'
 import { Page } from '../services/auditService'
 import findAPrisonerRoutes from './prisonerSearch'
 import thereIsAProblemRoutes from './problem'
+import viewRecordRoutes from './viewRecord'
 
 export default function routes(services: Services): Router {
   const router = Router()
@@ -17,6 +18,7 @@ export default function routes(services: Services): Router {
 
   findAPrisonerRoutes(router, services)
   thereIsAProblemRoutes(router)
+  viewRecordRoutes(router)
 
   return router
 }
