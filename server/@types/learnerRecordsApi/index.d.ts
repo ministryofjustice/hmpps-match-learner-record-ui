@@ -41,4 +41,42 @@ declare module 'learnerRecordsApi' {
     responseType: string
     matchedLearners: LearnerRecord[]
   }
+
+  export interface LearnerEventsRequest {
+    givenName: string
+    familyName: string
+    uln: string
+  }
+
+  export interface LearnerEventsResponse {
+    searchParameters: LearnerEventsRequest
+    responseType: LRSResponseType
+    foundUln: string
+    incomingUln: string
+    learnerRecord: LearningEvent[]
+  }
+
+  export interface LearningEvent {
+    id?: string
+    achievementProviderUkprn?: string
+    achievementProviderName?: string
+    awardingOrganisationName?: string
+    qualificationType?: string
+    subjectCode?: string
+    achievementAwardDate?: string
+    credits?: string
+    source?: string
+    dateLoaded?: string
+    underDataChallenge?: string
+    level?: string
+    status?: string
+    subject?: string
+    grade?: string
+    awardingOrganisationUkprn?: string
+    collectionType?: string
+    returnNumber?: string
+    participationStartDate?: string
+    participationEndDate?: string
+    languageForAssessment?: string
+  }
 }

@@ -10,19 +10,21 @@
 
 {% block content %}
 
+<div class="govuk-width-container">
+
   <h1 class="govuk-heading-l">View and match learner record</h1>
   <p class="govuk-body">Information from Learning Records Service (LRS).</p>
 
   {% set panelContent %}
-    <h2 class="govuk-heading-m">ULN: 1234567890</h2>
+    <h2 class="govuk-heading-m">ULN: {{ learner.uln }}</h2>
     <div class="govuk-flex">
-      <p class="govuk-body govuk-!-margin-right-3">Given name: John</p>
-      <p class="govuk-body govuk-!-margin-right-3">Family name: Smith</p>
-      <p class="govuk-body govuk-!-margin-right-3">Date of birth: 01-01-1990</p>
+      <p class="govuk-body govuk-!-margin-right-3">Given name: {{ learner.givenName }}</p>
+      <p class="govuk-body govuk-!-margin-right-3">Family name: {{ learner.familyName }}</p>
+      <p class="govuk-body govuk-!-margin-right-3">Date of birth: {{ learner.dateOfBirth }} </p>
     </div>
     <div class="govuk-flex">
-      <p class="govuk-body govuk-!-margin-right-3">Postcode: TF2 7GG</p>
-      <p class="govuk-body govuk-!-margin-right-3">Sex: Male</p>
+      <p class="govuk-body govuk-!-margin-right-3">Postcode: {{ learner.lastKnownPostCode }}</p>
+      <p class="govuk-body govuk-!-margin-right-3">Sex: {{ learner.gender }}</p>
     </div>
   {% endset %}
 
@@ -34,15 +36,16 @@
 
   {% set tableRows = [] %}
   
-  {# {% for item in data %}
+  {% for record in learningEvents %}
     {% set row = [
-      { html: '<a class="govuk-link" href="/">' + prisoner.firstName + " " + prisoner.lastName + '</a>' },
-      { text: prisoner.prisonerNumber or "Not Specified" },
-      { text: prisoner.cellLocation or "Not Specified" },
-      { text: prisoner.dateOfBirth or "Not Specified" }
+      { text: record.subject },
+      { text: record.awardingOrganisationName },
+      { text: record.level or "Not Specified" },
+      { text: record.grade },
+      { text: record.achievementAwardDate }
     ] %}
     {% set tableRows = (tableRows.push(row), tableRows) %}
-  {% endfor %} #}
+  {% endfor %}
 
 
   {{ govukTable({
@@ -85,7 +88,7 @@
     rows: tableRows
   }) }}
 
-  <h3 class="govuk-heading-m">Match this learner record to John Smith</h3>
+  <h3 class="govuk-heading-m">Match this learner record to {{ prisoner.firstName }} {{ prisoner.lastName }}</h3>
   <p class="govuk-body">By clicking 'Match record' you will link the following prisoner and learner records:</p>
 
   {% set secondTableRows = [] %}
@@ -110,7 +113,12 @@
             }
           }
         ],
-        rows: secondTableRows
+        rows: [
+          [
+            { html: prisoner.firstName + " " + prisoner.lastName  + "<br>Prison number: " + prisoner.prisonerNumber },
+            { html: learner.givenName + " " + learner.familyName  + "<br>ULN: " + learner.uln }
+          ]
+        ]
       }) }}
     </div>
   </div>
@@ -125,5 +133,7 @@
     </div>  
     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
   </form>
+
+</div>
 
 {% endblock %}

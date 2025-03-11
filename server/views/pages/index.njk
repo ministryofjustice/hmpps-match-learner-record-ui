@@ -7,20 +7,24 @@
 
 {% block content %}
 
-  <h1 class="govuk-heading-l">Match someone's learner record</h1>
+  <div class="govuk-width-container">
 
-  <p class="govuk-body">Use this product to:</p>
+    <h1 class="govuk-heading-l">Match someone's learner record</h1>
 
-  <ul class="govuk-list govuk-list--bullet">
-    <li>search for possible matches from the Learning Records Service (LRS)</li>
-    <li>match someone to their unique learner number (ULN)</li>
-    <li>identify if you need to create a ULN for someone</li>
-  </ul>
+    <p class="govuk-body">Use this product to:</p>
 
-  {{ govukButton({
-    text: "Start now",
-    href: "/find-a-prisoner",
-    isStartButton: true
-  }) }}
+    <ul class="govuk-list govuk-list--bullet">
+      <li>search for possible matches from the Learning Records Service (LRS)</li>
+      <li>match someone to their unique learner number (ULN)</li>
+      <li>identify if you need to create a ULN for someone</li>
+    </ul>
+
+    {{ govukButton({
+      text: "Start now",
+      href: "/find-a-prisoner",
+      isStartButton: true
+    }) }}
+
+  </div>
 
 {% endblock %}

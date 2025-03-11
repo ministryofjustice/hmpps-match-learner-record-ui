@@ -22,7 +22,7 @@ export default function routes(services: Services): Router {
   learnerSearchResults(router)
   findAPrisonerRoutes(router, services)
   thereIsAProblemRoutes(router)
-  viewRecordRoutes(router)
+  viewRecordRoutes(router, services)
 
   return router
 }

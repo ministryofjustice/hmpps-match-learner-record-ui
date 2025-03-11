@@ -22,7 +22,7 @@
             { text: record.lastKnownPostCode or "Not Specified" },
             { text: record.gender or "Not Specified" },
             { text: record.uln or "Not Specified" },
-            { html: '<a class="govuk-link" href="/">View record</a>' }
+            { html: '<a class="govuk-link" href="' + '/view-record/' + prisonerNumber + '/' + record.uln + '">View record</a>' }
           ] %}
           {% set tableRows = (tableRows.push(row), tableRows) %}
         {% endfor %}
