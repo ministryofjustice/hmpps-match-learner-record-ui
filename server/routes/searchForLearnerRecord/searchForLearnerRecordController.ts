@@ -32,18 +32,18 @@ export default class SearchForLearnerRecordController {
       return res.redirectWithErrors('/search-for-learner-record-by-information', errors)
     }
 
-    const day = searchByInformationForm['dob-day'].padStart(2, '0')
-    const month = searchByInformationForm['dob-month'].padStart(2, '0')
-    const year = getYear(searchByInformationForm['dob-year'])
-
-    const searchDemographics = {
-      givenName: searchByInformationForm.givenName,
-      familyName: searchByInformationForm.familyName,
-      dateOfBirth: `${year}-${month}-${day}`,
-      gender: searchByInformationForm.sex || 'NOT_KNOWN',
-      lastKnownPostCode: searchByInformationForm.postcode || 'ZZ99 9ZZ',
-    }
     try {
+      const day = searchByInformationForm['dob-day'].padStart(2, '0')
+      const month = searchByInformationForm['dob-month'].padStart(2, '0')
+      const year = getYear(searchByInformationForm['dob-year'])
+
+      const searchDemographics = {
+        givenName: searchByInformationForm.givenName,
+        familyName: searchByInformationForm.familyName,
+        dateOfBirth: `${year}-${month}-${day}`,
+        gender: searchByInformationForm.sex || 'NOT_KNOWN',
+        lastKnownPostCode: searchByInformationForm.postcode || 'ZZ99 9ZZ',
+      }
       const searchResult = await this.learnerRecordsService.getLearnersByDemographicDetails(
         searchDemographics,
         req.user.username,
