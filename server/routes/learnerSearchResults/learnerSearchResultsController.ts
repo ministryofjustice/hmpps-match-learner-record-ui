@@ -11,6 +11,9 @@ export default class LearnerSearchResultsController {
       return res.redirect('/')
     }
 
-    return res.render('pages/learnerSearchResults/results', { results: results.matchedLearners })
+    return res.render('pages/learnerSearchResults/results', {
+      results: results.matchedLearners,
+      prisonerNumber: req.params.prisonNumber,
+    })
   }
 }
