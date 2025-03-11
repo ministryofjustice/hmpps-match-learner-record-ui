@@ -44,7 +44,7 @@ export default class SearchForLearnerRecordController {
         req.user.username,
       )
       req.session.searchByInformationResults = searchResult
-      return res.redirect('/learner-search-results')
+      return res.redirect(`/learner-search-results/${req.params.prisonNumber}`)
     } catch (error) {
       logger.error(`Error communicating with prisoners api:`, error)
       return res.redirect(500, '/find-a-prisoner')

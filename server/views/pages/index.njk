@@ -6,25 +6,25 @@
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
-
   <div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Match someone's learner record</h1>
 
-    <h1 class="govuk-heading-l">Match someone's learner record</h1>
+        <p class="govuk-body">Use this product to:</p>
 
-    <p class="govuk-body">Use this product to:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>search for possible matches from the Learning Records Service (LRS)</li>
+          <li>match someone to their unique learner number (ULN)</li>
+          <li>identify if you need to create a ULN for someone</li>
+        </ul>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>search for possible matches from the Learning Records Service (LRS)</li>
-      <li>match someone to their unique learner number (ULN)</li>
-      <li>identify if you need to create a ULN for someone</li>
-    </ul>
-
-    {{ govukButton({
-      text: "Start now",
-      href: "/find-a-prisoner",
-      isStartButton: true
-    }) }}
-
+        {{ govukButton({
+          text: "Start now",
+          href: "/find-a-prisoner",
+          isStartButton: true
+        }) }}
+      </div>
+    </div>
   </div>
-
 {% endblock %}
