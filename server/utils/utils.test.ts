@@ -1,4 +1,4 @@
-import { convertToTitleCase, initialiseName } from './utils'
+import { convertToTitleCase, getYear, initialiseName } from './utils'
 
 describe('convert to title case', () => {
   it.each([
@@ -26,5 +26,28 @@ describe('initialise name', () => {
     ['Double barrelled', 'Robert-John Smith-Jones-Wilson', 'R. Smith-Jones-Wilson'],
   ])('%s initialiseName(%s, %s)', (_: string, a: string, expected: string) => {
     expect(initialiseName(a)).toEqual(expected)
+  })
+})
+
+describe('convert to 4-character year', () => {
+  it.each([
+    ['1954', '1954'],
+    ['2012', '2012'],
+    ['76', '1976'],
+    ['14', '2014'],
+    ['3', '2003'],
+  ])('getYear(%s) = %s', (value: string, expected: string) => {
+    expect(getYear(value)).toEqual(expected)
+  })
+})
+
+describe('throws an error', () => {
+  it.each([['123'], ['345'], ['021']])('getYear(%s) throws an error', (value: string) => {
+    try {
+      getYear(value)
+      fail()
+    } catch (e) {
+      expect(e.message).toContain('Invalid')
+    }
   })
 })

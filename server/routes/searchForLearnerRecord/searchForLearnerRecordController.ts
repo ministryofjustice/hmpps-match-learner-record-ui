@@ -5,6 +5,7 @@ import validateSearchByInformationForm from './searchByInformationValidator'
 import validateSearchByUlnForm from './searchByUlnValidator'
 import LearnerRecordsService from '../../services/learnerRecordsService'
 import logger from '../../../logger'
+import { getYear } from '../../utils/utils'
 
 export default class SearchForLearnerRecordController {
   constructor(
@@ -31,10 +32,14 @@ export default class SearchForLearnerRecordController {
       return res.redirectWithErrors('/search-for-learner-record-by-information', errors)
     }
 
+    const day = searchByInformationForm['dob-day'].padStart(2, '0')
+    const month = searchByInformationForm['dob-month'].padStart(2, '0')
+    const year = getYear(searchByInformationForm['dob-year'])
+
     const searchDemographics = {
       givenName: searchByInformationForm.givenName,
       familyName: searchByInformationForm.familyName,
-      dateOfBirth: `${searchByInformationForm['dob-year']}-${searchByInformationForm['dob-month']}-${searchByInformationForm['dob-day']}`,
+      dateOfBirth: `${year}-${month}-${day}`,
       gender: searchByInformationForm.sex || 'NOT_KNOWN',
       lastKnownPostCode: searchByInformationForm.postcode || 'ZZ99 9ZZ',
     }
