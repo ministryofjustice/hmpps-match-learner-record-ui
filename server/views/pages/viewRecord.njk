@@ -54,10 +54,7 @@
     },
     head: [
       {
-        text: "Subject",
-        attributes: {
-          "aria-sort": "none"
-        }
+        text: "Subject"
       },
       {
         text: "Awarding body",
@@ -72,10 +69,7 @@
         }
       },
       {
-        text: "Grade",
-        attributes: {
-          "aria-sort": "none"
-        }
+        text: "Grade"
       },
       {
         text: "Awarded on",
@@ -101,16 +95,10 @@
         },
         head: [
           {
-            text: "Prisoner",
-            attributes: {
-              "aria-sort": "none"
-            }
+            text: "Prisoner"
           },
           {
-            text: "LRS Record",
-            attributes: {
-              "aria-sort": "none"
-            }
+            text: "LRS Record"
           }
         ],
         rows: [
@@ -129,7 +117,7 @@
         text: "Match record",
         type: "submit"
       }) }}
-      <a class="govuk-link" href="">Cancel and return to search</a>
+      <a class="govuk-link" href='/learner-search-results/{{ prisoner.prisonerNumber }}'>Cancel and return to search</a>
     </div>  
     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
   </form>
