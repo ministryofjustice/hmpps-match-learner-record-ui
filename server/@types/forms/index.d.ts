@@ -12,4 +12,8 @@ declare module 'forms' {
   export interface SearchByUlnForm {
     uln: string
   }
+
+  export interface FindAPrisonerForm {
+    search: string
+  }
 }
