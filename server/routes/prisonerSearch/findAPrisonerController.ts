@@ -1,7 +1,9 @@
 import { RequestHandler } from 'express'
 import { differenceInYears, parse } from 'date-fns'
+import type { FindAPrisonerForm } from 'forms'
 import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
+import validateFindAPrisonerForm from './findAPrisonerValidator'
 
 export default class FindAPrisonerController {
   constructor(
@@ -18,20 +20,31 @@ export default class FindAPrisonerController {
 
   getFindAPrisoner: RequestHandler = async (req, res, next): Promise<void> => {
     this.logPageView(res.locals.user.username, req.id)
-    return res.render('pages/findAPrisoner', { search: '' })
+    return res.render('pages/findAPrisoner/index', { search: '' })
   }
 
   postFindAPrisoner: RequestHandler = async (req, res, next): Promise<void> => {
     this.logPageView(res.locals.user.username, req.id)
+    const findAPrisonerForm = { ...req.body } as FindAPrisonerForm
+
+    const errors = validateFindAPrisonerForm(findAPrisonerForm)
+
+    if (errors.length > 0) {
+      return res.redirectWithErrors('/find-a-prisoner', errors)
+    }
+
     try {
-      const searchResult = await this.prisonerSearchService.searchPrisoners(req.body.search, 'default-username')
+      const searchResult = await this.prisonerSearchService.searchPrisoners(
+        findAPrisonerForm.search,
+        'default-username',
+      )
       const mappedResult = searchResult.map(record => ({
         age: record.dateOfBirth
           ? differenceInYears(new Date(), parse(record.dateOfBirth as unknown as string, 'dd-MM-yyyy', new Date()))
           : undefined,
         ...record,
       }))
-      return res.render('pages/findAPrisoner', { data: mappedResult, search: req.body.search })
+      return res.render('pages/findAPrisoner/index', { data: mappedResult, search: req.body.search })
     } catch (error) {
       return next(error)
     }
