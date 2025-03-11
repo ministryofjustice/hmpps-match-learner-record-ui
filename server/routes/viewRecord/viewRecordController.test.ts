@@ -12,8 +12,8 @@ describe('ViewRecordController', () => {
   const auditService = new AuditService(null) as jest.Mocked<AuditService>
   const prisonerSearchService = new PrisonerSearchService(null, null) as jest.Mocked<PrisonerSearchService>
   const learnerRecordsService = new LearnerRecordsService(null, null) as jest.Mocked<LearnerRecordsService>
-  const controller = new ViewRecordController(prisonerSearchService, learnerRecordsService)
   auditService.logPageView = jest.fn()
+  const controller = new ViewRecordController(prisonerSearchService, learnerRecordsService, auditService)
 
   const req = {
     session: {
