@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import ViewRecordController from './viewRecordController'
-import AuditService from '../../services/auditService'
+import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 import LearnerRecordsService from '../../services/learnerRecordsService'
 
@@ -53,11 +53,22 @@ describe('ViewRecordController', () => {
   describe('getViewRecord', () => {
     it('should render the view Record page', async () => {
       await controller.getViewRecord(req, res, null)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
+        who: req.user.username,
+        correlationId: undefined,
+      })
       expect(res.render).toHaveBeenCalledWith('pages/viewRecord', {
         learner: { uln: '1234567890' },
         learningEvents: [],
         prisoner: { prisonerNumber: 'A1234BC' },
       })
+    })
+
+    it('should pass errors to middleware for handling', async () => {
+      const error = new Error('Search failed')
+      learnerRecordsService.getLearnerEvents.mockRejectedValue(error)
+      await controller.getViewRecord(req, res, next)
+      expect(next).toHaveBeenCalledWith(error)
     })
   })
 })

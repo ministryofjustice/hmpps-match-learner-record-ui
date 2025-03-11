@@ -12,7 +12,7 @@ export default class ViewRecordController {
   ) {}
 
   private logPageView = (username: string, correlationId: string) => {
-    this.auditService.logPageView(Page.PRISONER_SEARCH_PAGE, {
+    this.auditService.logPageView(Page.VIEW_AND_MATCH_RECORD_PAGE, {
       who: username,
       correlationId,
     })
