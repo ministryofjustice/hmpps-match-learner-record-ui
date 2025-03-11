@@ -39,7 +39,7 @@ describe('FindPrisonerController', () => {
 
       await controller.getFindAPrisoner(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/findAPrisoner')
+      expect(res.render).toHaveBeenCalledWith('pages/findAPrisoner', { search: '' })
       expect(auditService.logPageView).toHaveBeenCalledWith(Page.PRISONER_SEARCH_PAGE, {
         who: req.user.username,
         correlationId: undefined,

@@ -31,7 +31,8 @@
                 },
                 id: "search-hint",
                 name: "search",
-                classes: "moj-search__input"
+                classes: "moj-search__input",
+                value: search
               }) }}
 
               {{ govukButton({
@@ -55,10 +56,15 @@
         
         {% for prisoner in data %}
           {% set row = [
-            { html: '<a class="govuk-link" href="/search-for-learner-record-by-uln/' + prisoner.prisonerNumber + '">' + prisoner.firstName + " " + prisoner.lastName + '</a>' },
+            {
+              html: '<a class="govuk-link" href="/search-for-learner-record-by-uln/' + prisoner.prisonerNumber + '">' + prisoner.firstName + " " + prisoner.lastName + '</a>',
+              attributes: {
+                "data-sort-value": prisoner.firstName + " " + prisoner.lastName
+              }
+            },
             { text: prisoner.prisonerNumber or "Not Specified" },
             { text: prisoner.cellLocation or "Not Specified" },
-            { text: prisoner.dateOfBirth or "Not Specified" }
+            { text: prisoner.age or "Not Specified" }
           ] %}
           {% set tableRows = (tableRows.push(row), tableRows) %}
         {% endfor %}
@@ -76,10 +82,7 @@
                 }
               },
               {
-                text: "Prison number",
-                attributes: {
-                  "aria-sort": "none"
-                }
+                text: "Prison number"
               },
               {
                 text: "Location",
@@ -88,18 +91,17 @@
                 }
               },
               {
-                text: "Date of birth",
+                text: "Age",
                 attributes: {
                   "aria-sort": "none"
-                },
-                format: "numeric"
+                }
               }
             ],
             rows: tableRows
           }) }}
-        {% elseif data and data | length == 0 %}
+        {% elseif search and data and data | length == 0 %}
           <p class="govuk-body">Search returned no results - try searching again.</p>
-        {% else %}
+        {% elseif search %}
           <p class="govuk-body">No results to show - please perform a search.</p>
         {% endif %}
       </div>
