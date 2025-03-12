@@ -17,7 +17,6 @@ export default class SearchForLearnerRecordController {
   }
 
   getSearchForLearnerRecordViewByInformation: RequestHandler = async (req, res, next): Promise<void> => {
-    req.session.returnTo = req.url
     return res.render('pages/searchForLearnerRecord/byInformation', { form: req.session.searchByInformationForm })
   }
 
@@ -29,7 +28,7 @@ export default class SearchForLearnerRecordController {
     const errors = validateSearchByInformationForm(searchByInformationForm)
 
     if (errors.length > 0) {
-      const url = req.session.returnTo
+      const url = `/search-for-learner-record-by-information/${req.params.prisonNumber}`
       return res.redirectWithErrors(url, errors)
     }
 
