@@ -53,10 +53,10 @@ declare module 'learnerRecordsApi' {
     responseType: LRSResponseType
     foundUln: string
     incomingUln: string
-    learnerRecord: LearnerEvents[]
+    learnerRecord: LearnerEvent[]
   }
 
-  export interface LearnerEvents {
+  export interface LearnerEvent {
     id?: string
     achievementProviderUkprn?: string
     achievementProviderName?: string
