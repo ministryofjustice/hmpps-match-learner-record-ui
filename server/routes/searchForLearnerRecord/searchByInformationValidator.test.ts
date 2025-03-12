@@ -113,4 +113,15 @@ describe('validateSearchByInformationForm', () => {
 
     expect(actualErrors).toEqual(expectedErrors)
   })
+
+  it('should validate when year is not four digits', () => {
+    const form = standardForm
+    form['dob-year'] = '58'
+
+    const expectedErrors = [{ href: '#dob', text: 'Year must include 4 numbers' }]
+
+    const actualErrors = validateSearchByInformationForm(form)
+
+    expect(actualErrors).toEqual(expectedErrors)
+  })
 })
