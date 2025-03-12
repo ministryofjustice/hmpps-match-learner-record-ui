@@ -1,10 +1,4 @@
 import { Request, Response } from 'express'
-import request from 'supertest'
-import type { SearchByInformationForm } from 'forms'
-import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
-import AuditService, { Page } from '../../services/auditService'
-import PrisonerSearchResult from '../../data/prisonerSearch/prisonerSearchResult'
-import FindAPrisonerController from '../prisonerSearch/findAPrisonerController'
 import TooManyResultsController from './tooManyResultsController'
 
 jest.mock('../../services/auditService')
