@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request, response, Response } from 'express'
 import ViewRecordController from './viewRecordController'
 import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
@@ -43,6 +43,7 @@ describe('ViewRecordController', () => {
   beforeEach(() => {
     jest.resetAllMocks()
     learnerRecordsService.getLearnerEvents = jest.fn().mockResolvedValue({
+      responseType: 'Exact Match',
       learnerRecord: [],
     })
     prisonerSearchService.getPrisonerByPrisonNumber = jest.fn().mockResolvedValue({
@@ -58,9 +59,9 @@ describe('ViewRecordController', () => {
         correlationId: undefined,
       })
       expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordPage', {
-        learnerNotSharing: false,
+        responseType: 'Exact Match',
         learner: { uln: '1234567890' },
-        learningEvents: [],
+        learnerEvents: [],
         prisoner: { prisonerNumber: 'A1234BC' },
       })
     })
@@ -76,8 +77,7 @@ describe('ViewRecordController', () => {
         correlationId: undefined,
       })
       expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordNotViewable', {
-        learnerNotSharing: true,
-        learnerNotVerified: false,
+        responseType: 'Learner opted to not share data',
         prisonerNumber: 'A1234BC',
       })
     })
@@ -93,8 +93,7 @@ describe('ViewRecordController', () => {
         correlationId: undefined,
       })
       expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordNotViewable', {
-        learnerNotSharing: false,
-        learnerNotVerified: true,
+        responseType: 'Learner could not be verified',
         prisonerNumber: 'A1234BC',
       })
     })

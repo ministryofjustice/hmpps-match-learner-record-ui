@@ -36,27 +36,24 @@ export default class ViewRecordController {
         req.user.username,
       )
 
-      const learningEventsResponse = await this.learnerRecordsService.getLearnerEvents(
+      const learnerEventsResponse = await this.learnerRecordsService.getLearnerEvents(
         learnerEventsRequest,
         req.user.username,
       )
 
-      const learnerNotSharing: boolean = learningEventsResponse.responseType === 'Learner opted to not share data'
-      const learnerNotVerified: boolean = learningEventsResponse.responseType === 'Learner could not be verified'
+      const { responseType } = learnerEventsResponse
 
-      if (learnerNotSharing || learnerNotVerified) {
+      if (responseType === 'Learner opted to not share data' || responseType === 'Learner could not be verified') {
         return res.render('pages/viewRecord/recordNotViewable', {
-          learnerNotSharing,
-          learnerNotVerified,
+          responseType,
           prisonerNumber: prisoner.prisonerNumber,
         })
       }
 
       return res.render('pages/viewRecord/recordPage', {
-        learnerNotSharing,
         prisoner,
         learner: selectedLearner,
-        learningEvents: learningEventsResponse.learnerRecord,
+        learnerEvents: learnerEventsResponse.learnerRecord,
       })
     } catch (error) {
       return next(error)

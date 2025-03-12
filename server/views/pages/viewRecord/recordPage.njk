@@ -3,11 +3,6 @@
 {% set mainClasses = "app-container govuk-body" %}
 {% set mainClasses = "govuk-main-wrapper--l" %}
 
-{%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
-{%- from "govuk/components/table/macro.njk" import govukTable -%}
-{% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
-
 {% block content %}
 
 <div class="govuk-width-container">
@@ -36,7 +31,7 @@
 
   {% set tableRows = [] %}
   
-  {% for record in learningEvents %}
+  {% for record in learnerEvents %}
     {% set row = [
       { text: record.subject },
       { text: record.awardingOrganisationName },
@@ -85,24 +80,16 @@
     <p class="govuk-body">A learning record was found but it is empty.</p>
   {% endif %}
 
-  <h3 class="govuk-heading-m">Match this learner record to {{ prisoner.firstName }} {{ prisoner.lastName }}</h3>
-  <p class="govuk-body">By clicking 'Match record' you will link the following prisoner and learner records:</p>
-
-  {% set secondTableRows = [] %}
-
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+
+      <h3 class="govuk-heading-m">Match this learner record to {{ prisoner.firstName }} {{ prisoner.lastName }}</h3>
+      <p class="govuk-body">By clicking 'Match record' you will link the following prisoner and learner records:</p>
+
       {{ govukTable({
-        attributes: {
-          "data-module": "moj-sortable-table"
-        },
         head: [
-          {
-            text: "Prisoner"
-          },
-          {
-            text: "LRS Record"
-          }
+          { text: "Prisoner" },
+          { text: "LRS Record"}
         ],
         rows: [
           [
@@ -111,6 +98,7 @@
           ]
         ]
       }) }}
+
     </div>
   </div>
 
