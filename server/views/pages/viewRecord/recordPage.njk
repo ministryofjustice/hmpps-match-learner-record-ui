@@ -1,0 +1,117 @@
+{% extends "../../partials/layout.njk" %}
+{% set pageTitle = "View and match learner record – " + applicationName + " - GOV.UK" %}
+{% set mainClasses = "app-container govuk-body" %}
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+{% block content %}
+
+<div class="govuk-width-container">
+
+  <h1 class="govuk-heading-l">View and match learner record</h1>
+  <p class="govuk-body">Information from Learner Records Service (LRS).</p>
+
+  {% set panelContent %}
+    <h2 class="govuk-heading-m">ULN: {{ learner.uln }}</h2>
+    <div class="govuk-flex">
+      <p class="govuk-body govuk-!-margin-right-3">Given name: {{ learner.givenName }}</p>
+      <p class="govuk-body govuk-!-margin-right-3">Family name: {{ learner.familyName }}</p>
+      <p class="govuk-body govuk-!-margin-right-3">Date of birth: {{ learner.dateOfBirth }} </p>
+    </div>
+    <div class="govuk-flex">
+      <p class="govuk-body govuk-!-margin-right-3">Postcode: {{ learner.lastKnownPostCode }}</p>
+      <p class="govuk-body govuk-!-margin-right-3">Sex: {{ learner.gender }}</p>
+    </div>
+  {% endset %}
+
+  {{ mojTicketPanel({
+    items: [{
+      html: panelContent
+    }]
+  }) }}
+
+  {% set tableRows = [] %}
+  
+  {% for record in learnerEvents %}
+    {% set row = [
+      { text: record.subject },
+      { text: record.awardingOrganisationName },
+      { text: record.level or "Not Specified" },
+      { text: record.grade },
+      { text: record.achievementAwardDate }
+    ] %}
+    {% set tableRows = (tableRows.push(row), tableRows) %}
+  {% endfor %}
+
+  {% if tableRows | length > 0 %}
+    {{ govukTable({
+      attributes: {
+        "data-module": "moj-sortable-table"
+      },
+      head: [
+        {
+          text: "Subject"
+        },
+        {
+          text: "Awarding body",
+          attributes: {
+            "aria-sort": "none"
+          }
+        },
+        {
+          text: "Level",
+          attributes: {
+            "aria-sort": "none"
+          }
+        },
+        {
+          text: "Grade"
+        },
+        {
+          text: "Awarded on",
+          attributes: {
+            "aria-sort": "none"
+          },
+          format: "numeric"
+        }
+      ],
+      rows: tableRows
+    }) }}
+  {% else %}
+    <p class="govuk-body">A learning record was found but it is empty.</p>
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h3 class="govuk-heading-m">Match this learner record to {{ prisoner.firstName }} {{ prisoner.lastName }}</h3>
+      <p class="govuk-body">By clicking 'Match record' you will link the following prisoner and learner records:</p>
+
+      {{ govukTable({
+        head: [
+          { text: "Prisoner" },
+          { text: "LRS Record"}
+        ],
+        rows: [
+          [
+            { html: prisoner.firstName + " " + prisoner.lastName  + "<br>Prison number: " + prisoner.prisonerNumber },
+            { html: learner.givenName + " " + learner.familyName  + "<br>ULN: " + learner.uln }
+          ]
+        ]
+      }) }}
+
+    </div>
+  </div>
+
+  <form action="#" method="post">
+    <div class="govuk-button-group">
+      {{ govukButton({
+        text: "Match record",
+        type: "submit"
+      }) }}
+      <a class="govuk-link" href='/learner-search-results/{{ prisoner.prisonerNumber }}'>Cancel and return to search</a>
+    </div>  
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+  </form>
+</div>
+
+{% endblock %}
