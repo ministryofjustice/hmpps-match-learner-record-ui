@@ -1,0 +1,36 @@
+{% extends "../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - Find a prisoner" %}
+{% set mainClasses = "app-container govuk-body" %}
+{% set backLink = "/" %}
+
+{%- from "moj/components/search/macro.njk" import mojSearch -%}
+{%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
+{%- from "govuk/components/table/macro.njk" import govukTable -%}
+{%- from "govuk/components/input/macro.njk" import govukInput -%}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block content %}
+
+<div>
+  <h1 class="govuk-heading-l">Search results for $user</h1>
+</div>
+<div>
+  <h2 class="govuk-heading-m">Too many results</h2>
+</div>
+
+<div>
+<p>There are too many LRS records that are a potential match for $user</p>
+<p>Try adjusting your search criteria, adding optional information like postcode or <br>
+  their sex, or search by ULN if you know it </p>
+<p> If you still cannot find the record, you can create a new ULN in LRS.</p>
+</div>
+  <div class="govuk-button-group">
+    {{ govukButton({
+      text: "Return to Search",
+      href: "/search-for-learner-record-by-uln/A1898EC"
+    }) }}
+
+    <a class="govuk-link" href="/">Finish</a>
+  </div>
+{% endblock %}
