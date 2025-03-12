@@ -15,6 +15,9 @@
         {% set tableRows = [] %}
 
         {% for record in results %}
+          {% set recordLink %}
+            <a class="govuk-link" href="/view-record/{{ prisonerNumber }}/{{ record.uln }}">View record</a>
+          {% endset %}
           {% set row = [
             { text: record.givenName or "Not Specified" },
             { text: record.familyName or "Not Specified" },
@@ -22,7 +25,7 @@
             { text: record.lastKnownPostCode or "Not Specified" },
             { text: record.gender or "Not Specified" },
             { text: record.uln or "Not Specified" },
-            { html: '<a class="govuk-link" href="' + '/view-record/' + prisonerNumber + '/' + record.uln + '">View record</a>' }
+            { html: recordLink | safe }
           ] %}
           {% set tableRows = (tableRows.push(row), tableRows) %}
         {% endfor %}
