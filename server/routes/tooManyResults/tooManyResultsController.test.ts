@@ -11,9 +11,7 @@ jest.mock('../../services/auditService')
 jest.mock('../../services/prisonerSearch/prisonerSearchService')
 
 describe('FindPrisonerController', () => {
-  const auditService = new AuditService(null) as jest.Mocked<AuditService>
   const controller = new TooManyResultsController()
-  auditService.logPageView = jest.fn()
 
   const req = {
     session: {
@@ -45,32 +43,12 @@ describe('FindPrisonerController', () => {
 
   describe('getTooManyResultsView', () => {
     it('should render the too Many Results page', async () => {
-      auditService.logPageView.mockResolvedValue(null)
       await controller.getTooManyResults(req, res, next)
       expect(res.render).toHaveBeenCalledWith('pages/tooManyResults', {
         givenName: 'GivenName',
-        FamilyName: 'string',
+        familyName: 'FamilyName',
         prisonerNumber: 'A123456',
       })
     })
   })
-})
-
-describe('postTooManyResults', () => {
-  it('should render the find prisoner page with search results', async () => {
-    const prisoners: PrisonerSearchResult[] = [
-      {
-        firstName: 'Example',
-        prisonerNumber: '',
-        lastName: 'Person',
-        prisonId: '',
-        prisonName: '',
-        cellLocation: '',
-        dateOfBirth: undefined,
-        nationality: '',
-      },
-    ]
-  })
-
-  it('should pass errors to middleware for handling', async () => {})
 })
