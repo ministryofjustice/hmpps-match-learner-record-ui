@@ -44,8 +44,6 @@ export default class ViewRecordController {
       const learnerNotSharing: boolean = learningEventsResponse.responseType === 'Learner opted to not share data'
       const learnerNotVerified: boolean = learningEventsResponse.responseType === 'Learner could not be verified'
 
-      console.log(learningEventsResponse)
-
       if (learnerNotSharing || learnerNotVerified) {
         return res.render('pages/viewRecord/recordNotViewable', {
           learnerNotSharing,
