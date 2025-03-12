@@ -2,7 +2,7 @@
 
 {% set pageTitle = applicationName + " - Find a prisoner" %}
 {% set mainClasses = "app-container govuk-body" %}
-{% set backLink = "/search-for-learner-record-by-uln/"+prisonerNumber %}
+{% set backLink = "/search-for-learner-record-by-information/"+prisonerNumber %}
 
 {%- from "moj/components/search/macro.njk" import mojSearch -%}
 {%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
@@ -27,10 +27,10 @@
   <div class="govuk-button-group">
     {{ govukButton({
       text: "Return to Search",
-      href: "/search-for-learner-record-by-uln/"+prisonerNumber
+      href: "/search-for-learner-record-by-information/"+prisonerNumber
     }) }}
     <a class="govuk-link" href="/find-a-prisoner">Search for another learner record</a>
-    <a class="govuk-link" href="#">Finish</a>
+    <a class="govuk-link" href="/">Finish</a>
   </div>
 </div>
 {% endblock %}
