@@ -1,9 +1,6 @@
 import { Request, Response } from 'express'
 import TooManyResultsController from './tooManyResultsController'
 
-jest.mock('../../services/auditService')
-jest.mock('../../services/prisonerSearch/prisonerSearchService')
-
 describe('FindPrisonerController', () => {
   const controller = new TooManyResultsController()
 
@@ -30,10 +27,6 @@ describe('FindPrisonerController', () => {
   } as unknown as Response
 
   const next = jest.fn()
-
-  beforeEach(() => {
-    jest.resetAllMocks()
-  })
 
   describe('getTooManyResultsView', () => {
     it('should render the too Many Results page', async () => {

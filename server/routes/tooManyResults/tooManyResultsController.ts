@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express'
-import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 
 export default class TooManyResultsController {
   constructor() {}
