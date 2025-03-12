@@ -1,20 +1,30 @@
 import { Request, Response } from 'express'
+import request from 'supertest'
+import type { SearchByInformationForm } from 'forms'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchResult from '../../data/prisonerSearch/prisonerSearchResult'
 import FindAPrisonerController from '../prisonerSearch/findAPrisonerController'
+import TooManyResultsController from './tooManyResultsController'
 
 jest.mock('../../services/auditService')
 jest.mock('../../services/prisonerSearch/prisonerSearchService')
 
 describe('FindPrisonerController', () => {
   const auditService = new AuditService(null) as jest.Mocked<AuditService>
-  const prisonerSearchService = new PrisonerSearchService(null, null) as jest.Mocked<PrisonerSearchService>
-  const controller = new FindAPrisonerController(auditService, prisonerSearchService)
+  const controller = new TooManyResultsController()
   auditService.logPageView = jest.fn()
 
   const req = {
-    session: {},
+    session: {
+      searchByInformationForm: {
+        givenName: 'GivenName',
+        familyName: 'FamilyName',
+      },
+    },
+    params: {
+      prisonerNumber: 'A123456',
+    },
     body: {},
     query: {},
     user: { username: 'test-user' },
@@ -33,51 +43,34 @@ describe('FindPrisonerController', () => {
     jest.resetAllMocks()
   })
 
-  describe('getFindPrisonerView', () => {
-    it('should render the find prisoner page', async () => {
+  describe('getTooManyResultsView', () => {
+    it('should render the too Many Results page', async () => {
       auditService.logPageView.mockResolvedValue(null)
-
-      await controller.getFindAPrisoner(req, res, next)
-
-      expect(res.render).toHaveBeenCalledWith('pages/findAPrisoner')
-      expect(auditService.logPageView).toHaveBeenCalledWith(Page.PRISONER_SEARCH_PAGE, {
-        who: req.user.username,
-        correlationId: undefined,
+      await controller.getTooManyResults(req, res, next)
+      expect(res.render).toHaveBeenCalledWith('pages/tooManyResults', {
+        givenName: 'GivenName',
+        FamilyName: 'string',
+        prisonerNumber: 'A123456',
       })
     })
   })
+})
 
-  describe('postFindPrisoner', () => {
-    it('should render the find prisoner page with search results', async () => {
-      const prisoners: PrisonerSearchResult[] = [
-        {
-          firstName: 'Example',
-          prisonerNumber: '',
-          lastName: 'Person',
-          prisonId: '',
-          prisonName: '',
-          cellLocation: '',
-          dateOfBirth: undefined,
-          nationality: '',
-        },
-      ]
-
-      prisonerSearchService.searchPrisoners.mockResolvedValue(prisoners)
-
-      await controller.postFindAPrisoner(req, res, next)
-
-      expect(res.render).toHaveBeenCalledWith('pages/findAPrisoner', { data: prisoners })
-      expect(auditService.logPageView).toHaveBeenCalledWith(Page.PRISONER_SEARCH_PAGE, {
-        who: req.user.username,
-        correlationId: undefined,
-      })
-    })
-
-    it('should pass errors to middleware for handling', async () => {
-      const error = new Error('Search failed')
-      prisonerSearchService.searchPrisoners.mockRejectedValue(new Error('Search failed'))
-      await controller.postFindAPrisoner(req, res, next)
-      expect(next).toHaveBeenCalledWith(error)
-    })
+describe('postTooManyResults', () => {
+  it('should render the find prisoner page with search results', async () => {
+    const prisoners: PrisonerSearchResult[] = [
+      {
+        firstName: 'Example',
+        prisonerNumber: '',
+        lastName: 'Person',
+        prisonId: '',
+        prisonName: '',
+        cellLocation: '',
+        dateOfBirth: undefined,
+        nationality: '',
+      },
+    ]
   })
+
+  it('should pass errors to middleware for handling', async () => {})
 })
