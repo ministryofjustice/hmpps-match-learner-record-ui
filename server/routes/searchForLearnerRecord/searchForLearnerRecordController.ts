@@ -34,7 +34,7 @@ export default class SearchForLearnerRecordController {
     const searchDemographics = {
       givenName: searchByInformationForm.givenName,
       familyName: searchByInformationForm.familyName,
-      dateOfBirth: `${searchByInformationForm['dob-year'].padStart(2, '0')}-${searchByInformationForm['dob-month'].padStart(2, '0')}-${searchByInformationForm['dob-day']}`,
+      dateOfBirth: `${searchByInformationForm['dob-year']}-${searchByInformationForm['dob-month'].padStart(2, '0')}-${searchByInformationForm['dob-day'].padStart(2, '0')}`,
       gender: searchByInformationForm.sex || 'NOT_KNOWN',
       lastKnownPostCode: searchByInformationForm.postcode || 'ZZ99 9ZZ',
     }
