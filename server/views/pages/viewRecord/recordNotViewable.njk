@@ -1,0 +1,27 @@
+{% extends "../../partials/layout.njk" %}
+{% set pageTitle = "Record not viewable – " + applicationName + " - GOV.UK" %}
+{% set mainClasses = "app-container govuk-body" %}
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+
+{% if learnerNotSharing %}
+ {% set paragraphText = "The learner you selected has opted not to share data and we are unable to show their learning record." %}
+{% endif %}
+
+{% if learnerNotVerified %}
+ {% set paragraphText = "The learner you selected was not verified and we are unable to show their learning record." %}
+{% endif %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-m">Record not viewable</h1>
+        <p class="govuk-body">{{ paragraphText }}</p>
+        <p class="govuk-body">
+          <a class="govuk-link" href="/learner-search-results/{{ prisonerNumber }}">Return to learner search</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

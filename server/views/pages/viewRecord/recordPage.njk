@@ -1,4 +1,4 @@
-{% extends "../partials/layout.njk" %}
+{% extends "../../partials/layout.njk" %}
 {% set pageTitle = "View and match learner record – " + applicationName + " - GOV.UK" %}
 {% set mainClasses = "app-container govuk-body" %}
 {% set mainClasses = "govuk-main-wrapper--l" %}
@@ -47,40 +47,43 @@
     {% set tableRows = (tableRows.push(row), tableRows) %}
   {% endfor %}
 
-
-  {{ govukTable({
-    attributes: {
-      "data-module": "moj-sortable-table"
-    },
-    head: [
-      {
-        text: "Subject"
+  {% if data | length > 0 %}
+    {{ govukTable({
+      attributes: {
+        "data-module": "moj-sortable-table"
       },
-      {
-        text: "Awarding body",
-        attributes: {
-          "aria-sort": "none"
-        }
-      },
-      {
-        text: "Level",
-        attributes: {
-          "aria-sort": "none"
-        }
-      },
-      {
-        text: "Grade"
-      },
-      {
-        text: "Awarded on",
-        attributes: {
-          "aria-sort": "none"
+      head: [
+        {
+          text: "Subject"
         },
-        format: "numeric"
-      }
-    ],
-    rows: tableRows
-  }) }}
+        {
+          text: "Awarding body",
+          attributes: {
+            "aria-sort": "none"
+          }
+        },
+        {
+          text: "Level",
+          attributes: {
+            "aria-sort": "none"
+          }
+        },
+        {
+          text: "Grade"
+        },
+        {
+          text: "Awarded on",
+          attributes: {
+            "aria-sort": "none"
+          },
+          format: "numeric"
+        }
+      ],
+      rows: tableRows
+    }) }}
+  {% else %}
+    <p class="govuk-body">A learning record was found but it is empty.</p>
+  {% endif %}
 
   <h3 class="govuk-heading-m">Match this learner record to {{ prisoner.firstName }} {{ prisoner.lastName }}</h3>
   <p class="govuk-body">By clicking 'Match record' you will link the following prisoner and learner records:</p>

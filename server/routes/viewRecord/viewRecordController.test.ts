@@ -57,15 +57,50 @@ describe('ViewRecordController', () => {
         who: req.user.username,
         correlationId: undefined,
       })
-      expect(res.render).toHaveBeenCalledWith('pages/viewRecord', {
+      expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordPage', {
+        learnerNotSharing: false,
         learner: { uln: '1234567890' },
         learningEvents: [],
         prisoner: { prisonerNumber: 'A1234BC' },
       })
     })
 
+    it('should render the learner not sharing data page', async () => {
+      learnerRecordsService.getLearnerEvents = jest.fn().mockResolvedValue({
+        responseType: 'Learner opted to not share data',
+        learnerRecord: [],
+      })
+      await controller.getViewRecord(req, res, null)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
+        who: req.user.username,
+        correlationId: undefined,
+      })
+      expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordNotViewable', {
+        learnerNotSharing: true,
+        learnerNotVerified: false,
+        prisonerNumber: 'A1234BC',
+      })
+    })
+
+    it('should render the learner not verified page', async () => {
+      learnerRecordsService.getLearnerEvents = jest.fn().mockResolvedValue({
+        responseType: 'Learner could not be verified',
+        learnerRecord: [],
+      })
+      await controller.getViewRecord(req, res, null)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
+        who: req.user.username,
+        correlationId: undefined,
+      })
+      expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordNotViewable', {
+        learnerNotSharing: false,
+        learnerNotVerified: true,
+        prisonerNumber: 'A1234BC',
+      })
+    })
+
     it('should pass errors to middleware for handling', async () => {
-      const error = new Error('Search failed')
+      const error = new Error('Failed when calling api')
       learnerRecordsService.getLearnerEvents.mockRejectedValue(error)
       await controller.getViewRecord(req, res, next)
       expect(next).toHaveBeenCalledWith(error)
