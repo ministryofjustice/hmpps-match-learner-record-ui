@@ -59,7 +59,6 @@ describe('ViewRecordController', () => {
         correlationId: undefined,
       })
       expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordPage', {
-        responseType: 'Exact Match',
         learner: { uln: '1234567890' },
         learnerEvents: [],
         prisoner: { prisonerNumber: 'A1234BC' },
