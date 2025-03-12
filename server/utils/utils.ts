@@ -21,16 +21,3 @@ export const initialiseName = (fullName?: string): string | null => {
   const array = fullName.split(' ')
   return `${array[0][0]}. ${array.reverse()[0]}`
 }
-
-export function getYear(year: string): string {
-  if (year.length === 4) {
-    return year
-  }
-  if (year.length < 3) {
-    const y = year.padStart(2, '0')
-    let p = '20'
-    if (y.charAt(0) > '4') p = '19'
-    return `${p}${y}`
-  }
-  throw new Error('Invalid year specified')
-}

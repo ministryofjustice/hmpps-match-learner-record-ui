@@ -13,12 +13,14 @@ export default function validateSearchByInformationForm(
     errors.push({ href: `#familyName`, text: 'Enter a family name' })
   }
 
-  if (
-    !searchByInformationForm['dob-day'] ||
-    !searchByInformationForm['dob-month'] ||
-    !searchByInformationForm['dob-year']
-  ) {
+  const day = searchByInformationForm['dob-day']
+  const month = searchByInformationForm['dob-month']
+  const year = searchByInformationForm['dob-year']
+
+  if (!day || !month || !year) {
     errors.push({ href: `#dob`, text: 'Enter a date of birth' })
+  } else if (year.length < 4) {
+    errors.push({ href: `#dob`, text: 'Enter four digits for the year' })
   }
 
   return errors
