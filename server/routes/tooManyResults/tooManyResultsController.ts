@@ -13,6 +13,4 @@ export default class TooManyResultsController {
       prisonerNumber,
     })
   }
-
-  postTooManyResults: RequestHandler = async (req, res, next): Promise<void> => {}
 }
