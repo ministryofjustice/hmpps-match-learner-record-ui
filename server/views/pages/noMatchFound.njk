@@ -1,0 +1,36 @@
+{% extends "../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - Find a prisoner" %}
+{% set mainClasses = "app-container govuk-body" %}
+{% set backLink = "/search-for-learner-record-by-information/"+prisonerNumber %}
+
+{%- from "moj/components/search/macro.njk" import mojSearch -%}
+{%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
+{%- from "govuk/components/table/macro.njk" import govukTable -%}
+{%- from "govuk/components/input/macro.njk" import govukInput -%}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block content %}
+<div class="govuk-width-container">
+<div>
+  <h1 class="govuk-heading-l">Search results for {{ givenName }} {{ familyName }}</h1>
+</div>
+<div>
+    <h2 class="govuk-heading-m">0 Results</h2>
+</div>
+
+<div >
+<p>There are no LRS records matching your search criteria</p>
+<p>Try adjusting your search criteria, removing optional information like postcode<br>
+  and biological sex, or searching by ULN if known.</p>
+  <p>If you still cannot find the record. <a class="govuk-link" href="#">Open LRS</a> and create a new one for the prisoner</p>
+</div>
+  <div class="govuk-button-group">
+    {{ govukButton({
+      text: "Return to Search",
+      href: "/search-for-learner-record-by-information/"+prisonerNumber
+    }) }}
+    <a class="govuk-link" href="/">Finish</a>
+  </div>
+</div>
+{% endblock %}
