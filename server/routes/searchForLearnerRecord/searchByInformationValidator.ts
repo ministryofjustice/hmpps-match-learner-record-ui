@@ -20,7 +20,7 @@ export default function validateSearchByInformationForm(
   if (!day || !month || !year) {
     errors.push({ href: `#dob`, text: 'Enter a date of birth' })
   } else if (year.length < 4) {
-    errors.push({ href: `#dob`, text: 'Enter four digits for the year' })
+    errors.push({ href: `#dob`, text: 'Year must include 4 numbers' })
   }
 
   return errors
