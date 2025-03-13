@@ -62,6 +62,7 @@ describe('ViewRecordController', () => {
         learner: { uln: '1234567890' },
         learnerEvents: [],
         prisoner: { prisonerNumber: 'A1234BC' },
+        matchType: 'Exact Match',
       })
     })
 
