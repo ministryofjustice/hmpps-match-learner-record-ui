@@ -64,7 +64,6 @@ export default class ViewRecordController {
   }
 
   postViewRecord: RequestHandler = async (req, res, next): Promise<void> => {
-    this.logPageView(req.user.username, req.id)
     try {
       const confirmMatchRequest: ConfirmMatchRequest = {
         matchingUln: req.body.matchingUln,

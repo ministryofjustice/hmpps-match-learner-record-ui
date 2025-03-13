@@ -105,4 +105,12 @@ describe('ViewRecordController', () => {
       expect(next).toHaveBeenCalledWith(error)
     })
   })
+
+  describe('postViewRecord', () => {
+    it('should save the match and redirect to confirmed match page', async () => {
+      await controller.postViewRecord(req, res, null)
+      expect(learnerRecordsService.confirmMatch).toHaveBeenCalled()
+      expect(res.redirect).toHaveBeenCalled()
+    })
+  })
 })
