@@ -127,7 +127,7 @@ describe('searchForLearnerRecordController', () => {
   })
 
   describe('should redirect to appropriate page depending on the response from LRS', () => {
-    it('should redirect to too-many-results page if response from LRS is No match returned from LRS', async () => {
+    it('should redirect to too-many-results page if too many results response is received from LRS', async () => {
       const responseType = 'Too Many Matches'
       const learnersResponse: LearnersResponse = {
         searchParameters: learnerSearchByDemographic,
@@ -140,7 +140,7 @@ describe('searchForLearnerRecordController', () => {
       expect(res.redirect).toHaveBeenCalledWith(`/too-many-results/${req.params.prisonNumber}`)
     })
 
-    it('should redirect to no-match-found page if response from LRS is No match returned from LRS', async () => {
+    it('should redirect to no-match-found page if no match returned from LRS', async () => {
       const responseType = 'No match returned from LRS'
       const learnersResponse: LearnersResponse = {
         searchParameters: learnerSearchByDemographic,
