@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import type { PrisonerSummary } from 'viewModels'
 import AuditService, { Page } from '../../services/auditService'
 import MatchConfirmedController from './matchConfirmedController'
 
@@ -10,8 +11,16 @@ describe('FindPrisonerController', () => {
   const controller = new MatchConfirmedController(auditService)
   auditService.logPageView = jest.fn()
 
+  const prisoner: PrisonerSummary = {
+    prisonerNumber: 'A1234BC',
+    prisonId: 'abcdef',
+    firstName: 'John',
+    lastName: 'Smith',
+    location: 'somewhere',
+  }
+
   const req = {
-    session: {},
+    session: { prisoner },
     body: {},
     params: { uln: '1234567890', prisonerNumber: 'A1234BC' },
     query: {},
@@ -34,8 +43,8 @@ describe('FindPrisonerController', () => {
       auditService.logPageView.mockResolvedValue(null)
       await controller.getMatchConfirmed(req, res, next)
       expect(res.render).toHaveBeenCalledWith('pages/matchConfirmed/confirmedPage', {
-        firstName: undefined,
-        lastName: undefined,
+        firstName: 'John',
+        lastName: 'Smith',
         uln: '1234567890',
         prisonerNumber: 'A1234BC',
       })
