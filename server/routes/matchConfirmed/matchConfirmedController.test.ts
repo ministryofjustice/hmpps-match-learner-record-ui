@@ -13,6 +13,7 @@ describe('FindPrisonerController', () => {
   const req = {
     session: {},
     body: {},
+    params: { uln: '1234567890', prisonerNumber: 'A1234BC' },
     query: {},
     user: { username: 'test-user' },
   } as unknown as Request
@@ -32,9 +33,9 @@ describe('FindPrisonerController', () => {
     it('should render the find match confirmed page', async () => {
       auditService.logPageView.mockResolvedValue(null)
       await controller.getMatchConfirmed(req, res, next)
-      expect(res.render).toHaveBeenCalledWith('pages/matchConfirmed', {
-        firstName: 'John',
-        lastName: 'Smith',
+      expect(res.render).toHaveBeenCalledWith('pages/matchConfirmed/confirmedPage', {
+        firstName: undefined,
+        lastName: undefined,
         uln: '1234567890',
         prisonerNumber: 'A1234BC',
       })

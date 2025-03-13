@@ -36,6 +36,8 @@ export default class ViewRecordController {
         req.user.username,
       )
 
+      req.session.prisoner = prisoner
+
       const learnerEventsResponse = await this.learnerRecordsService.getLearnerEvents(
         learnerEventsRequest,
         req.user.username,
@@ -72,7 +74,7 @@ export default class ViewRecordController {
         countOfReturnedUlns: req.body.matchingUln,
       }
       await this.learnerRecordsService.confirmMatch(req.params.prisonNumber, confirmMatchRequest, req.user.username)
-      return res.redirect('/')
+      return res.redirect(`/match-confirmed/${req.params.prisonNumber}/${req.body.matchingUln}`)
     } catch (error) {
       return next(error)
     }

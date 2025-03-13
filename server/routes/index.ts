@@ -8,7 +8,7 @@ import learnerSearchResults from './learnerSearchResults'
 import findAPrisonerRoutes from './prisonerSearch'
 import thereIsAProblemRoutes from './problem'
 import viewRecordRoutes from './viewRecord'
-import matchConfirmedRoutes from './matchConfirmed'
+import matchConfirmedRoutes from './matchConfirmed/index'
 
 export default function routes(services: Services): Router {
   const router = Router()

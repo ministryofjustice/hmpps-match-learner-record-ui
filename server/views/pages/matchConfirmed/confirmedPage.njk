@@ -1,0 +1,34 @@
+{% extends "../../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - Match Confirmed" %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    <div class="govuk-!-width-two-thirds">
+      {{ govukPanel({
+        titleText: "Match confirmed",
+        html: firstName + " " + lastName + " matched to <br><strong>ULN: " + uln + "</strong>"
+      }) }}
+
+      <h2 class="govuk-heading-m">What happens next</h2>
+
+      <p class="govuk-body">
+        Information from {{ firstName }} {{ lastName }}'s learner record will now be available to
+        view in other parts of Digital Prison Services.
+      </p>
+
+      <p class="govuk-body">
+        <a class="govuk-link govuk-body govuk-!-margin-bottom-3" href="/">
+          Update {{ firstName }} {{ lastName }}'s screening and assessment needs in Curious
+        </a>
+      </p>
+      
+      <a class="govuk-link" href="/">
+        Search for another learner record
+      </a>
+    </div>
+  </div>
+{% endblock %}

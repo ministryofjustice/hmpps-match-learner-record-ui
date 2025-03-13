@@ -13,11 +13,15 @@ export default class MatchConfirmedController {
 
   getMatchConfirmed: RequestHandler = async (req, res, next): Promise<void> => {
     this.logPageView(res.locals.user.username, req.id)
-    res.render('pages/matchConfirmed', {
-      firstName: 'John',
-      lastName: 'Smith',
-      uln: '1234567890',
-      prisonerNumber: 'A1234BC',
-    })
+    try {
+      return res.render('pages/matchConfirmed/confirmedPage', {
+        firstName: req.session.prisoner.firstName,
+        lastName: req.session.prisoner.lastName,
+        uln: req.params.uln,
+        prisonerNumber: req.params.prisonerNumber,
+      })
+    } catch (error) {
+      return next(error)
+    }
   }
 }
