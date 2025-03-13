@@ -20,7 +20,7 @@ export default class FindAPrisonerController {
 
   getFindAPrisoner: RequestHandler = async (req, res, next): Promise<void> => {
     this.logPageView(res.locals.user.username, req.id)
-    return res.render('pages/findAPrisoner/index', { search: '' })
+    return res.render('pages/findAPrisoner/index', req.session.searchResults)
   }
 
   postFindAPrisoner: RequestHandler = async (req, res, next): Promise<void> => {
@@ -44,9 +44,15 @@ export default class FindAPrisonerController {
           : undefined,
         ...record,
       }))
+      req.session.searchResults = { data: mappedResult, search: req.body.search }
       return res.render('pages/findAPrisoner/index', { data: mappedResult, search: req.body.search })
     } catch (error) {
       return next(error)
     }
+  }
+
+  clearResultsAndRedirect: RequestHandler = async (req, res, next): Promise<void> => {
+    req.session.searchResults = { data: [], search: '' }
+    return res.redirect('/find-a-prisoner')
   }
 }
