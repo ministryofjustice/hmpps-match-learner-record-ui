@@ -70,7 +70,7 @@ export default class ViewRecordController {
         givenName: req.body.givenName,
         familyName: req.body.familyName,
         matchType: req.body.matchType,
-        countOfReturnedUlns: req.body.matchingUln,
+        countOfReturnedUlns: '1', // Todo make this correct
       }
       await this.learnerRecordsService.confirmMatch(req.params.prisonNumber, confirmMatchRequest, req.user.username)
       return res.redirect(`/match-confirmed/${req.params.prisonNumber}/${req.body.matchingUln}`)
