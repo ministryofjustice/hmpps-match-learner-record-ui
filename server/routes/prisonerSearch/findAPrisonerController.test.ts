@@ -40,10 +40,11 @@ describe('FindPrisonerController', () => {
   describe('getFindPrisonerView', () => {
     it('should render the find prisoner page', async () => {
       auditService.logPageView.mockResolvedValue(null)
+      req.session.searchResults = { data: [], search: '' }
 
       await controller.getFindAPrisoner(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/findAPrisoner/index', { search: '' })
+      expect(res.render).toHaveBeenCalledWith('pages/findAPrisoner/index', { data: [], search: '' })
       expect(auditService.logPageView).toHaveBeenCalledWith(Page.PRISONER_SEARCH_PAGE, {
         who: req.user.username,
         correlationId: undefined,

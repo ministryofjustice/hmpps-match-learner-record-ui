@@ -6,4 +6,5 @@ export default function findAPrisonerRoutes(router: Router, services: Services) 
   const findAPrisonerController = new FindAPrisonerController(services.auditService, services.prisonerSearchService)
   router.get('/find-a-prisoner', findAPrisonerController.getFindAPrisoner)
   router.post('/find-a-prisoner', findAPrisonerController.postFindAPrisoner)
+  router.get('/find-a-prisoner-clear', findAPrisonerController.clearResultsAndRedirect)
 }
