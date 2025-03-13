@@ -29,7 +29,7 @@ describe('FindPrisonerController', () => {
   const next = jest.fn()
 
   describe('getNoMatchFoundView', () => {
-    it('should render the too Many Results page', async () => {
+    it('should render the No Match Found page', async () => {
       await controller.getNoMatchFound(req, res, next)
       expect(res.render).toHaveBeenCalledWith('pages/noMatchFound', {
         givenName: 'GivenName',
