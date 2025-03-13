@@ -121,5 +121,11 @@ describe('ViewRecordController', () => {
       expect(learnerRecordsService.confirmMatch).toHaveBeenCalledWith('A1234BC', expectedFormData, req.user.username)
       expect(res.redirect).toHaveBeenCalledWith('/match-confirmed/A1234BC/1234567890')
     })
+    it('should pass errors to middleware for handling', async () => {
+      const error = new Error('Failed when calling api')
+      learnerRecordsService.confirmMatch.mockRejectedValue(error)
+      await controller.postViewRecord(req, res, next)
+      expect(next).toHaveBeenCalledWith(error)
+    })
   })
 })
