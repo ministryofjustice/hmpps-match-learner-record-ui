@@ -1,13 +1,10 @@
 {% extends "../../partials/layout.njk" %}
 
 {% set pageTitle = "Search for a learner record" %}
+{% set backLink = "/search-for-learner-record-by-information/" + prisonerNumber %}
 
 {% block content %}
   <div class="govuk-width-container">
-    {{ govukBackLink({
-      text: "Back",
-      href: "/search-for-learner-record-by-information/" + prisonerNumber
-    }) }}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-l">Search results for {{ prisonerSummary.firstName | safe }} {{ prisonerSummary.lastName | safe }}</h1>
