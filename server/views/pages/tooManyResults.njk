@@ -2,13 +2,7 @@
 
 {% set pageTitle = applicationName + " - Find a prisoner" %}
 {% set mainClasses = "app-container govuk-body" %}
-{% set backLink = "/search-for-learner-record-by-information/"+prisonerNumber %}
-
-{%- from "moj/components/search/macro.njk" import mojSearch -%}
-{%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
-{%- from "govuk/components/table/macro.njk" import govukTable -%}
-{%- from "govuk/components/input/macro.njk" import govukInput -%}
-{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set backLink = "/search-for-learner-record-by-information/" + prisonerNumber %}
 
 {% block content %}
 <div class="govuk-width-container">
