@@ -31,7 +31,6 @@ export default class SearchForLearnerRecordController {
       const url = `/search-for-learner-record-by-information/${req.params.prisonNumber}`
       return res.redirectWithErrors(url, errors)
     }
-
     const searchDemographics = {
       givenName: searchByInformationForm.givenName,
       familyName: searchByInformationForm.familyName,
@@ -47,6 +46,9 @@ export default class SearchForLearnerRecordController {
       req.session.searchByInformationResults = searchResult
       if (searchResult.responseType === 'Too Many Matches') {
         return res.redirect(`/too-many-results/${req.params.prisonNumber}`)
+      }
+      if (searchResult.responseType === 'No match returned from LRS') {
+        return res.redirect(`/no-match-found/${req.params.prisonNumber}`)
       }
       return res.redirect(`/learner-search-results/${req.params.prisonNumber}`)
     } catch (error) {

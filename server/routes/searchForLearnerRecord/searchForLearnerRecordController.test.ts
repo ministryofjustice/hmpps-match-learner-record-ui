@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import type { LearnerRecord, LearnerSearchByDemographic, LearnersResponse } from 'learnerRecordsApi'
 import validateSearchByInformationForm from './searchByInformationValidator'
 import AuditService from '../../services/auditService'
 import SearchForLearnerRecordController from './searchForLearnerRecordController'
@@ -8,6 +9,7 @@ import LearnerRecordsService from '../../services/learnerRecordsService'
 jest.mock('../../services/auditService')
 jest.mock('./searchByInformationValidator')
 jest.mock('./searchByUlnValidator')
+jest.mock('../../services/learnerRecordsService')
 
 describe('searchForLearnerRecordController', () => {
   const mockedSearchByInformationValidator = validateSearchByInformationForm as jest.MockedFn<
@@ -20,9 +22,20 @@ describe('searchForLearnerRecordController', () => {
 
   const req = {
     session: {},
-    body: {},
+    params: {
+      prisonerNumber: 'A123456',
+    },
+    body: {
+      givenName: 'John',
+      familyName: 'Doe',
+      'dob-day': '01',
+      'dob-month': '01',
+      'dob-year': '1950',
+      postcode: 'ZZ99 9ZZ',
+      sex: 'NOT_KNOWN',
+    },
     query: {},
-    params: {},
+    user: { username: 'test-user' },
   } as unknown as Request
   const res = {
     redirect: jest.fn(),
@@ -31,6 +44,37 @@ describe('searchForLearnerRecordController', () => {
     render: jest.fn(),
     locals: {},
   } as unknown as Response
+
+  const learnerSearchByDemographic: LearnerSearchByDemographic = { familyName: '', givenName: '' }
+  const learnerRecord: LearnerRecord = {
+    abilityToShare: '',
+    createdDate: '',
+    dateOfAddressCapture: '',
+    dateOfBirth: '',
+    emailAddress: '',
+    familyName: '',
+    familyNameAtAge16: '',
+    gender: '',
+    givenName: '',
+    lastKnownAddressCountyOrCity: '',
+    lastKnownAddressLine1: '',
+    lastKnownAddressTown: '',
+    lastKnownPostCode: '',
+    lastUpdatedDate: '',
+    learnerStatus: '',
+    middleOtherName: '',
+    placeOfBirth: '',
+    preferredGivenName: '',
+    previousFamilyName: '',
+    schoolAtAge16: '',
+    scottishCandidateNumber: '',
+    tierLevel: '',
+    title: '',
+    uln: '',
+    verificationType: '',
+    versionNumber: '',
+  }
+
   const next = jest.fn()
 
   let errors: Array<Record<string, string>>
@@ -79,6 +123,34 @@ describe('searchForLearnerRecordController', () => {
       await controller.postSearchForLearnerRecordByUln(req, res, next)
 
       expect(res.redirectWithErrors).toHaveBeenCalledWith('/search-for-learner-record-by-uln', errors)
+    })
+  })
+
+  describe('should redirect to appropriate page depending on the response from LRS', () => {
+    it('should redirect to too-many-results page if response from LRS is No match returned from LRS', async () => {
+      const responseType = 'Too Many Matches'
+      const learnersResponse: LearnersResponse = {
+        searchParameters: learnerSearchByDemographic,
+        responseType,
+        matchedLearners: [learnerRecord, learnerRecord],
+      }
+      learnerRecordsService.getLearnersByDemographicDetails.mockResolvedValue(learnersResponse)
+      mockedSearchByInformationValidator.mockReturnValue([])
+      await controller.postSearchForLearnerRecordByInformation(req, res, next)
+      expect(res.redirect).toHaveBeenCalledWith(`/too-many-results/${req.params.prisonNumber}`)
+    })
+
+    it('should redirect to no-match-found page if response from LRS is No match returned from LRS', async () => {
+      const responseType = 'No match returned from LRS'
+      const learnersResponse: LearnersResponse = {
+        searchParameters: learnerSearchByDemographic,
+        responseType,
+        matchedLearners: [learnerRecord, learnerRecord],
+      }
+      learnerRecordsService.getLearnersByDemographicDetails.mockResolvedValue(learnersResponse)
+      mockedSearchByInformationValidator.mockReturnValue([])
+      await controller.postSearchForLearnerRecordByInformation(req, res, next)
+      expect(res.redirect).toHaveBeenCalledWith(`/no-match-found/${req.params.prisonNumber}`)
     })
   })
 })
