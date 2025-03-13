@@ -10,4 +10,5 @@ export default function findAPrisonerRoutes(router: Router, services: Services) 
   )
   router.get('/find-a-prisoner', findAPrisonerController.getFindAPrisoner)
   router.post('/find-a-prisoner', findAPrisonerController.postFindAPrisoner)
+  router.get('/find-a-prisoner-clear', findAPrisonerController.clearResultsAndRedirect)
 }

@@ -16,4 +16,19 @@ declare module 'forms' {
   export interface FindAPrisonerForm {
     search: string
   }
+
+  export interface SearchResults {
+    search: string
+    data: {
+      prisonerNumber: string
+      firstName: string
+      lastName: string
+      prisonId: string
+      prisonName: string
+      cellLocation: string
+      dateOfBirth: Date
+      nationality: string
+      age: number
+    }[]
+  }
 }
