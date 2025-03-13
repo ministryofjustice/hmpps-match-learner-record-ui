@@ -141,7 +141,7 @@ describe('searchForLearnerRecordController', () => {
     })
 
     it('should redirect to no-match-found page if no match returned from LRS', async () => {
-      const responseType = 'No match returned from LRS'
+      const responseType = 'No match'
       const learnersResponse: LearnersResponse = {
         searchParameters: learnerSearchByDemographic,
         responseType,

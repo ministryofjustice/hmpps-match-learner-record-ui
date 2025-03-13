@@ -47,7 +47,7 @@ export default class SearchForLearnerRecordController {
       if (searchResult.responseType === 'Too Many Matches') {
         return res.redirect(`/too-many-results/${req.params.prisonNumber}`)
       }
-      if (searchResult.responseType === 'No match returned from LRS') {
+      if (searchResult.responseType === 'No match') {
         return res.redirect(`/no-match-found/${req.params.prisonNumber}`)
       }
       return res.redirect(`/learner-search-results/${req.params.prisonNumber}`)
