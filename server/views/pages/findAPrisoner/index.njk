@@ -50,16 +50,33 @@
         {% set tableRows = [] %}
         
         {% for prisoner in data %}
+          {% set imageHtml %}
+            <img src="/api/image/{{prisoner.imageId}}" alt="Image of {{ prisoner.number }}" data-qa="prisoner-photo" class="hmpps-prisoner-list__photo" />
+          {% endset %}
           {% set row = [
+            {
+              html: imageHtml,
+              classes: 'hmpps-prisoner-list__cell'
+            },
             {
               html: '<a class="govuk-link" href="/search-for-learner-record-by-uln/' + prisoner.prisonerNumber + '">' + prisoner.firstName + " " + prisoner.lastName + '</a>',
               attributes: {
                 "data-sort-value": prisoner.firstName + " " + prisoner.lastName
-              }
+              },
+              classes: 'hmpps-prisoner-list__cell'
             },
-            { text: prisoner.prisonerNumber or "Not Specified" },
-            { text: prisoner.cellLocation or "Not Specified" },
-            { text: prisoner.age or "Not Specified" }
+            {
+              text: prisoner.prisonerNumber or "Not Specified",
+              classes: 'hmpps-prisoner-list__cell'
+            },
+            {
+              text: prisoner.cellLocation or "Not Specified",
+              classes: 'hmpps-prisoner-list__cell'
+            },
+            {
+              text: prisoner.age or "Not Specified",
+              classes: 'hmpps-prisoner-list__cell'
+            }
           ] %}
           {% set tableRows = (tableRows.push(row), tableRows) %}
         {% endfor %}
@@ -70,6 +87,9 @@
               "data-module": "moj-sortable-table"
             },
             head: [
+              {
+                text: ""
+              },
               {
                 text: "Name",
                 attributes: {

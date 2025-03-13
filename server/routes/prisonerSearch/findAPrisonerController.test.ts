@@ -4,15 +4,18 @@ import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchS
 import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchResult from '../../data/prisonerSearch/prisonerSearchResult'
 import validateFindAPrisonerForm from './findAPrisonerValidator'
+import PrisonApiService from '../../services/prisonApi/prisonApiService'
 
 jest.mock('../../services/auditService')
 jest.mock('../../services/prisonerSearch/prisonerSearchService')
+jest.mock('../../services/prisonApi/prisonApiService')
 jest.mock('./findAPrisonerValidator')
 
 describe('FindPrisonerController', () => {
   const auditService = new AuditService(null) as jest.Mocked<AuditService>
   const prisonerSearchService = new PrisonerSearchService(null, null) as jest.Mocked<PrisonerSearchService>
-  const controller = new FindAPrisonerController(auditService, prisonerSearchService)
+  const prisonApiService = new PrisonApiService(null, null) as jest.Mocked<PrisonApiService>
+  const controller = new FindAPrisonerController(auditService, prisonerSearchService, prisonApiService)
   const mockedFindAPrisonerValidator = validateFindAPrisonerForm as jest.MockedFn<typeof validateFindAPrisonerForm>
   auditService.logPageView = jest.fn()
 
@@ -53,20 +56,25 @@ describe('FindPrisonerController', () => {
 
   describe('postFindPrisoner', () => {
     it('should render the find prisoner page with search results', async () => {
-      const prisoners: PrisonerSearchResult[] = [
-        {
-          firstName: 'Example',
-          prisonerNumber: '',
-          lastName: 'Person',
-          prisonId: '',
-          prisonName: '',
-          cellLocation: '',
-          dateOfBirth: undefined,
-          nationality: '',
-        },
-      ]
+      const prisonerResult: PrisonerSearchResult = {
+        firstName: 'Example',
+        prisonerNumber: '',
+        lastName: 'Person',
+        prisonId: '',
+        prisonName: '',
+        cellLocation: '',
+        dateOfBirth: undefined,
+        nationality: '',
+      }
+      const prisoners: PrisonerSearchResult[] = [prisonerResult]
+      const modifiedPrisoner = {
+        ...prisonerResult,
+        age: undefined as string,
+        imageId: 'placeholder',
+      }
 
       prisonerSearchService.searchPrisoners.mockResolvedValue(prisoners)
+      prisonApiService.getPrisonerImageData.mockResolvedValue([])
       mockedFindAPrisonerValidator.mockReturnValue([])
 
       req.body.search = 'Example Person'
@@ -74,7 +82,7 @@ describe('FindPrisonerController', () => {
       await controller.postFindAPrisoner(req, res, next)
 
       expect(res.render).toHaveBeenCalledWith('pages/findAPrisoner/index', {
-        data: prisoners,
+        data: [modifiedPrisoner],
         search: 'Example Person',
       })
       expect(auditService.logPageView).toHaveBeenCalledWith(Page.PRISONER_SEARCH_PAGE, {

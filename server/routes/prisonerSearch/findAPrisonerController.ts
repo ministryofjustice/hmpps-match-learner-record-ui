@@ -4,11 +4,13 @@ import type { FindAPrisonerForm } from 'forms'
 import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 import validateFindAPrisonerForm from './findAPrisonerValidator'
+import PrisonApiService from '../../services/prisonApi/prisonApiService'
 
 export default class FindAPrisonerController {
   constructor(
     private readonly auditService: AuditService,
     private readonly prisonerSearchService: PrisonerSearchService,
+    private readonly prisonApiService: PrisonApiService,
   ) {}
 
   private logPageView = (username: string, correlationId: string) => {
@@ -38,12 +40,19 @@ export default class FindAPrisonerController {
         findAPrisonerForm.search,
         'default-username',
       )
-      const mappedResult = searchResult.map(record => ({
-        age: record.dateOfBirth
-          ? differenceInYears(new Date(), parse(record.dateOfBirth as unknown as string, 'dd-MM-yyyy', new Date()))
-          : undefined,
-        ...record,
-      }))
+      const mappedResult = await Promise.all(
+        searchResult.map(async record => {
+          const images = await this.prisonApiService.getPrisonerImageData(record.prisonerNumber, 'default-username')
+          const image = images.find(img => img.active)?.imageId || 'placeholder'
+          return {
+            age: record.dateOfBirth
+              ? differenceInYears(new Date(), parse(record.dateOfBirth as unknown as string, 'dd-MM-yyyy', new Date()))
+              : undefined,
+            imageId: image,
+            ...record,
+          }
+        }),
+      )
       return res.render('pages/findAPrisoner/index', { data: mappedResult, search: req.body.search })
     } catch (error) {
       return next(error)
