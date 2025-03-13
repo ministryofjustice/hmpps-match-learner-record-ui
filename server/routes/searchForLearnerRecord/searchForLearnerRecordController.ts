@@ -45,6 +45,9 @@ export default class SearchForLearnerRecordController {
         req.user.username,
       )
       req.session.searchByInformationResults = searchResult
+      if (searchResult.responseType === 'Too Many Matches') {
+        return res.redirect(`/too-many-results/${req.params.prisonNumber}`)
+      }
       return res.redirect(`/learner-search-results/${req.params.prisonNumber}`)
     } catch (error) {
       logger.error(`Error communicating with prisoners api:`, error)

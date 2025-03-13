@@ -1,0 +1,30 @@
+{% extends "../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - Find a prisoner" %}
+{% set mainClasses = "app-container govuk-body" %}
+{% set backLink = "/search-for-learner-record-by-information/" + prisonerNumber %}
+
+{% block content %}
+<div class="govuk-width-container">
+<div>
+  <h1 class="govuk-heading-l">Search results for {{ givenName }} {{ familyName }}</h1>
+</div>
+<div>
+  <h2 class="govuk-heading-m">Too many results</h2>
+</div>
+
+<div >
+<p>There are too many LRS records that are a potential match for</p>
+<p>Try adjusting your search criteria, adding optional information like postcode or <br>
+  their sex, or search by ULN if you know it </p>
+</div>
+  <div class="govuk-button-group">
+    {{ govukButton({
+      text: "Return to Search",
+      href: "/search-for-learner-record-by-information/"+prisonerNumber
+    }) }}
+    <a class="govuk-link" href="/find-a-prisoner">Search for another learner record</a>
+    <a class="govuk-link" href="/">Finish</a>
+  </div>
+</div>
+{% endblock %}

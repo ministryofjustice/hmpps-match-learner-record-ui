@@ -7,6 +7,7 @@ import searchForLearnerRecord from './searchForLearnerRecord'
 import learnerSearchResults from './learnerSearchResults'
 import findAPrisonerRoutes from './prisonerSearch'
 import thereIsAProblemRoutes from './problem'
+import tooManyResultsRoutes from './tooManyResults'
 import viewRecordRoutes from './viewRecord'
 
 export default function routes(services: Services): Router {
@@ -22,6 +23,7 @@ export default function routes(services: Services): Router {
   learnerSearchResults(router)
   findAPrisonerRoutes(router, services)
   thereIsAProblemRoutes(router)
+  tooManyResultsRoutes(router)
   viewRecordRoutes(router, services)
 
   return router
