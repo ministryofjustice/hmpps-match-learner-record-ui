@@ -28,7 +28,8 @@ export default class SearchForLearnerRecordController {
     const errors = validateSearchByInformationForm(searchByInformationForm)
 
     if (errors.length > 0) {
-      return res.redirectWithErrors('/search-for-learner-record-by-information', errors)
+      const url = `/search-for-learner-record-by-information/${req.params.prisonNumber}`
+      return res.redirectWithErrors(url, errors)
     }
 
     const searchDemographics = {

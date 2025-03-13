@@ -22,6 +22,7 @@ describe('searchForLearnerRecordController', () => {
     session: {},
     body: {},
     query: {},
+    params: {},
   } as unknown as Request
   const res = {
     redirect: jest.fn(),
@@ -59,10 +60,14 @@ describe('searchForLearnerRecordController', () => {
     it('should redirect to the same page if errors are present', async () => {
       errors = [{ href: '#givenName', text: 'some-error' }]
       mockedSearchByInformationValidator.mockReturnValue(errors)
+      req.params.prisonNumber = '12AS354'
 
       await controller.postSearchForLearnerRecordByInformation(req, res, next)
 
-      expect(res.redirectWithErrors).toHaveBeenCalledWith('/search-for-learner-record-by-information', errors)
+      expect(res.redirectWithErrors).toHaveBeenCalledWith(
+        `/search-for-learner-record-by-information/${req.params.prisonNumber}`,
+        errors,
+      )
     })
   })
 
