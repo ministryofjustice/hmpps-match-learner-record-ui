@@ -1,6 +1,17 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 
 {% extends "govuk/template.njk" %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "moj/components/sub-navigation/macro.njk" import mojSubNavigation %}
+{% from "moj/components/search/macro.njk" import mojSearch %}
+{% from "moj/components/ticket-panel/macro.njk" import mojTicketPanel %}
+
 
 {% block head %}
   <link href="{{ '/assets/css/app.css' | assetMap }}" rel="stylesheet"/>
@@ -25,6 +36,29 @@
 {% block bodyStart %}
 {% endblock %}
 
+{% block main %}
+    {% block beforeContent %}{% endblock %}
+    <main class="govuk-main-wrapper {{ mainClasses }}" id="main-content" role="main">
+      {% if errors.length > 0 %}
+      <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            {{ govukErrorSummary({
+              titleText: 'There is a problem',
+              errorList: errors,
+              attributes: { 'data-qa-errors': true }
+            }) }}
+          </div>
+        </div>
+      <div>
+      {% endif %}
+
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+{% endblock %}
+
 {% block bodyEnd %}
+  <script src="/assets/js/jquery.min.js"></script>
   <script type="module" src="{{ '/assets/js/app.js' | assetMap }}"></script>
 {% endblock %}

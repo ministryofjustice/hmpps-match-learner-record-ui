@@ -3,6 +3,7 @@ import HmppsAuditClient, { AuditEvent } from '../data/hmppsAuditClient'
 export enum Page {
   LANDING_PAGE = 'LANDING_PAGE',
   PRISONER_SEARCH_PAGE = 'PRISONER_SEARCH_PAGE',
+  VIEW_AND_MATCH_RECORD_PAGE = 'VIEW_AND_MATCH_RECORD_PAGE',
   MATCH_CONFIRMED_PAGE = 'MATCH_CONFIRMED_PAGE',
 }
 

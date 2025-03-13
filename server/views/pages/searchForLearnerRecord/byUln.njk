@@ -1,0 +1,53 @@
+{% extends "../../partials/layout.njk" %}
+
+{% set pageTitle = "Search for a learner record" %}
+
+{% block content %}
+<div class="govuk-width-container">
+  {{ govukBackLink({
+    text: "Back",
+    href: "/find-a-prisoner"
+  }) }}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-l">Search for {{ prisonerSummary.firstName | safe }} {{ prisonerSummary.lastName | safe }}'s learner record</h1>
+      <p class="govuk-body">Search for {{ prisonerSummary.firstName | safe }} {{ prisonerSummary.lastName | safe }}'s learner record using either their ULN or their personal information.</p>
+
+      {{ mojSubNavigation({
+        label: "Sub navigation",
+        items: [{
+          text: "Unique learner number",
+          active: true,
+          href: "#"
+        }, {
+          text: "Personal information",
+          href: "/search-for-learner-record-by-information/" + prisonerSummary.prisonerNumber
+        }]
+      }) }}
+
+      <form class="form" method="post" novalidate="">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        {{ govukInput({
+          label: {
+            text: "Unique learner number (ULN)",
+            classes: "govuk-!-font-weight-bold"
+          },
+          hint: {
+            text: "10 digits, for example 1234567890"
+          },
+          id: "uln",
+          name: "uln",
+          classes: "govuk-input--width-20",
+          errorMessage: errors | findError("uln")
+        }) }}
+
+        {{ govukButton({
+          text: "Search",
+          type: "Submit"
+        }) }}
+      </form>
+    </div>
+  </div>
+  </div>
+{% endblock %}

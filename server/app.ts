@@ -19,6 +19,7 @@ import setUpWebSession from './middleware/setUpWebSession'
 
 import routes from './routes'
 import type { Services } from './services'
+import errorMessageMiddleware from './middleware/errorMessageMiddleware'
 import problemHandler from './middleware/problemHandler'
 
 export default function createApp(services: Services): express.Application {
@@ -39,6 +40,7 @@ export default function createApp(services: Services): express.Application {
   app.use(authorisationMiddleware())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser())
+  app.use(errorMessageMiddleware)
 
   app.use(routes(services))
   app.use(problemHandler)
