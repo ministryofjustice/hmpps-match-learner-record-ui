@@ -25,10 +25,18 @@
           Update {{ firstName }} {{ lastName }}'s screening and assessment needs in Curious
         </a>
       </p>
-      
-      <a class="govuk-link" href="/">
-        Search for another learner record
-      </a>
+
+      <p class="govuk-body">
+        <a class="govuk-link govuk-link govuk-body govuk-!-margin-bottom-3" href="/find-a-prisoner">
+          Search for another prisoner
+        </a>
+      </p>
+
+      {{ govukButton({
+        text: "Finish",
+        classes: "govuk-button govuk-!-margin-top-3",
+        href: "/"
+      }) }}
     </div>
   </div>
 {% endblock %}

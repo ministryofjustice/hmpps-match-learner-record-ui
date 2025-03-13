@@ -1,6 +1,5 @@
 import { Request, Response } from 'express'
 import type { ConfirmMatchRequest } from 'learnerRecordsApi'
-import type { PrisonerSummary } from 'viewModels'
 import ViewRecordController from './viewRecordController'
 import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
