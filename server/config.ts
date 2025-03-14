@@ -114,6 +114,15 @@ export default {
       },
       agent: new AgentConfig(Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 15000))),
     },
+    prisonApi: {
+      url: get('PRISON_API_URL', 'https://prison-api-dev.prison.service.justice.gov.uk', requiredInProduction),
+      healthPath: '/health/ping',
+      timeout: {
+        response: Number(get('PRISON_API_TIMEOUT_RESPONSE', 15000)),
+        deadline: Number(get('PRISON_API_TIMEOUT_DEADLINE', 15000)),
+      },
+      agent: new AgentConfig(Number(get('PRISON_API_TIMEOUT_RESPONSE', 15000))),
+    },
   },
   sqs: {
     audit: auditConfig(),

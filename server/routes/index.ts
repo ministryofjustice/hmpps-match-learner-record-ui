@@ -9,6 +9,7 @@ import findAPrisonerRoutes from './prisonerSearch'
 import thereIsAProblemRoutes from './problem'
 import tooManyResultsRoutes from './tooManyResults'
 import viewRecordRoutes from './viewRecord'
+import apiRoutes from './imageApi'
 import noMatchFoundRoutes from './noMatchFound'
 
 export default function routes(services: Services): Router {
@@ -20,6 +21,7 @@ export default function routes(services: Services): Router {
     res.render('pages/index')
   })
 
+  apiRoutes(router, services)
   searchForLearnerRecord(router, services)
   learnerSearchResults(router)
   findAPrisonerRoutes(router, services)
