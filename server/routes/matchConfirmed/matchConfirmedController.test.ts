@@ -54,4 +54,18 @@ describe('FindPrisonerController', () => {
       })
     })
   })
+
+  describe('getMatchConfirmed', () => {
+    it('should pass errors to middleware for handling', async () => {
+      auditService.logPageView.mockResolvedValue(null)
+      req.params.prisonerNumber = 'B4321CA'
+      const expectedError = new Error('Prisoner number in url does not match session data.')
+      await controller.getMatchConfirmed(req, res, next)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.MATCH_CONFIRMED_PAGE, {
+        who: req.user.username,
+        correlationId: undefined,
+      })
+      expect(next).toHaveBeenCalledWith(expectedError)
+    })
+  })
 })

@@ -14,6 +14,9 @@ export default class MatchConfirmedController {
   getMatchConfirmed: RequestHandler = async (req, res, next): Promise<void> => {
     this.logPageView(res.locals.user.username, req.id)
     try {
+      if (req.params.prisonerNumber !== req.session.prisoner.prisonerNumber) {
+        throw new Error('Prisoner number in url does not match session data.')
+      }
       return res.render('pages/matchConfirmed/confirmedPage', {
         firstName: req.session.prisoner.firstName,
         lastName: req.session.prisoner.lastName,
