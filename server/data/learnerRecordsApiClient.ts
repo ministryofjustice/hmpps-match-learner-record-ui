@@ -4,6 +4,7 @@ import type {
   LearnerSearchByDemographic,
   LearnersResponse,
   ConfirmMatchRequest,
+  CheckMatchResponse,
 } from 'learnerRecordsApi'
 import config from '../config'
 import RestClient from './restClient'
@@ -60,5 +61,21 @@ export default class LearnerRecordsApiClient {
         'X-Username': username,
       },
     })
+  }
+
+  async checkMatch(prisonerNumber: string, username: string, token: string): Promise<CheckMatchResponse | null> {
+    try {
+      return await LearnerRecordsApiClient.restClient(token).get<CheckMatchResponse>({
+        path: `/match/${prisonerNumber}`,
+        headers: {
+          'X-Username': username,
+        },
+      })
+    } catch (error) {
+      if (error?.status === 404) {
+        return error.data
+      }
+      throw error
+    }
   }
 }

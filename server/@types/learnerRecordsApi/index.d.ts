@@ -88,3 +88,10 @@ export interface ConfirmMatchRequest {
   matchType: string
   countOfReturnedUlns: string
 }
+
+export type CheckMatchResponse = {
+  matchedUln?: string | null
+  givenName?: string | null
+  familyName?: string | null
+  status: string
+}
