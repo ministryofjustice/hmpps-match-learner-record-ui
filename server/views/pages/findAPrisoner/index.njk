@@ -59,7 +59,8 @@
             },
             { text: prisoner.prisonerNumber or "Not Specified" },
             { text: prisoner.cellLocation or "Not Specified" },
-            { text: prisoner.age or "Not Specified" }
+            { text: prisoner.age or "Not Specified" },
+            { text: prisoner.matchedUln or "" }
           ] %}
           {% set tableRows = (tableRows.push(row), tableRows) %}
         {% endfor %}
@@ -90,6 +91,9 @@
                 attributes: {
                   "aria-sort": "none"
                 }
+              },
+              {
+                text: "Matched ULN"
               }
             ],
             rows: tableRows

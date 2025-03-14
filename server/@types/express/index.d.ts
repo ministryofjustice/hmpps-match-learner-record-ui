@@ -1,4 +1,5 @@
 import type { LearnersResponse } from 'learnerRecordsApi'
+import type { PrisonerSummary } from 'viewModels'
 import { HmppsUser } from '../../interfaces/hmppsUser'
 
 export declare module 'express-session' {
@@ -9,6 +10,7 @@ export declare module 'express-session' {
     searchByInformationForm: SearchByInformationForm
     searchByUlnForm: SearchByUlnForm
     searchByInformationResults: LearnersResponse
+    prisoner: PrisonerSummary
     searchResults: SearchResults
   }
 }

@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import type { LearnerEventsRequest, LearnerRecord } from 'learnerRecordsApi'
+import type { ConfirmMatchRequest, LearnerEventsRequest, LearnerRecord } from 'learnerRecordsApi'
 import LearnerRecordsService from '../../services/learnerRecordsService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 import AuditService, { Page } from '../../services/auditService'
@@ -36,6 +36,8 @@ export default class ViewRecordController {
         req.user.username,
       )
 
+      req.session.prisoner = prisoner
+
       const learnerEventsResponse = await this.learnerRecordsService.getLearnerEvents(
         learnerEventsRequest,
         req.user.username,
@@ -54,7 +56,24 @@ export default class ViewRecordController {
         prisoner,
         learner: selectedLearner,
         learnerEvents: learnerEventsResponse.learnerRecord,
+        matchType: responseType,
       })
+    } catch (error) {
+      return next(error)
+    }
+  }
+
+  postViewRecord: RequestHandler = async (req, res, next): Promise<void> => {
+    try {
+      const confirmMatchRequest: ConfirmMatchRequest = {
+        matchingUln: req.body.matchingUln,
+        givenName: req.body.givenName,
+        familyName: req.body.familyName,
+        matchType: req.body.matchType,
+        countOfReturnedUlns: req.session.searchByInformationResults.matchedLearners.length.toString(),
+      }
+      await this.learnerRecordsService.confirmMatch(req.params.prisonNumber, confirmMatchRequest, req.user.username)
+      return res.redirect(`/match-confirmed/${req.params.prisonNumber}/${req.body.matchingUln}`)
     } catch (error) {
       return next(error)
     }

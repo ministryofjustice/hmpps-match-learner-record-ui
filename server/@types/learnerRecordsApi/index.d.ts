@@ -80,3 +80,18 @@ declare module 'learnerRecordsApi' {
     languageForAssessment?: string
   }
 }
+
+export interface ConfirmMatchRequest {
+  matchingUln: string
+  givenName: string
+  familyName: string
+  matchType: string
+  countOfReturnedUlns: string
+}
+
+export type CheckMatchResponse = {
+  matchedUln?: string | null
+  givenName?: string | null
+  familyName?: string | null
+  status: string
+}
