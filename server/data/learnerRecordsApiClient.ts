@@ -3,13 +3,14 @@ import type {
   LearnerEventsResponse,
   LearnerSearchByDemographic,
   LearnersResponse,
+  ConfirmMatchRequest,
 } from 'learnerRecordsApi'
 import config from '../config'
 import RestClient from './restClient'
 
 export default class LearnerRecordsApiClient {
   private static restClient(token: string): RestClient {
-    return new RestClient('Prisoner Search', config.apis.learnerRecordsApi, token)
+    return new RestClient('Learner Records API', config.apis.learnerRecordsApi, token)
   }
 
   async getLearners(
@@ -29,14 +30,31 @@ export default class LearnerRecordsApiClient {
   }
 
   async getLearnerEvents(
-    LearnerEventsRequest: LearnerEventsRequest,
+    learnerEventsRequest: LearnerEventsRequest,
     username: string,
     token: string,
   ): Promise<LearnerEventsResponse> {
     return LearnerRecordsApiClient.restClient(token).post<LearnerEventsResponse>({
       path: '/learner-events',
       data: {
-        ...LearnerEventsRequest,
+        ...learnerEventsRequest,
+      },
+      headers: {
+        'X-Username': username,
+      },
+    })
+  }
+
+  async confirmMatch(
+    prisonerNumber: string,
+    confirmMatchRequest: ConfirmMatchRequest,
+    username: string,
+    token: string,
+  ): Promise<void> {
+    return LearnerRecordsApiClient.restClient(token).post<void>({
+      path: `/match/${prisonerNumber}`,
+      data: {
+        ...confirmMatchRequest,
       },
       headers: {
         'X-Username': username,
