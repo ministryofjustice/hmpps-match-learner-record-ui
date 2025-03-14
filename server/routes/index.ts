@@ -10,6 +10,7 @@ import thereIsAProblemRoutes from './problem'
 import tooManyResultsRoutes from './tooManyResults'
 import viewRecordRoutes from './viewRecord'
 import apiRoutes from './imageApi'
+import noMatchFoundRoutes from './noMatchFound'
 
 export default function routes(services: Services): Router {
   const router = Router()
@@ -27,6 +28,7 @@ export default function routes(services: Services): Router {
   thereIsAProblemRoutes(router)
   tooManyResultsRoutes(router)
   viewRecordRoutes(router, services)
+  noMatchFoundRoutes(router)
 
   return router
 }

@@ -10,20 +10,20 @@
   <h1 class="govuk-heading-l">Search results for {{ givenName }}, {{ familyName }}</h1>
 </div>
 <div>
-  <h2 class="govuk-heading-m">Too many results</h2>
+    <h2 class="govuk-heading-m">0 Results</h2>
 </div>
 
 <div >
-<p>There are too many LRS records that are a potential match for.</p>
-<p>Try adjusting your search criteria, adding optional information like postcode or <br>
-  their sex, or search by ULN if you know it.</p>
+<p>There are no LRS records matching your search criteria.</p>
+<p>Try adjusting your search criteria, removing optional information like postcode<br>
+  and biological sex, or searching by ULN if known.</p>
+  <p>If you still cannot find the record. <a class="govuk-link" href="#">Open LRS</a> and create a new one for the prisoner.</p>
 </div>
   <div class="govuk-button-group">
     {{ govukButton({
       text: "Return to Search",
       href: "/search-for-learner-record-by-information/"+prisonerNumber
     }) }}
-    <a class="govuk-link" href="/find-a-prisoner">Search for another learner record</a>
     <a class="govuk-link" href="/">Finish</a>
   </div>
 </div>
