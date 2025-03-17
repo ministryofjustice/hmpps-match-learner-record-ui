@@ -125,4 +125,32 @@ describe('FindPrisonerController', () => {
       expect(res.redirectWithErrors).toHaveBeenCalledWith('/find-a-prisoner', errors)
     })
   })
+
+  describe('clearResultsAndRedirect', () => {
+    it('should clear the session and redirect to find a prisoner page', async () => {
+      auditService.logPageView.mockResolvedValue(null)
+
+      await controller.clearResultsAndRedirect(req, res, next)
+
+      expect(req.session).toEqual({
+        searchResults: {
+          search: '',
+          data: [],
+        },
+        searchByUlnForm: {
+          uln: '',
+        },
+        searchByInformationForm: {
+          givenName: '',
+          familyName: '',
+          'dob-day': '',
+          'dob-month': '',
+          'dob-year': '',
+          postcode: '',
+          sex: '',
+        },
+      })
+      expect(res.redirect).toHaveBeenCalledWith('/find-a-prisoner')
+    })
+  })
 })

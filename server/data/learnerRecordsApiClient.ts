@@ -3,8 +3,8 @@ import type {
   LearnerEventsResponse,
   LearnerSearchByDemographic,
   LearnersResponse,
-  ConfirmMatchRequest,
   CheckMatchResponse,
+  ConfirmMatchRequest,
 } from 'learnerRecordsApi'
 import config from '../config'
 import RestClient from './restClient'
