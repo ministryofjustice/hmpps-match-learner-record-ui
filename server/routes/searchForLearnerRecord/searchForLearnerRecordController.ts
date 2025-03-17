@@ -35,7 +35,6 @@ export default class SearchForLearnerRecordController {
       const url = `/search-for-learner-record-by-information/${req.params.prisonNumber}`
       return res.redirectWithErrors(url, errors)
     }
-
     const searchDemographics = {
       givenName: searchByInformationForm.givenName,
       familyName: searchByInformationForm.familyName,
@@ -52,9 +51,12 @@ export default class SearchForLearnerRecordController {
       if (searchResult.responseType === 'Too Many Matches') {
         return res.redirect(`/too-many-results/${req.params.prisonNumber}`)
       }
+      if (searchResult.responseType === 'No Match') {
+        return res.redirect(`/no-match-found/${req.params.prisonNumber}`)
+      }
       return res.redirect(`/learner-search-results/${req.params.prisonNumber}`)
     } catch (error) {
-      logger.error(`Error communicating with prisoners api:`, error)
+      logger.error(`Error communicating with BOLD - LRS API:`, error)
       return res.redirect(500, '/find-a-prisoner')
     }
   }
