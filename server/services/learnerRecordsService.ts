@@ -1,4 +1,5 @@
 import type {
+  CheckMatchResponse,
   ConfirmMatchRequest,
   LearnerEventsRequest,
   LearnerEventsResponse,
@@ -34,5 +35,10 @@ export default class LearnerRecordsService {
   ): Promise<void> {
     const token = await this.hmppsAuthClient.getSystemClientToken(username)
     return this.learnerRecordsApiClient.confirmMatch(prisonerNumber, confirmMatchRequest, username, token)
+  }
+
+  async checkMatch(prisonerNumber: string, username: string): Promise<CheckMatchResponse> {
+    const token = await this.hmppsAuthClient.getSystemClientToken(username)
+    return this.learnerRecordsApiClient.checkMatch(prisonerNumber, username, token)
   }
 }
