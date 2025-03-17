@@ -9,6 +9,7 @@ import findAPrisonerRoutes from './prisonerSearch'
 import thereIsAProblemRoutes from './problem'
 import tooManyResultsRoutes from './tooManyResults'
 import viewRecordRoutes from './viewRecord'
+import matchConfirmedRoutes from './matchConfirmed/index'
 import noMatchFoundRoutes from './noMatchFound'
 
 export default function routes(services: Services): Router {
@@ -25,8 +26,9 @@ export default function routes(services: Services): Router {
   findAPrisonerRoutes(router, services)
   thereIsAProblemRoutes(router)
   tooManyResultsRoutes(router)
-  viewRecordRoutes(router, services)
   noMatchFoundRoutes(router)
+  viewRecordRoutes(router, services)
+  matchConfirmedRoutes(router, services)
 
   return router
 }

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import type { ConfirmMatchRequest } from 'learnerRecordsApi'
 import ViewRecordController from './viewRecordController'
 import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
@@ -15,6 +16,14 @@ describe('ViewRecordController', () => {
   auditService.logPageView = jest.fn()
   const controller = new ViewRecordController(prisonerSearchService, learnerRecordsService, auditService)
 
+  const expectedFormData: ConfirmMatchRequest = {
+    matchingUln: '1234567890',
+    givenName: 'John',
+    familyName: 'Doe',
+    matchType: 'Exact Match',
+    countOfReturnedUlns: '1',
+  }
+
   const req = {
     session: {
       searchByInformationResults: {
@@ -25,10 +34,10 @@ describe('ViewRecordController', () => {
         ],
       },
     },
-    body: {},
+    body: expectedFormData,
     query: {},
     user: { username: 'test-user' },
-    params: { prisonerNumber: 'A1234BC', uln: '1234567890' },
+    params: { prisonNumber: 'A1234BC', prisonerNumber: 'A1234BC', uln: '1234567890' },
   } as unknown as Request
 
   const res = {
@@ -62,6 +71,7 @@ describe('ViewRecordController', () => {
         learner: { uln: '1234567890' },
         learnerEvents: [],
         prisoner: { prisonerNumber: 'A1234BC' },
+        matchType: 'Exact Match',
         backBase: '/learner-search-results/',
       })
     })
@@ -102,6 +112,20 @@ describe('ViewRecordController', () => {
       const error = new Error('Failed when calling api')
       learnerRecordsService.getLearnerEvents.mockRejectedValue(error)
       await controller.getViewRecord(req, res, next)
+      expect(next).toHaveBeenCalledWith(error)
+    })
+  })
+
+  describe('postViewRecord', () => {
+    it('should save the match and redirect to confirmed match page', async () => {
+      await controller.postViewRecord(req, res, null)
+      expect(learnerRecordsService.confirmMatch).toHaveBeenCalledWith('A1234BC', expectedFormData, req.user.username)
+      expect(res.redirect).toHaveBeenCalledWith('/match-confirmed/A1234BC/1234567890')
+    })
+    it('should pass errors to middleware for handling', async () => {
+      const error = new Error('Failed when calling api')
+      learnerRecordsService.confirmMatch.mockRejectedValue(error)
+      await controller.postViewRecord(req, res, next)
       expect(next).toHaveBeenCalledWith(error)
     })
   })

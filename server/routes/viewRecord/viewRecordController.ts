@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, RequestHandler } from 'express'
-import type { LearnerEventsRequest, LearnerRecord } from 'learnerRecordsApi'
+import type { ConfirmMatchRequest, LearnerEventsRequest, LearnerRecord } from 'learnerRecordsApi'
 import type { PrisonerSummary } from 'viewModels'
 import LearnerRecordsService from '../../services/learnerRecordsService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
@@ -31,6 +31,8 @@ export default class ViewRecordController {
       req.user.username,
     )
 
+    req.session.prisoner = prisoner
+
     return showLearnerRecords(
       this.learnerRecordsService,
       selectedLearner,
@@ -40,6 +42,22 @@ export default class ViewRecordController {
       res,
       next,
     )
+  }
+
+  postViewRecord: RequestHandler = async (req, res, next): Promise<void> => {
+    try {
+      const confirmMatchRequest: ConfirmMatchRequest = {
+        matchingUln: req.body.matchingUln,
+        givenName: req.body.givenName,
+        familyName: req.body.familyName,
+        matchType: req.body.matchType,
+        countOfReturnedUlns: req.session.searchByInformationResults.matchedLearners.length.toString(),
+      }
+      await this.learnerRecordsService.confirmMatch(req.params.prisonNumber, confirmMatchRequest, req.user.username)
+      return res.redirect(`/match-confirmed/${req.params.prisonNumber}/${req.body.matchingUln}`)
+    } catch (error) {
+      return next(error)
+    }
   }
 }
 
@@ -75,6 +93,7 @@ export async function showLearnerRecords(
       learner: selectedLearner,
       learnerEvents: learnerEventsResponse.learnerRecord,
       backBase,
+      matchType: responseType,
     })
   } catch (error) {
     return next(error)

@@ -9,4 +9,5 @@ export default function viewRecordRoutes(router: Router, services: Services) {
     services.auditService,
   )
   router.get('/view-record/:prisonNumber/:uln', viewRecordController.getViewRecord)
+  router.post('/view-record/:prisonNumber/:uln', viewRecordController.postViewRecord)
 }
