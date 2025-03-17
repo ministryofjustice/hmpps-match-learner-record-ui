@@ -5,6 +5,8 @@ export default function validateSearchByUlnForm(searchByUlnForm: SearchByUlnForm
 
   if (!searchByUlnForm.uln) {
     errors.push({ href: `#uln`, text: 'Enter a ULN' })
+  } else if (!/^\d{10}$/.test(searchByUlnForm.uln)) {
+    errors.push({ href: `#uln`, text: 'ULN must be exactly 10 digits and contain only numbers' })
   }
 
   return errors
