@@ -7,6 +7,7 @@ export default (router: Router, services: Services) => {
   const searchForLearnerRecordController = new SearchForLearnerRecordController(
     services.auditService,
     services.learnerRecordsService,
+    services.prisonerSearchService,
   )
 
   router.get('/search-for-learner-record-by-uln/:prisonNumber', [

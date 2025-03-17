@@ -52,7 +52,25 @@ export default class FindAPrisonerController {
   }
 
   clearResultsAndRedirect: RequestHandler = async (req, res, next): Promise<void> => {
-    req.session.searchResults = { data: [], search: '' }
+    req.session.searchResults = {
+      search: '',
+      data: [],
+    }
+
+    req.session.searchByUlnForm = {
+      uln: '',
+    }
+
+    req.session.searchByInformationForm = {
+      givenName: '',
+      familyName: '',
+      'dob-day': '',
+      'dob-month': '',
+      'dob-year': '',
+      postcode: '',
+      sex: '',
+    }
+
     return res.redirect('/find-a-prisoner')
   }
 }
