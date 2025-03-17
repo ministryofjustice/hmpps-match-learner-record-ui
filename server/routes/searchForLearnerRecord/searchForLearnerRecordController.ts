@@ -7,7 +7,6 @@ import validateSearchByUlnForm from './searchByUlnValidator'
 import LearnerRecordsService from '../../services/learnerRecordsService'
 import logger from '../../../logger'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
-import { showLearnerRecords } from '../viewRecord/viewRecordController'
 
 export default class SearchForLearnerRecordController {
   constructor(
@@ -83,15 +82,14 @@ export default class SearchForLearnerRecordController {
       dateOfBirth: prisoner.dateOfBirth.toISOString().slice(0, 10),
     } as LearnerRecord
 
-    req.session.searchByUlnForm = searchByUlnForm
-    return showLearnerRecords(
-      this.learnerRecordsService,
-      selectedLearner,
-      prisoner,
-      '/search-for-learner-record-by-uln/',
-      req,
-      res,
-      next,
-    )
+    req.session.searchByInformationResults = {
+      searchParameters: null,
+      responseType: 'Exact match',
+      matchedLearners: [selectedLearner],
+    }
+
+    req.session.returnTo = '/search-for-learner-record-by-uln/'
+
+    return res.redirect(`/view-record/${req.params.prisonNumber}/${selectedLearner.uln}`)
   }
 }

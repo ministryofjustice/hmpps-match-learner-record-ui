@@ -152,17 +152,7 @@ describe('searchForLearnerRecordController', () => {
     prisonerSearchService.getPrisonerByPrisonNumber.mockResolvedValue(prisoner)
     learnerRecordsService.getLearnerEvents.mockResolvedValue({ learnerRecord: [] } as LearnerEventsResponse)
     await controller.postSearchForLearnerRecordByUln(req, res, null)
-    expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordPage', {
-      learner: {
-        uln: req.body.uln,
-        givenName: prisoner.firstName,
-        familyName: prisoner.lastName,
-        dateOfBirth: prisoner.dateOfBirth.toISOString().slice(0, 10),
-      },
-      learnerEvents: [],
-      prisoner,
-      backBase: '/search-for-learner-record-by-uln/',
-    })
+    expect(res.redirect).toHaveBeenCalledWith(`/view-record/${req.params.prisonNumber}/${req.body.uln}`)
   })
 
   describe('should redirect to appropriate page depending on the response from LRS', () => {
