@@ -1,4 +1,3 @@
-import type { SearchByInformationForm, SearchByUlnForm } from 'forms'
 import type { LearnersResponse } from 'learnerRecordsApi'
 import { HmppsUser } from '../../interfaces/hmppsUser'
 
@@ -10,6 +9,7 @@ export declare module 'express-session' {
     searchByInformationForm: SearchByInformationForm
     searchByUlnForm: SearchByUlnForm
     searchByInformationResults: LearnersResponse
+    searchResults: SearchResults
   }
 }
 
