@@ -72,7 +72,6 @@ describe('ViewRecordController', () => {
         learnerEvents: [],
         prisoner: { prisonerNumber: 'A1234BC' },
         matchType: 'Exact Match',
-        backBase: '/learner-search-results/',
       })
     })
 
