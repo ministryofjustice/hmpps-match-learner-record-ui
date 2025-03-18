@@ -4,12 +4,14 @@ import type { FindAPrisonerForm } from 'forms'
 import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 import validateFindAPrisonerForm from './findAPrisonerValidator'
+import PrisonApiService from '../../services/prisonApi/prisonApiService'
 import LearnerRecordsService from '../../services/learnerRecordsService'
 
 export default class FindAPrisonerController {
   constructor(
     private readonly auditService: AuditService,
     private readonly prisonerSearchService: PrisonerSearchService,
+    private readonly prisonApiService: PrisonApiService,
     private readonly learnerRecordsService: LearnerRecordsService,
   ) {}
 
@@ -41,14 +43,19 @@ export default class FindAPrisonerController {
         'default-username',
       )
       const mappedResult = await Promise.all(
-        searchResult.map(async record => ({
-          matchedUln: (await this.learnerRecordsService.checkMatch(record.prisonerNumber, req.user.username))
-            .matchedUln,
-          age: record.dateOfBirth
-            ? differenceInYears(new Date(), parse(record.dateOfBirth as unknown as string, 'dd-MM-yyyy', new Date()))
-            : undefined,
-          ...record,
-        })),
+        searchResult.map(async record => {
+          const images = await this.prisonApiService.getPrisonerImageData(record.prisonerNumber, 'default-username')
+          const image = images.find(img => img.active)?.imageId || 'placeholder'
+          return {
+            age: record.dateOfBirth
+              ? differenceInYears(new Date(), parse(record.dateOfBirth as unknown as string, 'dd-MM-yyyy', new Date()))
+              : undefined,
+            matchedUln: (await this.learnerRecordsService.checkMatch(record.prisonerNumber, req.user.username))
+              .matchedUln,
+            imageId: image,
+            ...record,
+          }
+        }),
       )
       req.session.searchResults = { data: mappedResult, search: req.body.search }
       return res.render('pages/findAPrisoner/index', { data: mappedResult, search: req.body.search })
