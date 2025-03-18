@@ -15,6 +15,7 @@ generic-service:
     AUDIT_ENABLED: "false"
     LEARNER_RECORDS_API_URL: "https://learner-records-api-dev.hmpps.service.justice.gov.uk"
     PRISONER_SEARCH_API_URL: "https://prisoner-search-dev.prison.service.justice.gov.uk"
+    PRISON_API_URL: "https://prison-api-dev.prison.service.justice.gov.uk"
 
 generic-prometheus-alerts:
   alertSeverity: education-alerts-non-prod
