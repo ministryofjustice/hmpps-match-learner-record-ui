@@ -15,7 +15,7 @@
     <div class="govuk-flex">
       <p class="govuk-body govuk-!-margin-right-3">Given name: {{ learner.givenName }}</p>
       <p class="govuk-body govuk-!-margin-right-3">Family name: {{ learner.familyName }}</p>
-      <p class="govuk-body govuk-!-margin-right-3">Date of birth: {{ learner.dateOfBirth }} </p>
+      <p class="govuk-body govuk-!-margin-right-3">Date of birth: {{ learner.dateOfBirth | date}} </p>
     </div>
     <div class="govuk-flex">
       <p class="govuk-body govuk-!-margin-right-3">Postcode: {{ learner.lastKnownPostCode }}</p>
@@ -37,7 +37,7 @@
       { text: record.awardingOrganisationName },
       { text: record.level or "Not Specified" },
       { text: record.grade },
-      { text: record.achievementAwardDate }
+      { text: record.achievementAwardDate | date }
     ] %}
     {% set tableRows = (tableRows.push(row), tableRows) %}
   {% endfor %}

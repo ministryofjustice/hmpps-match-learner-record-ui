@@ -1,4 +1,4 @@
-import { convertToTitleCase, initialiseName } from './utils'
+import { convertToTitleCase, initialiseName, govukFormattedFullDateString } from './utils'
 
 describe('convert to title case', () => {
   it.each([
@@ -26,5 +26,17 @@ describe('initialise name', () => {
     ['Double barrelled', 'Robert-John Smith-Jones-Wilson', 'R. Smith-Jones-Wilson'],
   ])('%s initialiseName(%s, %s)', (_: string, a: string, expected: string) => {
     expect(initialiseName(a)).toEqual(expected)
+  })
+})
+
+describe('convert a date to a string', () => {
+  it.each([
+    [null, ''],
+    ['', ''],
+    ['invalid', ''],
+    ['2011-01-01', '1 January 2011'],
+    ['1975-12-12', '12 December 1975'],
+  ])('govukFormattedFullDateString(%s) = %s', (value: string, expected: string) => {
+    expect(govukFormattedFullDateString(value)).toEqual(expected)
   })
 })

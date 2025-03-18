@@ -18,7 +18,7 @@
           {% set row = [
             { text: record.givenName or "Not Specified" },
             { text: record.familyName or "Not Specified" },
-            { text: record.dateOfBirth or "Not Specified" },
+            { text: record.dateOfBirth | date or "Not Specified" },
             { text: record.lastKnownPostCode or "Not Specified" },
             { text: record.gender or "Not Specified" },
             { text: record.uln or "Not Specified" },
