@@ -1,21 +1,30 @@
 import { Request, Response } from 'express'
+import type { CheckMatchResponse } from 'learnerRecordsApi'
 import FindAPrisonerController from './findAPrisonerController'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchResult from '../../data/prisonerSearch/prisonerSearchResult'
 import validateFindAPrisonerForm from './findAPrisonerValidator'
 import PrisonApiService from '../../services/prisonApi/prisonApiService'
+import LearnerRecordsService from '../../services/learnerRecordsService'
 
 jest.mock('../../services/auditService')
 jest.mock('../../services/prisonerSearch/prisonerSearchService')
 jest.mock('../../services/prisonApi/prisonApiService')
+jest.mock('../../services/learnerRecordsService')
 jest.mock('./findAPrisonerValidator')
 
 describe('FindPrisonerController', () => {
   const auditService = new AuditService(null) as jest.Mocked<AuditService>
   const prisonerSearchService = new PrisonerSearchService(null, null) as jest.Mocked<PrisonerSearchService>
   const prisonApiService = new PrisonApiService(null, null) as jest.Mocked<PrisonApiService>
-  const controller = new FindAPrisonerController(auditService, prisonerSearchService, prisonApiService)
+  const learnerRecordsService = new LearnerRecordsService(null, null) as jest.Mocked<LearnerRecordsService>
+  const controller = new FindAPrisonerController(
+    auditService,
+    prisonerSearchService,
+    prisonApiService,
+    learnerRecordsService,
+  )
   const mockedFindAPrisonerValidator = validateFindAPrisonerForm as jest.MockedFn<typeof validateFindAPrisonerForm>
   auditService.logPageView = jest.fn()
 
@@ -57,6 +66,7 @@ describe('FindPrisonerController', () => {
 
   describe('postFindPrisoner', () => {
     it('should render the find prisoner page with search results', async () => {
+      const uln = '1234567890'
       const prisonerResult: PrisonerSearchResult = {
         firstName: 'Example',
         prisonerNumber: '',
@@ -67,23 +77,32 @@ describe('FindPrisonerController', () => {
         dateOfBirth: undefined,
         nationality: '',
       }
-      const prisoners: PrisonerSearchResult[] = [prisonerResult]
-      const modifiedPrisoner = {
-        ...prisonerResult,
-        age: undefined as string,
-        imageId: 'placeholder',
+
+      const checkResponse: CheckMatchResponse = {
+        matchedUln: uln,
+        status: 'Found',
       }
 
-      prisonerSearchService.searchPrisoners.mockResolvedValue(prisoners)
+      prisonerSearchService.searchPrisoners.mockResolvedValue([prisonerResult])
       prisonApiService.getPrisonerImageData.mockResolvedValue([])
+      learnerRecordsService.checkMatch.mockResolvedValue(checkResponse)
       mockedFindAPrisonerValidator.mockReturnValue([])
 
       req.body.search = 'Example Person'
 
       await controller.postFindAPrisoner(req, res, next)
 
+      const expectedData = [
+        {
+          ...prisonerResult,
+          age: undefined as string,
+          imageId: 'placeholder',
+          matchedUln: uln,
+        },
+      ]
+
       expect(res.render).toHaveBeenCalledWith('pages/findAPrisoner/index', {
-        data: [modifiedPrisoner],
+        data: expectedData,
         search: 'Example Person',
       })
       expect(auditService.logPageView).toHaveBeenCalledWith(Page.PRISONER_SEARCH_PAGE, {
@@ -108,6 +127,34 @@ describe('FindPrisonerController', () => {
       await controller.postFindAPrisoner(req, res, next)
 
       expect(res.redirectWithErrors).toHaveBeenCalledWith('/find-a-prisoner', errors)
+    })
+  })
+
+  describe('clearResultsAndRedirect', () => {
+    it('should clear the session and redirect to find a prisoner page', async () => {
+      auditService.logPageView.mockResolvedValue(null)
+
+      await controller.clearResultsAndRedirect(req, res, next)
+
+      expect(req.session).toEqual({
+        searchResults: {
+          search: '',
+          data: [],
+        },
+        searchByUlnForm: {
+          uln: '',
+        },
+        searchByInformationForm: {
+          givenName: '',
+          familyName: '',
+          'dob-day': '',
+          'dob-month': '',
+          'dob-year': '',
+          postcode: '',
+          sex: '',
+        },
+      })
+      expect(res.redirect).toHaveBeenCalledWith('/find-a-prisoner')
     })
   })
 })

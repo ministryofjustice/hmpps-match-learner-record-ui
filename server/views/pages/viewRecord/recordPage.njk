@@ -1,7 +1,7 @@
 {% extends "../../partials/layout.njk" %}
 {% set pageTitle = "View and match learner record – " + applicationName + " - GOV.UK" %}
 {% set mainClasses = "govuk-main-wrapper--l" %}
-{% set backLink = "/learner-search-results/" + prisoner.prisonerNumber %}
+{% set backLink = backBase + prisoner.prisonerNumber %}
 
 {% block content %}
 
@@ -111,6 +111,10 @@
       <a class="govuk-link" href='/learner-search-results/{{ prisoner.prisonerNumber }}'>Cancel and return to search</a>
     </div>  
     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+    <input type="hidden" name="matchingUln" value="{{ learner.uln }}">
+    <input type="hidden" name="givenName" value="{{ learner.givenName }}">
+    <input type="hidden" name="familyName" value="{{ learner.familyName }}">
+    <input type="hidden" name="matchType" value="{{ matchType }}">
   </form>
 </div>
 

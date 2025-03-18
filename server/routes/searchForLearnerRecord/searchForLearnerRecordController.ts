@@ -1,19 +1,22 @@
 import type { SearchByInformationForm, SearchByUlnForm } from 'forms'
 import { RequestHandler } from 'express'
+import type { LearnerRecord } from 'learnerRecordsApi'
 import AuditService from '../../services/auditService'
 import validateSearchByInformationForm from './searchByInformationValidator'
 import validateSearchByUlnForm from './searchByUlnValidator'
 import LearnerRecordsService from '../../services/learnerRecordsService'
 import logger from '../../../logger'
+import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 
 export default class SearchForLearnerRecordController {
   constructor(
     private readonly auditService: AuditService,
     private readonly learnerRecordsService: LearnerRecordsService,
+    private readonly prisonerSearchService: PrisonerSearchService,
   ) {}
 
   getSearchForLearnerRecordViewByUln: RequestHandler = async (req, res, next): Promise<void> => {
-    return res.render('pages/searchForLearnerRecord/byUln', {})
+    return res.render('pages/searchForLearnerRecord/byUln', { form: req.session.searchByUlnForm })
   }
 
   getSearchForLearnerRecordViewByInformation: RequestHandler = async (req, res, next): Promise<void> => {
@@ -64,9 +67,29 @@ export default class SearchForLearnerRecordController {
     const errors = validateSearchByUlnForm(searchByUlnForm)
 
     if (errors.length > 0) {
-      return res.redirectWithErrors('/search-for-learner-record-by-uln', errors)
+      return res.redirectWithErrors(`/search-for-learner-record-by-uln/${req.params.prisonNumber}`, errors)
     }
-    // Todo request to get record by ULN and demographic details & redirect to record page
-    return res.render('pages/searchForLearnerRecord/byUln', {})
+
+    const prisoner = await this.prisonerSearchService.getPrisonerByPrisonNumber(
+      req.params.prisonNumber,
+      req.user.username,
+    )
+
+    const selectedLearner = {
+      uln: searchByUlnForm.uln,
+      givenName: prisoner.firstName,
+      familyName: prisoner.lastName,
+      dateOfBirth: prisoner.dateOfBirth.toISOString().slice(0, 10),
+    } as LearnerRecord
+
+    req.session.searchByInformationResults = {
+      searchParameters: null,
+      responseType: 'Exact match',
+      matchedLearners: [selectedLearner],
+    }
+
+    req.session.returnTo = '/search-for-learner-record-by-uln/'
+
+    return res.redirect(`/view-record/${req.params.prisonNumber}/${selectedLearner.uln}`)
   }
 }

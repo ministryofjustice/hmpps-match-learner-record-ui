@@ -4,23 +4,27 @@
 {% set mainClasses = "govuk-main-wrapper--l" %}
 
 {% if responseType == "Learner opted to not share data" %}
- {% set paragraphText = "The learner you selected has opted not to share data and we are unable to show their learner record." %}
+ {% set paragraphText = "The learner you selected has opted not to share their PLR data so we are unable to show their learner record." %}
 {% endif %}
 
 {% if responseType == "Learner could not be verified" %}
- {% set paragraphText = "The learner you selected was not verified and we are unable to show their learner record." %}
+ {% set paragraphText = "The learner you selected was not verified in the LRS data so we are unable to show their learner record." %}
 {% endif %}
 
 {% block content %}
   <div class="govuk-width-container">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-m">Record not viewable</h1>
-        <p class="govuk-body">{{ paragraphText }}</p>
-        <p class="govuk-body">
-          <a class="govuk-link" href="/learner-search-results/{{ prisonerNumber }}">Return to learner search</a>.
-        </p>
+
+    <h1 class="govuk-heading-l">View and match learner record</h1>
+    <p class="govuk-body">Information from Learner Records Service (LRS).</p>
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <p class="govuk-body">Record not viewable.</p>
+          <p class="govuk-body">{{ paragraphText }}</p>
+          <p class="govuk-body">
+            <a class="govuk-link" href="/learner-search-results/{{ prisonerNumber }}">Return to search</a>
+          </p>
+        </div>
       </div>
-    </div>
   </div>
 {% endblock %}

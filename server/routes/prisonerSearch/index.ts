@@ -7,6 +7,7 @@ export default function findAPrisonerRoutes(router: Router, services: Services) 
     services.auditService,
     services.prisonerSearchService,
     services.prisonApiService,
+    services.learnerRecordsService,
   )
   router.get('/find-a-prisoner', findAPrisonerController.getFindAPrisoner)
   router.post('/find-a-prisoner', findAPrisonerController.postFindAPrisoner)

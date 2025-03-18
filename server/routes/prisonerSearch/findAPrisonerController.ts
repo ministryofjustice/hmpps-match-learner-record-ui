@@ -5,12 +5,14 @@ import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 import validateFindAPrisonerForm from './findAPrisonerValidator'
 import PrisonApiService from '../../services/prisonApi/prisonApiService'
+import LearnerRecordsService from '../../services/learnerRecordsService'
 
 export default class FindAPrisonerController {
   constructor(
     private readonly auditService: AuditService,
     private readonly prisonerSearchService: PrisonerSearchService,
     private readonly prisonApiService: PrisonApiService,
+    private readonly learnerRecordsService: LearnerRecordsService,
   ) {}
 
   private logPageView = (username: string, correlationId: string) => {
@@ -48,6 +50,8 @@ export default class FindAPrisonerController {
             age: record.dateOfBirth
               ? differenceInYears(new Date(), parse(record.dateOfBirth as unknown as string, 'dd-MM-yyyy', new Date()))
               : undefined,
+            matchedUln: (await this.learnerRecordsService.checkMatch(record.prisonerNumber, req.user.username))
+              .matchedUln,
             imageId: image,
             ...record,
           }
@@ -61,7 +65,25 @@ export default class FindAPrisonerController {
   }
 
   clearResultsAndRedirect: RequestHandler = async (req, res, next): Promise<void> => {
-    req.session.searchResults = { data: [], search: '' }
+    req.session.searchResults = {
+      search: '',
+      data: [],
+    }
+
+    req.session.searchByUlnForm = {
+      uln: '',
+    }
+
+    req.session.searchByInformationForm = {
+      givenName: '',
+      familyName: '',
+      'dob-day': '',
+      'dob-month': '',
+      'dob-year': '',
+      postcode: '',
+      sex: '',
+    }
+
     return res.redirect('/find-a-prisoner')
   }
 }
