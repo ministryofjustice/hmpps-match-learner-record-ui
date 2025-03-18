@@ -34,6 +34,9 @@ export default class SearchForLearnerRecordController {
       const url = `/search-for-learner-record-by-information/${req.params.prisonNumber}`
       return res.redirectWithErrors(url, errors)
     }
+
+    req.session.searchByInformationForm = {}
+
     const searchDemographics = {
       givenName: searchByInformationForm.givenName,
       familyName: searchByInformationForm.familyName,
