@@ -1,7 +1,8 @@
 {% extends "../../partials/layout.njk" %}
+
 {% set pageTitle = "Record not viewable – " + applicationName + " - GOV.UK" %}
-{% set mainClasses = "app-container govuk-body" %}
 {% set mainClasses = "govuk-main-wrapper--l" %}
+{% set backLink = backBase + prisonerNumber %}
 
 {% if responseType == "Learner opted to not share data" %}
  {% set paragraphText = "The learner you selected has opted not to share their PLR data so we are unable to show their learner record." %}
@@ -22,7 +23,7 @@
           <p class="govuk-body">Record not viewable.</p>
           <p class="govuk-body">{{ paragraphText }}</p>
           <p class="govuk-body">
-            <a class="govuk-link" href="/learner-search-results/{{ prisonerNumber }}">Return to search</a>
+            <a class="govuk-link" href="{{ backLink }}">Return to search</a>
           </p>
         </div>
       </div>
