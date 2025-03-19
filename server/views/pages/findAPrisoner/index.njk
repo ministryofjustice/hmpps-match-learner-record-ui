@@ -77,7 +77,9 @@
               text: prisoner.age or "Not Specified",
               classes: 'hmpps-prisoner-list__cell'
             },
-            { text: prisoner.matchedUln or "" }
+            { text: prisoner.matchedUln or "",
+              classes: 'hmpps-prisoner-list__cell' 
+            }
           ] %}
           {% set tableRows = (tableRows.push(row), tableRows) %}
         {% endfor %}

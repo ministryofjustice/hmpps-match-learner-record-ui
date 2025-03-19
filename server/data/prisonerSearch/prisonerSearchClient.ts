@@ -11,8 +11,8 @@ export interface PrisonerSearchByPrisonerNumber {
 }
 
 export interface PrisonerSearchByName {
-  firstName: string
-  lastName: string
+  firstName?: string
+  lastName?: string
   prisonIds?: string[]
   includeAliases?: boolean
 }
