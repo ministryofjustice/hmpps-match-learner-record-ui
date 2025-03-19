@@ -1,7 +1,7 @@
 import type { Prisoner } from 'prisonerApi'
 import type { PrisonerSummary } from 'viewModels'
 import { HmppsAuthClient } from '../../data'
-import PrisonerSearchClient, { PrisonerSearchRequest } from '../../data/prisonerSearch/prisonerSearchClient'
+import PrisonerSearchClient from '../../data/prisonerSearch/prisonerSearchClient'
 import PrisonerSearchResult from '../../data/prisonerSearch/prisonerSearchResult'
 import toPrisonerSummary from '../../data/mappers/prisonerToPrisonerSummaryMapper'
 
