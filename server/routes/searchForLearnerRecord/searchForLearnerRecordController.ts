@@ -31,11 +31,8 @@ export default class SearchForLearnerRecordController {
     const errors = validateSearchByInformationForm(searchByInformationForm)
 
     if (errors.length > 0) {
-      const url = `/search-for-learner-record-by-information/${req.params.prisonNumber}`
-      return res.redirectWithErrors(url, errors)
+      return res.redirectWithErrors(`/search-for-learner-record-by-information/${req.params.prisonNumber}`, errors)
     }
-
-    req.session.searchByInformationForm = {}
 
     const searchDemographics = {
       givenName: searchByInformationForm.givenName,
@@ -50,6 +47,7 @@ export default class SearchForLearnerRecordController {
         req.user.username,
       )
       req.session.searchByInformationResults = searchResult
+
       if (searchResult.responseType === 'Too Many Matches') {
         return res.redirect(`/too-many-results/${req.params.prisonNumber}`)
       }
@@ -65,6 +63,7 @@ export default class SearchForLearnerRecordController {
 
   postSearchForLearnerRecordByUln: RequestHandler = async (req, res, next): Promise<void> => {
     const searchByUlnForm = { ...req.body } as SearchByUlnForm
+
     req.session.searchByUlnForm = searchByUlnForm
 
     const errors = validateSearchByUlnForm(searchByUlnForm)

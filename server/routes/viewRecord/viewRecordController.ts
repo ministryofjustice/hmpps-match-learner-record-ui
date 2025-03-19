@@ -45,11 +45,8 @@ export default class ViewRecordController {
 
       const { responseType } = learnerEventsResponse
 
-      let backBase = '/learner-search-results/'
-      if (req.session.returnTo !== '') {
-        backBase = req.session.returnTo
-        req.session.returnTo = ''
-      }
+      const backBase = req.session.returnTo || '/learner-search-results/'
+      req.session.returnTo = ''
 
       if (responseType === 'Learner opted to not share data' || responseType === 'Learner could not be verified') {
         return res.render('pages/viewRecord/recordNotViewable', {

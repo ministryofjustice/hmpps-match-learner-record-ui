@@ -141,18 +141,10 @@ describe('FindPrisonerController', () => {
           search: '',
           data: [],
         },
-        searchByUlnForm: {
-          uln: '',
-        },
-        searchByInformationForm: {
-          givenName: '',
-          familyName: '',
-          'dob-day': '',
-          'dob-month': '',
-          'dob-year': '',
-          postcode: '',
-          sex: '',
-        },
+        searchByUlnForm: {},
+        searchByInformationForm: {},
+        prisoner: undefined,
+        returnTo: '',
       })
       expect(res.redirect).toHaveBeenCalledWith('/find-a-prisoner')
     })

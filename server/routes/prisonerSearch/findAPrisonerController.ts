@@ -6,6 +6,7 @@ import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchS
 import validateFindAPrisonerForm from './findAPrisonerValidator'
 import PrisonApiService from '../../services/prisonApi/prisonApiService'
 import LearnerRecordsService from '../../services/learnerRecordsService'
+import clearSessionData from '../../utils/sessionUtils'
 
 export default class FindAPrisonerController {
   constructor(
@@ -24,14 +25,12 @@ export default class FindAPrisonerController {
 
   getFindAPrisoner: RequestHandler = async (req, res, next): Promise<void> => {
     this.logPageView(res.locals.user.username, req.id)
-    req.session.searchByInformationForm = {}
-    req.session.searchByUlnForm = {}
-    req.session.searchResults = { data: [], search: '' }
     return res.render('pages/findAPrisoner/index', req.session.searchResults)
   }
 
   postFindAPrisoner: RequestHandler = async (req, res, next): Promise<void> => {
     this.logPageView(res.locals.user.username, req.id)
+    clearSessionData(req)
     const findAPrisonerForm = { ...req.body } as FindAPrisonerForm
 
     const errors = validateFindAPrisonerForm(findAPrisonerForm)
@@ -68,24 +67,7 @@ export default class FindAPrisonerController {
   }
 
   clearResultsAndRedirect: RequestHandler = async (req, res, next): Promise<void> => {
-    req.session.searchResults = {
-      search: '',
-      data: [],
-    }
-
-    req.session.searchByUlnForm = {
-      uln: '',
-    }
-
-    req.session.searchByInformationForm = {
-      givenName: '',
-      familyName: '',
-      'dob-day': '',
-      'dob-month': '',
-      'dob-year': '',
-      postcode: '',
-      sex: '',
-    }
+    clearSessionData(req)
 
     return res.redirect('/find-a-prisoner')
   }
