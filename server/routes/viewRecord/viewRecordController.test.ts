@@ -80,6 +80,7 @@ describe('ViewRecordController', () => {
         responseType: 'Learner opted to not share data',
         learnerRecord: [],
       })
+      req.session.returnTo = ''
       await controller.getViewRecord(req, res, null)
       expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
         who: req.user.username,
@@ -88,6 +89,7 @@ describe('ViewRecordController', () => {
       expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordNotViewable', {
         responseType: 'Learner opted to not share data',
         prisonerNumber: 'A1234BC',
+        backBase: '/learner-search-results/',
       })
     })
 
@@ -96,6 +98,7 @@ describe('ViewRecordController', () => {
         responseType: 'Learner could not be verified',
         learnerRecord: [],
       })
+      req.session.returnTo = ''
       await controller.getViewRecord(req, res, null)
       expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
         who: req.user.username,
@@ -104,6 +107,7 @@ describe('ViewRecordController', () => {
       expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordNotViewable', {
         responseType: 'Learner could not be verified',
         prisonerNumber: 'A1234BC',
+        backBase: '/learner-search-results/',
       })
     })
 

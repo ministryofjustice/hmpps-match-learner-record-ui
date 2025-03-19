@@ -108,7 +108,7 @@
         text: "Match record",
         type: "submit"
       }) }}
-      <a class="govuk-link" href='/learner-search-results/{{ prisoner.prisonerNumber }}'>Cancel and return to search</a>
+      <a class="govuk-link" href="{{ backLink }}">Cancel and return to search</a>
     </div>  
     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
     <input type="hidden" name="matchingUln" value="{{ learner.uln }}">
