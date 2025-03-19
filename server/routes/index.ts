@@ -24,7 +24,7 @@ export default function routes(services: Services): Router {
 
   apiRoutes(router, services)
   searchForLearnerRecord(router, services)
-  learnerSearchResults(router)
+  learnerSearchResults(router, services)
   findAPrisonerRoutes(router, services)
   thereIsAProblemRoutes(router)
   tooManyResultsRoutes(router)
