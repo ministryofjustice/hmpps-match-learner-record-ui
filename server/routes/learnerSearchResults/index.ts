@@ -1,8 +1,13 @@
 import { Router } from 'express'
 import LearnerSearchResultsController from './learnerSearchResultsController'
+import retrievePrisonerSummary from '../routerRequestHandlers/retrievePrisonerSummary'
+import { Services } from '../../services'
 
-export default (router: Router) => {
+export default (router: Router, services: Services) => {
   const searchForLearnerRecordController = new LearnerSearchResultsController()
 
-  router.get('/learner-search-results/:prisonNumber', searchForLearnerRecordController.getLearnerSearchResults)
+  router.get('/learner-search-results/:prisonNumber', [
+    retrievePrisonerSummary(services.prisonerSearchService),
+    searchForLearnerRecordController.getLearnerSearchResults,
+  ])
 }
