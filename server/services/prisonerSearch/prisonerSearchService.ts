@@ -1,7 +1,7 @@
 import type { Prisoner } from 'prisonerApi'
 import type { PrisonerSummary } from 'viewModels'
 import { HmppsAuthClient } from '../../data'
-import PrisonerSearchClient, { PrisonerSearchRequest } from '../../data/prisonerSearch/prisonerSearchClient'
+import PrisonerSearchClient from '../../data/prisonerSearch/prisonerSearchClient'
 import PrisonerSearchResult from '../../data/prisonerSearch/prisonerSearchResult'
 import toPrisonerSummary from '../../data/mappers/prisonerToPrisonerSummaryMapper'
 
@@ -12,22 +12,30 @@ export default class PrisonerSearchService {
   ) {}
 
   async searchPrisoners(searchString: string, username: string): Promise<PrisonerSearchResult[]> {
+    const token = await this.hmppsAuthClient.getSystemClientToken(username)
     const searchArray = searchString.trim().split(' ')
-    let requestObject: PrisonerSearchRequest
+    const nomisRegex = /^[A-Z]\d{4}[A-Z]{2}$/
 
     if (searchArray.length >= 2) {
-      requestObject = {
-        firstName: searchArray[0],
-        lastName: searchArray.at(-1),
-      }
-    } else {
-      requestObject = {
-        prisonerIdentifier: searchArray[0],
-      }
+      return this.prisonerSearchClient.search(
+        {
+          firstName: searchArray[0],
+          lastName: searchArray.at(-1),
+        },
+        token,
+      )
     }
 
-    const token = await this.hmppsAuthClient.getSystemClientToken(username)
-    return this.prisonerSearchClient.search(requestObject, token)
+    if (searchArray.length === 1 && nomisRegex.test(searchArray[0])) {
+      return this.prisonerSearchClient.search({ prisonerIdentifier: searchArray[0] }, token)
+    }
+
+    const results: PrisonerSearchResult[] = [
+      ...(await this.prisonerSearchClient.search({ firstName: searchArray[0] }, token)),
+      ...(await this.prisonerSearchClient.search({ lastName: searchArray[0] }, token)),
+    ]
+
+    return results
   }
 
   async getPrisonerByPrisonNumber(prisonNumber: string, username: string): Promise<PrisonerSummary> {
