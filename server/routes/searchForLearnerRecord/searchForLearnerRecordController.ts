@@ -59,7 +59,7 @@ export default class SearchForLearnerRecordController {
       return res.redirect(`/learner-search-results/${req.params.prisonNumber}`)
     } catch (error) {
       logger.error(`Error communicating with BOLD - LRS API:`, error)
-      return res.redirect(500, '/find-a-prisoner')
+      return next(error)
     }
   }
 
@@ -73,26 +73,31 @@ export default class SearchForLearnerRecordController {
       return res.redirectWithErrors(`/search-for-learner-record-by-uln/${req.params.prisonNumber}`, errors)
     }
 
-    const prisoner = await this.prisonerSearchService.getPrisonerByPrisonNumber(
-      req.params.prisonNumber,
-      req.user.username,
-    )
+    try {
+      const prisoner = await this.prisonerSearchService.getPrisonerByPrisonNumber(
+        req.params.prisonNumber,
+        req.user.username,
+      )
 
-    const selectedLearner = {
-      uln: searchByUlnForm.uln,
-      givenName: prisoner.firstName,
-      familyName: prisoner.lastName,
-      dateOfBirth: prisoner.dateOfBirth.toISOString().slice(0, 10),
-    } as LearnerRecord
+      const selectedLearner = {
+        uln: searchByUlnForm.uln,
+        givenName: prisoner.firstName,
+        familyName: prisoner.lastName,
+        dateOfBirth: prisoner.dateOfBirth.toISOString().slice(0, 10),
+      } as LearnerRecord
 
-    req.session.searchByInformationResults = {
-      searchParameters: null,
-      responseType: 'Exact match',
-      matchedLearners: [selectedLearner],
+      req.session.searchByInformationResults = {
+        searchParameters: null,
+        responseType: 'Exact match',
+        matchedLearners: [selectedLearner],
+      }
+
+      req.session.returnTo = '/search-for-learner-record-by-uln/'
+
+      return res.redirect(`/view-record/${req.params.prisonNumber}/${selectedLearner.uln}`)
+    } catch (error) {
+      logger.error(`Error communicating with BOLD - LRS API:`, error)
+      return next(error)
     }
-
-    req.session.returnTo = '/search-for-learner-record-by-uln/'
-
-    return res.redirect(`/view-record/${req.params.prisonNumber}/${selectedLearner.uln}`)
   }
 }
