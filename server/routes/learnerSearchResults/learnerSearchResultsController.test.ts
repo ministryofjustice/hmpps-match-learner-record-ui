@@ -57,11 +57,8 @@ describe('searchForLearnerRecordController', () => {
 
   const next = jest.fn()
 
-  let errors: Array<Record<string, string>>
-
   beforeEach(() => {
     jest.resetAllMocks()
-    errors = []
   })
 
   describe('getLearnerSearchResults', () => {
