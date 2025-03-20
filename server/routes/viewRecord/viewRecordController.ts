@@ -43,6 +43,12 @@ export default class ViewRecordController {
           familyName: prisoner.lastName,
           dateOfBirth: prisoner.dateOfBirth.toISOString().slice(0, 10),
         } as LearnerRecord
+
+        req.session.searchByInformationResults = {
+          searchParameters: null,
+          responseType: 'Exact match',
+          matchedLearners: [selectedLearner],
+        }
       } catch (error) {
         return next(error)
       }
