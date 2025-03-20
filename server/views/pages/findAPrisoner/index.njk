@@ -66,6 +66,10 @@
               classes: 'hmpps-prisoner-list__cell'
             },
             {
+              text: prisoner.status or "Not Matched",
+              classes: 'hmpps-prisoner-list__cell'
+            },
+            {
               text: prisoner.prisonerNumber or "Not Specified",
               classes: 'hmpps-prisoner-list__cell'
             },
@@ -98,6 +102,9 @@
                 attributes: {
                   "aria-sort": "ascending"
                 }
+              },
+              {
+                text: "Status"
               },
               {
                 text: "Prison number"
