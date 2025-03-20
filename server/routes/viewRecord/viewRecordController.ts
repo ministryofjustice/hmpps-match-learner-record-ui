@@ -1,10 +1,6 @@
 import { RequestHandler } from 'express'
-import type {
-  ConfirmMatchRequest,
-  LearnerEventsRequest,
-  LearnerRecord,
-  LearnerSearchByDemographic,
-} from 'learnerRecordsApi'
+import type { ConfirmMatchRequest, LearnerEventsRequest, LearnerRecord } from 'learnerRecordsApi'
+import type { PrisonerSummary } from 'viewModels'
 import LearnerRecordsService from '../../services/learnerRecordsService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 import AuditService, { Page } from '../../services/auditService'
@@ -27,6 +23,13 @@ export default class ViewRecordController {
     this.logPageView(req.user.username, req.id)
 
     let selectedLearner: LearnerRecord
+    let prisoner: PrisonerSummary
+
+    try {
+      prisoner = await this.prisonerSearchService.getPrisonerByPrisonNumber(req.params.prisonNumber, req.user.username)
+    } catch (error) {
+      return next(error)
+    }
 
     try {
       selectedLearner = req.session.searchByInformationResults.matchedLearners.find(
@@ -34,10 +37,6 @@ export default class ViewRecordController {
       )
     } catch {
       try {
-        const prisoner = await this.prisonerSearchService.getPrisonerByPrisonNumber(
-          req.params.prisonNumber,
-          req.user.username,
-        )
         selectedLearner = {
           uln: req.params.uln,
           givenName: prisoner.firstName,
@@ -49,12 +48,8 @@ export default class ViewRecordController {
       }
     }
 
-    const prisoner = await this.prisonerSearchService.getPrisonerByPrisonNumber(
-      req.params.prisonNumber,
-      req.user.username,
-    )
-
     req.session.prisoner = prisoner
+
     try {
       const learnerEventsRequest: LearnerEventsRequest = {
         givenName: selectedLearner.givenName,
