@@ -67,6 +67,12 @@ describe('ViewRecordController', () => {
         who: req.user.username,
         correlationId: undefined,
       })
+      expect(auditService.logAuditEvent).toHaveBeenCalledWith({
+        what: 'VIEW_LEARNER_RECORD',
+        who: req.user.username,
+        subjectId: req.params.uln,
+        subjectType: 'ULN',
+      })
       expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordPage', {
         learner: { uln: '1234567890' },
         learnerEvents: [],

@@ -7,7 +7,7 @@ import type {
   LearnersResponse,
 } from 'learnerRecordsApi'
 import validateSearchByInformationForm from './searchByInformationValidator'
-import AuditService from '../../services/auditService'
+import AuditService, { Page } from '../../services/auditService'
 import SearchForLearnerRecordController from './searchForLearnerRecordController'
 import validateSearchByUlnForm from './searchByUlnValidator'
 import LearnerRecordsService from '../../services/learnerRecordsService'
@@ -31,6 +31,7 @@ describe('searchForLearnerRecordController', () => {
   const controller = new SearchForLearnerRecordController(auditService, learnerRecordsService, prisonerSearchService)
 
   const req = {
+    id: '123',
     session: {},
     params: {
       prisonerNumber: 'A123456',
@@ -97,7 +98,10 @@ describe('searchForLearnerRecordController', () => {
   describe('getSearchForLearnerRecordViewByUln', () => {
     it('should get search for learner record view by uln page', async () => {
       await controller.getSearchForLearnerRecordViewByUln(req, res, next)
-
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.SEARCH_BY_ULN_PAGE, {
+        who: req.user.username,
+        correlationId: req.id,
+      })
       expect(res.render).toHaveBeenCalledWith('pages/searchForLearnerRecord/byUln', {})
     })
   })
@@ -105,7 +109,10 @@ describe('searchForLearnerRecordController', () => {
   describe('getSearchForLearnerRecordViewByInformation', () => {
     it('should get search for learner record view by information page', async () => {
       await controller.getSearchForLearnerRecordViewByInformation(req, res, next)
-
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.SEARCH_BY_INFORMATION_PAGE, {
+        who: req.user.username,
+        correlationId: req.id,
+      })
       expect(res.render).toHaveBeenCalledWith('pages/searchForLearnerRecord/byInformation', {})
     })
   })
@@ -118,44 +125,45 @@ describe('searchForLearnerRecordController', () => {
 
       await controller.postSearchForLearnerRecordByInformation(req, res, next)
 
+      expect(auditService.logAuditEvent).not.toHaveBeenCalled()
       expect(res.redirectWithErrors).toHaveBeenCalledWith(
         `/search-for-learner-record-by-information/${req.params.prisonNumber}`,
         errors,
       )
     })
-  })
 
-  describe('postSearchForLearnerRecordByUln', () => {
-    it('should redirect to the same page if errors are present', async () => {
-      errors = [{ href: '#uln', text: 'some-error' }]
-      mockedSearchByUlnValidator.mockReturnValue(errors)
-      req.params.prisonNumber = '12AS354'
+    it('should redirect to the learner search results on valid submission', async () => {
+      const learnerSearchByDemographicBody: LearnerSearchByDemographic = {
+        familyName: 'Doe',
+        givenName: 'John',
+        dateOfBirth: '1950-01-01',
+      }
+      mockedSearchByInformationValidator.mockReturnValue([])
+      learnerRecordsService.getLearnersByDemographicDetails.mockResolvedValue({
+        searchParameters: learnerSearchByDemographicBody,
+        responseType: 'Match Found',
+        matchedLearners: [learnerRecord],
+      })
+      await controller.postSearchForLearnerRecordByInformation(req, res, next)
 
-      await controller.postSearchForLearnerRecordByUln(req, res, next)
-
-      expect(res.redirectWithErrors).toHaveBeenCalledWith(
-        `/search-for-learner-record-by-uln/${req.params.prisonNumber}`,
-        errors,
-      )
+      expect(auditService.logAuditEvent).toHaveBeenCalledWith({
+        what: 'SEARCH_FOR_LEARNER_RECORD',
+        who: req.user.username,
+        correlationId: req.id,
+        subjectId: req.params.prisonNumber,
+        subjectType: 'Prison Number',
+        details: {
+          searchParameters: {
+            gender: 'NOT_KNOWN',
+            lastKnownPostCode: 'ZZ99 9ZZ',
+            ...learnerSearchByDemographicBody,
+          },
+          responseType: 'Match Found',
+        },
+      })
+      expect(res.redirect).toHaveBeenCalledWith(`/learner-search-results/${req.params.prisonNumber}`)
     })
-  })
 
-  it('should render the view Record page', async () => {
-    req.body.uln = '1234567890'
-    const prisoner = {
-      prisonerNumber: 'A1234BC',
-      firstName: 'John',
-      lastName: 'Smith',
-      dateOfBirth: new Date(),
-    } as PrisonerSummary
-    mockedSearchByUlnValidator.mockReturnValue([])
-    prisonerSearchService.getPrisonerByPrisonNumber.mockResolvedValue(prisoner)
-    learnerRecordsService.getLearnerEvents.mockResolvedValue({ learnerRecord: [] } as LearnerEventsResponse)
-    await controller.postSearchForLearnerRecordByUln(req, res, null)
-    expect(res.redirect).toHaveBeenCalledWith(`/view-record/${req.params.prisonNumber}/${req.body.uln}`)
-  })
-
-  describe('should redirect to appropriate page depending on the response from LRS', () => {
     it('should redirect to too-many-results page if too many results response is received from LRS', async () => {
       const responseType = 'Too Many Matches'
       const learnersResponse: LearnersResponse = {
@@ -180,6 +188,40 @@ describe('searchForLearnerRecordController', () => {
       mockedSearchByInformationValidator.mockReturnValue([])
       await controller.postSearchForLearnerRecordByInformation(req, res, next)
       expect(res.redirect).toHaveBeenCalledWith(`/no-match-found/${req.params.prisonNumber}`)
+    })
+  })
+
+  describe('postSearchForLearnerRecordByUln', () => {
+    it('should redirect to the same page if errors are present', async () => {
+      errors = [{ href: '#uln', text: 'some-error' }]
+      mockedSearchByUlnValidator.mockReturnValue(errors)
+      req.params.prisonNumber = '12AS354'
+
+      await controller.postSearchForLearnerRecordByUln(req, res, next)
+
+      expect(auditService.logAuditEvent).not.toHaveBeenCalled()
+      expect(res.redirectWithErrors).toHaveBeenCalledWith(
+        `/search-for-learner-record-by-uln/${req.params.prisonNumber}`,
+        errors,
+      )
+    })
+
+    it('should successfully redirect the view Record page on valid submission', async () => {
+      req.body.uln = '1234567890'
+      const prisoner = {
+        prisonerNumber: 'A1234BC',
+        firstName: 'John',
+        lastName: 'Smith',
+        dateOfBirth: new Date(),
+      } as PrisonerSummary
+
+      mockedSearchByUlnValidator.mockReturnValue([])
+      prisonerSearchService.getPrisonerByPrisonNumber.mockResolvedValue(prisoner)
+      learnerRecordsService.getLearnerEvents.mockResolvedValue({ learnerRecord: [] } as LearnerEventsResponse)
+
+      await controller.postSearchForLearnerRecordByUln(req, res, null)
+
+      expect(res.redirect).toHaveBeenCalledWith(`/view-record/${req.params.prisonNumber}/${req.body.uln}`)
     })
   })
 })

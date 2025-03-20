@@ -4,7 +4,7 @@ import retrievePrisonerSummary from '../routerRequestHandlers/retrievePrisonerSu
 import { Services } from '../../services'
 
 export default (router: Router, services: Services) => {
-  const searchForLearnerRecordController = new LearnerSearchResultsController()
+  const searchForLearnerRecordController = new LearnerSearchResultsController(services.auditService)
 
   router.get('/learner-search-results/:prisonNumber', [
     retrievePrisonerSummary(services.prisonerSearchService),
