@@ -46,14 +46,15 @@ export default class FindAPrisonerController {
       )
       const mappedResult = await Promise.all(
         searchResult.map(async record => {
+          const response = await this.learnerRecordsService.checkMatch(record.prisonerNumber, req.user.username)
           const images = await this.prisonApiService.getPrisonerImageData(record.prisonerNumber, 'default-username')
           const image = images.find(img => img.active)?.imageId || 'placeholder'
           return {
             age: record.dateOfBirth
               ? differenceInYears(new Date(), parse(record.dateOfBirth as unknown as string, 'dd-MM-yyyy', new Date()))
               : undefined,
-            matchedUln: (await this.learnerRecordsService.checkMatch(record.prisonerNumber, req.user.username))
-              .matchedUln,
+            matchedUln: response.matchedUln,
+            status: this.asText(response.status),
             imageId: image,
             ...record,
           }
@@ -64,6 +65,13 @@ export default class FindAPrisonerController {
     } catch (error) {
       return next(error)
     }
+  }
+
+  private asText(status: string): string {
+    if (status === 'Found') return 'Matched'
+    if (status === 'NotFound') return 'Not Matched'
+    if (status === 'NoMatch') return 'No Match Possible'
+    throw new Error('Invalid status')
   }
 
   clearResultsAndRedirect: RequestHandler = async (req, res, next): Promise<void> => {

@@ -97,6 +97,7 @@ describe('FindPrisonerController', () => {
           ...prisonerResult,
           age: undefined as string,
           imageId: 'placeholder',
+          status: 'Matched',
           matchedUln: uln,
         },
       ]
