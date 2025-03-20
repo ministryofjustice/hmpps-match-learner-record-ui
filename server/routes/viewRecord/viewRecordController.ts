@@ -1,5 +1,10 @@
 import { RequestHandler } from 'express'
-import type { ConfirmMatchRequest, LearnerEventsRequest, LearnerRecord } from 'learnerRecordsApi'
+import type {
+  ConfirmMatchRequest,
+  LearnerEventsRequest,
+  LearnerRecord,
+  LearnerSearchByDemographic,
+} from 'learnerRecordsApi'
 import LearnerRecordsService from '../../services/learnerRecordsService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 import AuditService, { Page } from '../../services/auditService'
@@ -21,9 +26,28 @@ export default class ViewRecordController {
   getViewRecord: RequestHandler = async (req, res, next): Promise<void> => {
     this.logPageView(req.user.username, req.id)
 
-    const selectedLearner: LearnerRecord = req.session.searchByInformationResults.matchedLearners.find(
-      learner => learner.uln === req.params.uln,
-    )
+    let selectedLearner: LearnerRecord
+
+    try {
+      selectedLearner = req.session.searchByInformationResults.matchedLearners.find(
+        learner => learner.uln === req.params.uln,
+      )
+    } catch {
+      try {
+        const prisoner = await this.prisonerSearchService.getPrisonerByPrisonNumber(
+          req.params.prisonNumber,
+          req.user.username,
+        )
+        selectedLearner = {
+          uln: req.params.uln,
+          givenName: prisoner.firstName,
+          familyName: prisoner.lastName,
+          dateOfBirth: prisoner.dateOfBirth.toISOString().slice(0, 10),
+        } as LearnerRecord
+      } catch (error) {
+        return next(error)
+      }
+    }
 
     const prisoner = await this.prisonerSearchService.getPrisonerByPrisonNumber(
       req.params.prisonNumber,

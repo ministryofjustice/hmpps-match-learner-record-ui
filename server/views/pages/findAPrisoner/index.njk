@@ -81,7 +81,7 @@
               text: prisoner.age or "Not Specified",
               classes: 'hmpps-prisoner-list__cell'
             },
-            { text: prisoner.matchedUln or "",
+            { html: '<a class="govuk-link" href="/view-record/' + prisoner.prisonerNumber + '/' + prisoner.matchedUln + '">' + prisoner.matchedUln + '</a>',
               classes: 'hmpps-prisoner-list__cell' 
             }
           ] %}
