@@ -48,6 +48,13 @@ export default class ViewRecordController {
       const backBase = req.session.returnTo || '/learner-search-results/'
       req.session.returnTo = ''
 
+      this.auditService.logAuditEvent({
+        what: 'VIEW_LEARNER_RECORD',
+        who: req.user.username,
+        subjectId: selectedLearner.uln,
+        subjectType: 'ULN',
+      })
+
       if (responseType === 'Learner opted to not share data' || responseType === 'Learner could not be verified') {
         return res.render('pages/viewRecord/recordNotViewable', {
           responseType,
@@ -78,6 +85,15 @@ export default class ViewRecordController {
         countOfReturnedUlns: req.session.searchByInformationResults.matchedLearners.length.toString(),
       }
       await this.learnerRecordsService.confirmMatch(req.params.prisonNumber, confirmMatchRequest, req.user.username)
+      this.auditService.logAuditEvent({
+        what: 'MATCH_CONFIRMED',
+        who: req.user.username,
+        subjectId: req.params.prisonNumber,
+        subjectType: 'Prison Number',
+        details: {
+          matchingUln: req.body.matchingUln,
+        },
+      })
       return res.redirect(`/match-confirmed/${req.params.prisonNumber}/${req.body.matchingUln}`)
     } catch (error) {
       return next(error)
