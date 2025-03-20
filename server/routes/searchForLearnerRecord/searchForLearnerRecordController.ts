@@ -1,7 +1,7 @@
 import type { SearchByInformationForm, SearchByUlnForm } from 'forms'
 import { RequestHandler } from 'express'
 import type { LearnerRecord } from 'learnerRecordsApi'
-import AuditService from '../../services/auditService'
+import AuditService, { Page } from '../../services/auditService'
 import validateSearchByInformationForm from './searchByInformationValidator'
 import validateSearchByUlnForm from './searchByUlnValidator'
 import LearnerRecordsService from '../../services/learnerRecordsService'
@@ -15,11 +15,20 @@ export default class SearchForLearnerRecordController {
     private readonly prisonerSearchService: PrisonerSearchService,
   ) {}
 
+  private logPageView = (page: Page, username: string, correlationId: string) => {
+    this.auditService.logPageView(page, {
+      who: username,
+      correlationId,
+    })
+  }
+
   getSearchForLearnerRecordViewByUln: RequestHandler = async (req, res, next): Promise<void> => {
+    this.logPageView(Page.SEARCH_BY_ULN_PAGE, req.user.username, req.id)
     return res.render('pages/searchForLearnerRecord/byUln', { form: req.session.searchByUlnForm })
   }
 
   getSearchForLearnerRecordViewByInformation: RequestHandler = async (req, res, next): Promise<void> => {
+    this.logPageView(Page.SEARCH_BY_INFORMATION_PAGE, req.user.username, req.id)
     return res.render('pages/searchForLearnerRecord/byInformation', { form: req.session.searchByInformationForm })
   }
 
@@ -47,6 +56,18 @@ export default class SearchForLearnerRecordController {
         req.user.username,
       )
       req.session.searchByInformationResults = searchResult
+
+      this.auditService.logAuditEvent({
+        what: 'SEARCH_FOR_LEARNER_RECORD',
+        who: req.user.username,
+        correlationId: req.id,
+        subjectId: req.params.prisonNumber,
+        subjectType: 'Prison Number',
+        details: {
+          searchParameters: searchDemographics,
+          responseType: searchResult.responseType,
+        },
+      })
 
       if (searchResult.responseType === 'Too Many Matches') {
         return res.redirect(`/too-many-results/${req.params.prisonNumber}`)
