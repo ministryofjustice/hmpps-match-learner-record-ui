@@ -33,6 +33,7 @@ export default class PrisonerSearchClient {
           ...searchRequest,
         },
       })
+
       return results.map(result => plainToInstance(PrisonerSearchResult, result, { excludeExtraneousValues: true }))
     } catch {
       throw new Error('Error communicating with the Prisoner Search API')

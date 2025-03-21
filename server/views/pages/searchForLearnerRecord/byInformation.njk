@@ -15,11 +15,17 @@
         label: "Sub navigation",
         items: [{
           text: "Unique learner number",
-          href: "/search-for-learner-record-by-uln/" + prisonerSummary.prisonerNumber
+          href: "/search-for-learner-record-by-uln/" + prisonerSummary.prisonerNumber,
+          attributes: {
+            id: "uln-tab-link"
+          }
         }, {
           text: "Personal information",
           active: true,
-          href: "#"
+          href: "#",
+          attributes: {
+            id: "information-tab-link"
+          }
         }]
       }) }}
 
