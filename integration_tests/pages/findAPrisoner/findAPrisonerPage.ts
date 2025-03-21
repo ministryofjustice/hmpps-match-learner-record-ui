@@ -1,4 +1,5 @@
 import Page, { PageElement } from '../page'
+import SearchByUlnPage from '../searchForLearnerRecord/searchByUlnPage'
 
 export default class FindAPrisonerPage extends Page {
   constructor() {
@@ -13,6 +14,11 @@ export default class FindAPrisonerPage extends Page {
   clickSearch(): FindAPrisonerPage {
     this.searchButton().click()
     return Page.verifyOnPage(FindAPrisonerPage)
+  }
+
+  selectPrisoner(prisonerName: string): SearchByUlnPage {
+    this.prisonerListTable().contains(prisonerName).click()
+    return Page.verifyOnPage(SearchByUlnPage)
   }
 
   private searchField = (): PageElement => cy.get('#search-input')

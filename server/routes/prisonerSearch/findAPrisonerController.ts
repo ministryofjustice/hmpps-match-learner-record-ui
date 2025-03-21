@@ -44,8 +44,6 @@ export default class FindAPrisonerController {
         findAPrisonerForm.search,
         'default-username',
       )
-      console.log('searchResult')
-      console.log(searchResult)
       const mappedResult = await Promise.all(
         searchResult.map(async record => {
           const response = await this.learnerRecordsService.checkMatch(record.prisonerNumber, req.user.username)

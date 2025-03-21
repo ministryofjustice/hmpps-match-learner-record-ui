@@ -16,10 +16,16 @@
         items: [{
           text: "Unique learner number",
           active: true,
-          href: "#"
+          href: "#",
+          attributes: {
+            id: "uln-tab-link"
+          }
         }, {
           text: "Personal information",
-          href: "/search-for-learner-record-by-information/" + prisonerSummary.prisonerNumber
+          href: "/search-for-learner-record-by-information/" + prisonerSummary.prisonerNumber,
+          attributes: {
+            id: "information-tab-link"
+          }
         }]
       }) }}
 
@@ -42,7 +48,8 @@
 
         {{ govukButton({
           text: "Search",
-          type: "Submit"
+          type: "Submit",
+          id: "search-button"
         }) }}
       </form>
     </div>
