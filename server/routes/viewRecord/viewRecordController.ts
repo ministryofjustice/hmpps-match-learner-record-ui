@@ -1,5 +1,7 @@
 import { RequestHandler } from 'express'
 import type { ConfirmMatchRequest, LearnerEventsRequest, LearnerRecord } from 'learnerRecordsApi'
+import type { PrisonerSummary } from 'viewModels'
+import type { Request } from 'express'
 import LearnerRecordsService from '../../services/learnerRecordsService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 import AuditService, { Page } from '../../services/auditService'
@@ -18,20 +20,40 @@ export default class ViewRecordController {
     })
   }
 
+  private getSelectedLearner(req: Request, prisoner: PrisonerSummary) {
+    try {
+      return req.session.searchByInformationResults.matchedLearners.find(learner => learner.uln === req.params.uln)
+    } catch {
+      // Needed to manually construct a selected learner,
+      // This block is copied from what the search by ULN code does.
+      const selectedLearner = {
+        uln: req.params.uln,
+        givenName: prisoner.firstName,
+        familyName: prisoner.lastName,
+        dateOfBirth: prisoner.dateOfBirth.toISOString().slice(0, 10),
+      } as LearnerRecord
+
+      req.session.searchByInformationResults = {
+        searchParameters: null,
+        responseType: 'Exact match',
+        matchedLearners: [selectedLearner],
+      }
+
+      return selectedLearner
+    }
+  }
+
   getViewRecord: RequestHandler = async (req, res, next): Promise<void> => {
     this.logPageView(req.user.username, req.id)
-
-    const selectedLearner: LearnerRecord = req.session.searchByInformationResults.matchedLearners.find(
-      learner => learner.uln === req.params.uln,
-    )
-
-    const prisoner = await this.prisonerSearchService.getPrisonerByPrisonNumber(
-      req.params.prisonNumber,
-      req.user.username,
-    )
-
-    req.session.prisoner = prisoner
     try {
+      const prisoner = await this.prisonerSearchService.getPrisonerByPrisonNumber(
+        req.params.prisonNumber,
+        req.user.username,
+      )
+      req.session.prisoner = prisoner
+
+      const selectedLearner = this.getSelectedLearner(req, prisoner)
+
       const learnerEventsRequest: LearnerEventsRequest = {
         givenName: selectedLearner.givenName,
         familyName: selectedLearner.familyName,
