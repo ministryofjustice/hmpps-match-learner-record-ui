@@ -1,6 +1,8 @@
 import { defineConfig } from 'cypress'
 import { resetStubs } from './integration_tests/mockApis/wiremock'
 import auth from './integration_tests/mockApis/auth'
+import prisonerSearchApi from './integration_tests/mockApis/prisonerSearchApi'
+import prisonApi from './integration_tests/mockApis/prisonApi'
 import learnerRecordsApi from './integration_tests/mockApis/learnerRecordsApi'
 import tokenVerification from './integration_tests/mockApis/tokenVerification'
 
@@ -18,8 +20,20 @@ export default defineConfig({
     setupNodeEvents(on) {
       on('task', {
         reset: resetStubs,
+        log(message) {
+          // eslint-disable-next-line no-console
+          console.log(message)
+          return null
+        },
+        table(message) {
+          // eslint-disable-next-line no-console
+          console.table(message)
+          return null
+        },
         ...auth,
         ...learnerRecordsApi,
+        ...prisonApi,
+        ...prisonerSearchApi,
         ...tokenVerification,
       })
     },

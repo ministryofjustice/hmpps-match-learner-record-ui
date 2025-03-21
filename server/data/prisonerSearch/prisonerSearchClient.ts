@@ -33,8 +33,11 @@ export default class PrisonerSearchClient {
           ...searchRequest,
         },
       })
+      console.log(results)
+
       return results.map(result => plainToInstance(PrisonerSearchResult, result, { excludeExtraneousValues: true }))
-    } catch {
+    } catch (e) {
+      console.error(e)
       throw new Error('Error communicating with the Prisoner Search API')
     }
   }
