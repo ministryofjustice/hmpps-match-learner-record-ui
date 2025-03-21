@@ -62,6 +62,6 @@ context('Match By Information Journey', () => {
     findAPrisonerPage.enterPrisonerName('John Doe').clickSearch()
     findAPrisonerPage.prisonerListTable().should('be.exist')
     const searchByUlnPage = findAPrisonerPage.selectPrisoner(`${chosenPrisoner.firstName} ${chosenPrisoner.lastName}`)
-    const searchByInformationPage = searchByUlnPage.clickSearchByInformationTabLink()
+    searchByUlnPage.clickSearchByInformationTabLink()
   })
 })
