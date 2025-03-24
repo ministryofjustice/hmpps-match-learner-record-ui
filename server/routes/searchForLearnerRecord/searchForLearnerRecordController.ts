@@ -56,6 +56,7 @@ export default class SearchForLearnerRecordController {
         req.user.username,
       )
       req.session.searchByInformationResults = searchResult
+      console.log(searchResult)
 
       this.auditService.logAuditEvent({
         what: 'SEARCH_FOR_LEARNER_RECORD',

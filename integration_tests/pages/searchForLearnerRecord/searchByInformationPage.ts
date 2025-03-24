@@ -1,3 +1,4 @@
+import LearnerSearchResultsPage from '../learnerSearchResults/learnerSearchResultsPage'
 import Page, { PageElement } from '../page'
 // eslint-disable-next-line import/no-cycle
 import SearchByUlnPage from './searchByUlnPage'
@@ -34,9 +35,9 @@ export default class SearchByInformationPage extends Page {
     return this
   }
 
-  clickSearch(): SearchByInformationPage {
+  clickSearch(): LearnerSearchResultsPage {
     this.searchButton().click()
-    return Page.verifyOnPage(SearchByInformationPage)
+    return Page.verifyOnPage(LearnerSearchResultsPage)
   }
 
   clickSearchByUlnTabLink(): SearchByUlnPage {

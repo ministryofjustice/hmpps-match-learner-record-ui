@@ -29,6 +29,9 @@
 
         {% if results and results | length > 0 %}
           {{ govukTable({
+            attributes: {
+              id: "learner-search-results-table"
+            },
             head: [
               {
                 text: "Given name"
