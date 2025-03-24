@@ -4,7 +4,7 @@ import Page from '../pages/page'
 
 const chosenPrisoner = prisoners.G5005GD.response.jsonBody
 
-context('Match By Information Journey', () => {
+context('Match By ULN Journey', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubPrisonerSearch')
@@ -12,11 +12,10 @@ context('Match By Information Journey', () => {
     cy.task('stubGetPrisonerById', chosenPrisoner.prisonerNumber)
     cy.task('stubNoMatchForAll')
     cy.task('stubLearnerEventsExactMatch')
-    cy.task('stubLearnerResultsPossibleMatch')
     cy.task('stubSignIn')
   })
 
-  it('should be able to search for multiple records by information', () => {
+  it('should be able to search for an individual record by ULN', () => {
     cy.signIn()
     cy.visit('/')
 
@@ -28,13 +27,9 @@ context('Match By Information Journey', () => {
 
     const searchByUlnPage = findAPrisonerPage.selectPrisoner(`${chosenPrisoner.firstName} ${chosenPrisoner.lastName}`)
 
-    const searchByInformationPage = searchByUlnPage.clickSearchByInformationTabLink()
-
-    const searchResultsPage = searchByInformationPage
-      .enterGivenName('John')
-      .enterFamilyName('Doe')
-      .enterDateOfBirthName('01', '01', '1990')
-      .clickSearch()
-    searchResultsPage.hasLearnerSearchResults()
+    const viewRecordPage = searchByUlnPage.enterUln('1234567890').clickSearch()
+    viewRecordPage.hasUlnValue('1234567890')
+    viewRecordPage.hasLearnerRecordResults()
+    viewRecordPage.hasMatchingTableWithUlnAndPrisonNumber('1234567890', chosenPrisoner.prisonerNumber)
   })
 })
