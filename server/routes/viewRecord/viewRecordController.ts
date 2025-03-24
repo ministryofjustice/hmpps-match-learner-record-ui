@@ -68,7 +68,7 @@ export default class ViewRecordController {
       const { responseType } = learnerEventsResponse
 
       const backBase = req.session.returnTo || '/learner-search-results/'
-      req.session.returnTo = ''
+      req.session.returnTo = backBase
 
       this.auditService.logAuditEvent({
         what: 'VIEW_LEARNER_RECORD',
@@ -118,6 +118,9 @@ export default class ViewRecordController {
       })
       return res.redirect(`/match-confirmed/${req.params.prisonNumber}/${req.body.matchingUln}`)
     } catch (error) {
+      if (error.status === 409) {
+        return res.redirect(`/already-matched/${req.params.prisonNumber}/${req.body.matchingUln}`)
+      }
       return next(error)
     }
   }
