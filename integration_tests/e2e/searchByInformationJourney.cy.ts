@@ -20,16 +20,21 @@ context('Match By Information Journey', () => {
     cy.signIn()
     cy.visit('/')
 
+    // Landing Page
     const landingPage = Page.verifyOnPage(LandingPage)
 
+    // Find A Prisoner
     const findAPrisonerPage = landingPage.clickStartNow()
     findAPrisonerPage.enterPrisonerName('John Doe').clickSearch()
     findAPrisonerPage.prisonerListTable().should('be.exist')
 
+    // Search By ULN
     const searchByUlnPage = findAPrisonerPage.selectPrisoner(`${chosenPrisoner.firstName} ${chosenPrisoner.lastName}`)
 
+    // Search By Information
     const searchByInformationPage = searchByUlnPage.clickSearchByInformationTabLink()
 
+    // Search Results
     const searchResultsPage = searchByInformationPage
       .enterGivenName('John')
       .enterFamilyName('Doe')
