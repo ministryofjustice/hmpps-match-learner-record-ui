@@ -21,6 +21,13 @@ export default class FindAPrisonerPage extends Page {
     return Page.verifyOnPage(SearchByUlnPage)
   }
 
+  hasPrisonerResults(): FindAPrisonerPage {
+    this.prisonerListTable().should('be.exist')
+    this.prisonerListTable().should('not.contain', 'No results found')
+    this.prisonerListTable().get('tbody tr').should('have.length.greaterThan', 0)
+    return this
+  }
+
   private searchField = (): PageElement => cy.get('#search-input')
 
   private searchButton = (): PageElement => cy.get('#search-button')

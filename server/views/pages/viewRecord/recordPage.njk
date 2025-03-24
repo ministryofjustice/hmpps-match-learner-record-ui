@@ -11,15 +11,15 @@
   <p class="govuk-body">Information from Learner Records Service (LRS).</p>
 
   {% set panelContent %}
-    <h2 class="govuk-heading-m">ULN: {{ learner.uln }}</h2>
+    <h2 class="govuk-heading-m" id="uln">ULN: {{ learner.uln }}</h2>
     <div class="govuk-flex">
-      <p class="govuk-body govuk-!-margin-right-3">Given name: {{ learner.givenName }}</p>
-      <p class="govuk-body govuk-!-margin-right-3">Family name: {{ learner.familyName }}</p>
-      <p class="govuk-body govuk-!-margin-right-3">Date of birth: {{ learner.dateOfBirth | date}} </p>
+      <p class="govuk-body govuk-!-margin-right-3" id="givenName">Given name: {{ learner.givenName }}</p>
+      <p class="govuk-body govuk-!-margin-right-3" id="familyName">Family name: {{ learner.familyName }}</p>
+      <p class="govuk-body govuk-!-margin-right-3" id="dob">Date of birth: {{ learner.dateOfBirth | date}} </p>
     </div>
     <div class="govuk-flex">
-      <p class="govuk-body govuk-!-margin-right-3">Postcode: {{ learner.lastKnownPostCode }}</p>
-      <p class="govuk-body govuk-!-margin-right-3">Sex: {{ learner.gender }}</p>
+      <p class="govuk-body govuk-!-margin-right-3" id="postcode">Postcode: {{ learner.lastKnownPostCode }}</p>
+      <p class="govuk-body govuk-!-margin-right-3" id="sex">Sex: {{ learner.gender }}</p>
     </div>
   {% endset %}
 
@@ -45,7 +45,8 @@
   {% if tableRows | length > 0 %}
     {{ govukTable({
       attributes: {
-        "data-module": "moj-sortable-table"
+        "data-module": "moj-sortable-table",
+        id: "learner-record-table"
       },
       head: [
         {
@@ -87,14 +88,23 @@
       <p class="govuk-body">By clicking 'Match record' you will link the following prisoner and learner records:</p>
 
       {{ govukTable({
+        attributes: {
+          id: "match-record-table"
+        },
         head: [
           { text: "Prisoner" },
           { text: "LRS Record"}
         ],
         rows: [
           [
-            { html: prisoner.firstName + " " + prisoner.lastName  + "<br>Prison number: " + prisoner.prisonerNumber },
-            { html: learner.givenName + " " + learner.familyName  + "<br>ULN: " + learner.uln }
+            {
+              html: prisoner.firstName + " " + prisoner.lastName  + "<br>Prison number: " + prisoner.prisonerNumber,
+              attributes: { id: "match-record-table--prisoner" }
+            },
+            {
+              html: learner.givenName + " " + learner.familyName  + "<br>ULN: " + learner.uln,
+              attributes: { id: "match-record-table--learner" }
+            }
           ]
         ]
       }) }}
@@ -106,7 +116,8 @@
     <div class="govuk-button-group">
       {{ govukButton({
         text: "Match record",
-        type: "submit"
+        type: "submit",
+        id: "match-record-button"
       }) }}
       <a class="govuk-link" href="{{ backLink }}">Cancel and return to search</a>
     </div>  
