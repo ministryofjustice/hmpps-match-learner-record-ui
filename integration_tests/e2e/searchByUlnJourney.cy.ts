@@ -4,7 +4,7 @@ import Page from '../pages/page'
 
 const chosenPrisoner = prisoners.G5005GD.response.jsonBody
 
-context('Match By ULN Journey', () => {
+context('Search By ULN Journey', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubPrisonerSearch')

@@ -4,15 +4,14 @@ import Page from '../pages/page'
 
 const chosenPrisoner = prisoners.G5005GD.response.jsonBody
 
-context('Search By Information Journey', () => {
+context('Too Many Results Journey', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubPrisonerSearch')
     cy.task('stubPrisonerImage')
     cy.task('stubGetPrisonerById', chosenPrisoner.prisonerNumber)
     cy.task('stubNoMatchForAll')
-    cy.task('stubLearnerEventsExactMatch')
-    cy.task('stubLearnerResultsPossibleMatch')
+    cy.task('stubLearnerResultsTooManyMatches')
     cy.task('stubSignIn')
   })
 
@@ -34,12 +33,12 @@ context('Search By Information Journey', () => {
     // Search By Information
     const searchByInformationPage = searchByUlnPage.clickSearchByInformationTabLink()
 
-    // Search Results
+    // Search Results - Too Many Results
     const searchResultsPage = searchByInformationPage
       .enterGivenName('John')
       .enterFamilyName('Doe')
       .enterDateOfBirthName('01', '01', '1990')
       .clickSearch()
-    searchResultsPage.hasLearnerSearchResults()
+    searchResultsPage.hasTooManyResults()
   })
 })

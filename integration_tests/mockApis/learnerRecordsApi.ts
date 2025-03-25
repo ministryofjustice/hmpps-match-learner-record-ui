@@ -95,9 +95,55 @@ const stubLearnerResultsPossibleMatch = (): SuperAgentRequest =>
     },
   })
 
+const stubLearnerResultsTooManyMatches = (): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'POST',
+      urlPattern: '/learners',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        searchParameters: {
+          givenName: 'John',
+          familyName: 'Doe',
+          dateOfBirth: '1976-08-16',
+          gender: 'NOT_KNOWN',
+          lastKnownPostCode: 'ZZ99 9ZZ',
+        },
+        responseType: 'Too Many Matches',
+      },
+    },
+  })
+
+const stubLearnerResultsNoMatches = (): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'POST',
+      urlPattern: '/learners',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        searchParameters: {
+          givenName: 'John',
+          familyName: 'Doe',
+          dateOfBirth: '1976-08-16',
+          gender: 'NOT_KNOWN',
+          lastKnownPostCode: 'ZZ99 9ZZ',
+        },
+        responseType: 'No Match',
+      },
+    },
+  })
+
 export default {
   stubNoMatchForAll,
   stubLearnerEventsExactMatch,
   stubLearnerResultsPossibleMatch,
+  stubLearnerResultsTooManyMatches,
+  stubLearnerResultsNoMatches,
   stubLearnerRecordsHealth: stubPing(),
 }

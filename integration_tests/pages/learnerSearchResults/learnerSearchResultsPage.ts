@@ -18,5 +18,17 @@ export default class LearnerSearchResultsPage extends Page {
     return this
   }
 
+  hasTooManyResults(): LearnerSearchResultsPage {
+    this.h2().should('contain.text', 'Too many results')
+    return this
+  }
+
+  hasNoResults(): LearnerSearchResultsPage {
+    this.h2().should('contain.text', '0 Results')
+    return this
+  }
+
   private learnerSearchResultsTable = (): PageElement => cy.get('#learnerSearchResultsTable')
+
+  private h2 = (): PageElement => cy.get('h2')
 }
