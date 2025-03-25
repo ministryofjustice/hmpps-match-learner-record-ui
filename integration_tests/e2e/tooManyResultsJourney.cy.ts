@@ -7,11 +7,11 @@ const chosenPrisoner = prisoners.G5005GD.response.jsonBody
 context('Too Many Results Journey', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubPrisonerSearch')
-    cy.task('stubPrisonerImage')
-    cy.task('stubGetPrisonerById', chosenPrisoner.prisonerNumber)
-    cy.task('stubNoMatchForAll')
-    cy.task('stubLearnerResultsTooManyMatches')
+    cy.task('stubPrisonerApiPrisonerSearch')
+    cy.task('stubPrisonApiPrisonerImage')
+    cy.task('stubPrisonerApiGetPrisonerById', chosenPrisoner.prisonerNumber)
+    cy.task('stubLearnerRecordsNoMatchForAll')
+    cy.task('stubLearnerRecordsLearnersTooManyMatches')
     cy.task('stubSignIn')
   })
 

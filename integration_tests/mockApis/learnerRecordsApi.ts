@@ -3,7 +3,7 @@ import stubPing from './common'
 import { stubFor } from './wiremock'
 import learnerEvents from '../mockData/learnerEvents'
 
-const stubNoMatchForAll = (): SuperAgentRequest =>
+const stubLearnerRecordsNoMatchForAll = (): SuperAgentRequest =>
   stubFor({
     request: {
       method: 'GET',
@@ -21,7 +21,7 @@ const stubNoMatchForAll = (): SuperAgentRequest =>
     },
   })
 
-const stubMatchLearnerSuccess = (): SuperAgentRequest =>
+const stubLearnerRecordsMatchSuccess = (): SuperAgentRequest =>
   stubFor({
     request: {
       method: 'POST',
@@ -32,7 +32,7 @@ const stubMatchLearnerSuccess = (): SuperAgentRequest =>
     },
   })
 
-const stubLearnerEventsExactMatch = (
+const stubLearnerRecordsEventsExactMatch = (
   givenName: string = 'Darcie',
   familyName: string = 'Tucker',
   uln: string = '1023456078',
@@ -55,7 +55,7 @@ const stubLearnerEventsExactMatch = (
     },
   })
 
-const stubLearnerResultsPossibleMatch = (): SuperAgentRequest =>
+const stubLearnerRecordsLearnersPossibleMatch = (): SuperAgentRequest =>
   stubFor({
     request: {
       method: 'POST',
@@ -106,7 +106,7 @@ const stubLearnerResultsPossibleMatch = (): SuperAgentRequest =>
     },
   })
 
-const stubLearnerResultsTooManyMatches = (): SuperAgentRequest =>
+const stubLearnerRecordsLearnersTooManyMatches = (): SuperAgentRequest =>
   stubFor({
     request: {
       method: 'POST',
@@ -128,7 +128,7 @@ const stubLearnerResultsTooManyMatches = (): SuperAgentRequest =>
     },
   })
 
-const stubLearnerResultsNoMatches = (): SuperAgentRequest =>
+const stubLearnerRecordsLearnersNoMatches = (): SuperAgentRequest =>
   stubFor({
     request: {
       method: 'POST',
@@ -150,7 +150,7 @@ const stubLearnerResultsNoMatches = (): SuperAgentRequest =>
     },
   })
 
-const stubLearnerResultsLRSDownError = (): SuperAgentRequest =>
+const stubLearnerRecordsLearnersLRSDownError = (): SuperAgentRequest =>
   stubFor({
     request: {
       method: 'POST',
@@ -170,12 +170,12 @@ const stubLearnerResultsLRSDownError = (): SuperAgentRequest =>
   })
 
 export default {
-  stubNoMatchForAll,
-  stubLearnerEventsExactMatch,
-  stubLearnerResultsPossibleMatch,
-  stubLearnerResultsTooManyMatches,
-  stubLearnerResultsNoMatches,
-  stubMatchLearnerSuccess,
-  stubLearnerResultsLRSDownError,
+  stubLearnerRecordsNoMatchForAll,
+  stubLearnerRecordsEventsExactMatch,
+  stubLearnerRecordsLearnersPossibleMatch,
+  stubLearnerRecordsLearnersTooManyMatches,
+  stubLearnerRecordsLearnersNoMatches,
+  stubLearnerRecordsMatchSuccess,
+  stubLearnerRecordsLearnersLRSDownError,
   stubLearnerRecordsHealth: stubPing(),
 }

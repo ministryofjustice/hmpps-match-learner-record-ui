@@ -4,9 +4,9 @@ import prisoners from '../mockData/prisonerByIdData'
 import stubPing from './common'
 import prisonerList from '../mockData/prisonerListData'
 
-const stubGetPrisonerById = (id = 'G6115VJ'): SuperAgentRequest => stubFor(prisoners[id])
+const stubPrisonerApiGetPrisonerById = (id = 'G6115VJ'): SuperAgentRequest => stubFor(prisoners[id])
 
-const stubPrisonerSearch = (): SuperAgentRequest =>
+const stubPrisonerApiPrisonerSearch = (): SuperAgentRequest =>
   stubFor({
     request: {
       method: 'POST',
@@ -20,7 +20,7 @@ const stubPrisonerSearch = (): SuperAgentRequest =>
   })
 
 export default {
-  stubGetPrisonerById,
-  stubPrisonerSearch,
-  stubPrisonerSearchApiPing: stubPing('prisoner-search-api'),
+  stubPrisonerApiGetPrisonerById,
+  stubPrisonerApiPrisonerSearch,
+  stubPrisonerApiPing: stubPing('prisoner-search-api'),
 }

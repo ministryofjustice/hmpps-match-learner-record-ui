@@ -1,11 +1,8 @@
 import { SuperAgentRequest } from 'superagent'
 import { stubFor } from './wiremock'
-import prisoners from '../mockData/prisonerByIdData'
 import stubPing from './common'
 
-const getPrisonerById = (id = 'G6115VJ'): SuperAgentRequest => stubFor(prisoners[id])
-
-const stubPrisonerImage = (): SuperAgentRequest =>
+const stubPrisonApiPrisonerImage = (): SuperAgentRequest =>
   stubFor({
     request: {
       method: 'GET',
@@ -19,7 +16,6 @@ const stubPrisonerImage = (): SuperAgentRequest =>
   })
 
 export default {
-  getPrisonerById,
-  stubPrisonerImage,
+  stubPrisonApiPrisonerImage,
   stubPrisonApiPing: stubPing('prison-api'),
 }

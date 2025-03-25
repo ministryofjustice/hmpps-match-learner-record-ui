@@ -8,12 +8,12 @@ const chosenPrisoner = prisoners.G5005GD.response.jsonBody
 context('LRS Down Journey', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubPrisonerSearch')
-    cy.task('stubPrisonerImage')
-    cy.task('stubGetPrisonerById', chosenPrisoner.prisonerNumber)
-    cy.task('stubNoMatchForAll')
-    cy.task('stubLearnerEventsExactMatch')
-    cy.task('stubLearnerResultsLRSDownError')
+    cy.task('stubPrisonerApiPrisonerSearch')
+    cy.task('stubPrisonApiPrisonerImage')
+    cy.task('stubPrisonerApiGetPrisonerById', chosenPrisoner.prisonerNumber)
+    cy.task('stubLearnerRecordsNoMatchForAll')
+    cy.task('stubLearnerRecordsEventsExactMatch')
+    cy.task('stubLearnerRecordsLearnersLRSDownError')
     cy.task('stubSignIn')
   })
 
