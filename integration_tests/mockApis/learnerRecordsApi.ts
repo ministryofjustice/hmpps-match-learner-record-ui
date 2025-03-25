@@ -150,6 +150,25 @@ const stubLearnerResultsNoMatches = (): SuperAgentRequest =>
     },
   })
 
+const stubLearnerResultsLRSDownError = (): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'POST',
+      urlPattern: '/learners',
+    },
+    response: {
+      status: 424,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        status: 424,
+        errorCode: 'string',
+        userMessage: 'string',
+        developerMessage: 'string',
+        moreInfo: 'string',
+      },
+    },
+  })
+
 export default {
   stubNoMatchForAll,
   stubLearnerEventsExactMatch,
@@ -157,5 +176,6 @@ export default {
   stubLearnerResultsTooManyMatches,
   stubLearnerResultsNoMatches,
   stubMatchLearnerSuccess,
+  stubLearnerResultsLRSDownError,
   stubLearnerRecordsHealth: stubPing(),
 }

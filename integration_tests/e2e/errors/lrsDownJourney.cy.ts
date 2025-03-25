@@ -1,10 +1,11 @@
-import prisoners from '../mockData/prisonerByIdData'
-import LandingPage from '../pages/landing/landingPage'
-import Page from '../pages/page'
+import prisoners from '../../mockData/prisonerByIdData'
+import Error500Page from '../../pages/error500'
+import LandingPage from '../../pages/landing/landingPage'
+import Page from '../../pages/page'
 
 const chosenPrisoner = prisoners.G5005GD.response.jsonBody
 
-context('Match Prisoner Journey', () => {
+context('LRS Down Journey', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubPrisonerSearch')
@@ -12,12 +13,11 @@ context('Match Prisoner Journey', () => {
     cy.task('stubGetPrisonerById', chosenPrisoner.prisonerNumber)
     cy.task('stubNoMatchForAll')
     cy.task('stubLearnerEventsExactMatch')
-    cy.task('stubLearnerResultsPossibleMatch')
-    cy.task('stubMatchLearnerSuccess')
+    cy.task('stubLearnerResultsLRSDownError')
     cy.task('stubSignIn')
   })
 
-  it('should be able to match a prisoner to a uln', () => {
+  it('should be able to search for multiple records by information', () => {
     cy.signIn()
     cy.visit('/')
 
@@ -36,15 +36,9 @@ context('Match Prisoner Journey', () => {
     const searchByInformationPage = searchByUlnPage.clickSearchByInformationTabLink()
 
     // Search Results
-    const searchResultsPage = searchByInformationPage
-      .enterGivenName('John')
-      .enterFamilyName('Doe')
-      .enterDateOfBirthName('01', '01', '1990')
-      .clickSearch()
+    searchByInformationPage.enterGivenName('John').enterFamilyName('Doe').enterDateOfBirthName('01', '01', '1990')
 
-    // View Record
-    const recordPage = searchResultsPage.selectPrisoner('1023456078', chosenPrisoner.prisonerNumber)
-
-    recordPage.clickMatch()
+    searchByInformationPage.searchButton().click()
+    Page.verifyOnPage(Error500Page)
   })
 })
