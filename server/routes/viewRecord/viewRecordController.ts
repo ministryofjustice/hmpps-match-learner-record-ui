@@ -119,6 +119,9 @@ export default class ViewRecordController {
       return res.redirect(`/match-confirmed/${req.params.prisonNumber}/${req.body.matchingUln}`)
     } catch (error) {
       if (error.status === 409) {
+        if (req.session.returnTo.startsWith('/learner-search-results/')) {
+          req.session.returnTo = '/search-for-learner-record-by-information/'
+        }
         return res.redirect(`/already-matched/${req.params.prisonNumber}/${req.body.matchingUln}`)
       }
       return next(error)
