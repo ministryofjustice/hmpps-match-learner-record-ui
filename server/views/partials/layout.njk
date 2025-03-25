@@ -13,19 +13,36 @@
 
 {% block head %}
   <link href="{{ '/assets/css/app.css' | assetMap }}" rel="stylesheet"/>
+
+  {% if feComponents.jsIncludes %}
+    {% for js in feComponents.jsIncludes %}
+      <script src="{{ js }}" nonce="{{ cspNonce }}"></script>
+    {% endfor %}
+  {% endif %}
+
+  {% if feComponents.cssIncludes %}
+    {% for css in feComponents.cssIncludes %}
+      <link href="{{ css }}" nonce="{{ cspNonce }}" rel="stylesheet" />
+    {% endfor %}
+  {% endif %}
+
 {% endblock %}
 
 {% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
 
 {% block header %}
-  {% include "./header.njk" %}
+  {% if feComponents.header %}
+    {{ feComponents.header | safe }}
+  {% else %}
+    {% include "./header.njk" %}
+  {% endif %}
 
   {% if backLink is string %}
     <div class="govuk-width-container">
-    {{ govukBackLink({
-      text: "Back",
-      href: backLink
-    }) }}
+      {{ govukBackLink({
+        text: "Back",
+        href: backLink
+      }) }}
     </div>
   {% endif %}
 
@@ -59,4 +76,12 @@
 {% block bodyEnd %}
   <script src="/assets/js/jquery.min.js"></script>
   <script type="module" src="{{ '/assets/js/app.js' | assetMap }}"></script>
+{% endblock %}
+
+{% block footer %}
+  {% if feComponents.footer %}
+    {{ feComponents.footer | safe }}
+  {% else %}
+    {% include "./footer.njk" %}
+  {% endif %}
 {% endblock %}
