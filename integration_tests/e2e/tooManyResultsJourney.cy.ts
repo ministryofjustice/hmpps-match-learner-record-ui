@@ -15,7 +15,7 @@ context('Too Many Results Journey', () => {
     cy.task('stubSignIn')
   })
 
-  it('should be able to search for multiple records by information', () => {
+  it('should be shown page indicating there are too many results for the search criteria', () => {
     cy.signIn()
     cy.visit('/')
 

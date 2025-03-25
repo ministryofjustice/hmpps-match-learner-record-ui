@@ -15,7 +15,7 @@ context('No Results Journey', () => {
     cy.task('stubSignIn')
   })
 
-  it('should be able to search for multiple records by information', () => {
+  it('should be shown page indicating no results when none are found', () => {
     cy.signIn()
     cy.visit('/')
 

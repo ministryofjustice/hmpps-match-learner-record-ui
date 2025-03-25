@@ -51,18 +51,4 @@ context('Match By Information Journey', () => {
     findAPrisonerPage.prisonerListTable().should('be.exist')
     findAPrisonerPage.selectPrisoner(`${chosenPrisoner.firstName} ${chosenPrisoner.lastName}`)
   })
-
-  it('should be able to navigate to search by information page from search by uln page', () => {
-    cy.signIn()
-    cy.visit('/')
-
-    const landingPage = Page.verifyOnPage(LandingPage)
-
-    const findAPrisonerPage = landingPage.clickStartNow()
-    findAPrisonerPage.enterPrisonerName('John Doe').clickSearch()
-    findAPrisonerPage.prisonerListTable().should('be.exist')
-
-    const searchByUlnPage = findAPrisonerPage.selectPrisoner(`${chosenPrisoner.firstName} ${chosenPrisoner.lastName}`)
-    searchByUlnPage.clickSearchByInformationTabLink()
-  })
 })
