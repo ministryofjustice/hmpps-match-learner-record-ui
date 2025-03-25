@@ -25,7 +25,7 @@ export default class SearchByUlnPage extends Page {
 
   private ulnSearchField = (): PageElement => cy.get('#uln')
 
-  private searchButton = (): PageElement => cy.get('#search-button')
+  private searchButton = (): PageElement => cy.get('#searchButton')
 
-  private searchByInformationTabLink = (): PageElement => cy.get('#information-tab-link')
+  private searchByInformationTabLink = (): PageElement => cy.get('#informationTabLink')
 }

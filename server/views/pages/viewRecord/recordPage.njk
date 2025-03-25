@@ -46,7 +46,7 @@
     {{ govukTable({
       attributes: {
         "data-module": "moj-sortable-table",
-        id: "learner-record-table"
+        id: "learnerRecordTable"
       },
       head: [
         {
@@ -89,7 +89,7 @@
 
       {{ govukTable({
         attributes: {
-          id: "match-record-table"
+          id: "matchRecordTable"
         },
         head: [
           { text: "Prisoner" },
@@ -98,12 +98,10 @@
         rows: [
           [
             {
-              html: prisoner.firstName + " " + prisoner.lastName  + "<br>Prison number: " + prisoner.prisonerNumber,
-              attributes: { id: "match-record-table--prisoner" }
+              html: prisoner.firstName + " " + prisoner.lastName  + "<br>Prison number: " + prisoner.prisonerNumber
             },
             {
-              html: learner.givenName + " " + learner.familyName  + "<br>ULN: " + learner.uln,
-              attributes: { id: "match-record-table--learner" }
+              html: learner.givenName + " " + learner.familyName  + "<br>ULN: " + learner.uln
             }
           ]
         ]
@@ -117,7 +115,7 @@
       {{ govukButton({
         text: "Match record",
         type: "submit",
-        id: "match-record-button"
+        id: "matchRecordButton"
       }) }}
       <a class="govuk-link" href="{{ backLink }}">Cancel and return to search</a>
     </div>  

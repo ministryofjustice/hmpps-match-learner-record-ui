@@ -11,5 +11,5 @@ export default class LandingPage extends Page {
     return Page.verifyOnPage(FindAPrisonerPage)
   }
 
-  private startNowLink = (): PageElement => cy.get('#start-now')
+  private startNowLink = (): PageElement => cy.get('#startNow')
 }

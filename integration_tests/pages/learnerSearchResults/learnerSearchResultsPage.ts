@@ -18,5 +18,5 @@ export default class LearnerSearchResultsPage extends Page {
     return this
   }
 
-  private learnerSearchResultsTable = (): PageElement => cy.get('#learner-search-results-table')
+  private learnerSearchResultsTable = (): PageElement => cy.get('#learnerSearchResultsTable')
 }

@@ -28,7 +28,7 @@ export default class ViewRecordPage extends Page {
 
   private ulnValue = (): PageElement => cy.get('#uln')
 
-  private learnerRecordTable = (): PageElement => cy.get('#learner-record-table')
+  private learnerRecordTable = (): PageElement => cy.get('#learnerRecordTable')
 
-  private matchRecordTable = (): PageElement => cy.get('#match-record-table')
+  private matchRecordTable = (): PageElement => cy.get('#matchRecordTable')
 }

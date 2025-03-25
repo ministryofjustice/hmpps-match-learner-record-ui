@@ -59,7 +59,7 @@ export default class SearchByInformationPage extends Page {
 
   private sexField = (): PageElement => cy.get('#sex')
 
-  private searchButton = (): PageElement => cy.get('#search-button')
+  private searchButton = (): PageElement => cy.get('#searchButton')
 
-  private searchByUlnTabLink = (): PageElement => cy.get('#uln-tab-link')
+  private searchByUlnTabLink = (): PageElement => cy.get('#ulnTabLink')
 }
