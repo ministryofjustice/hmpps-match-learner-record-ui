@@ -21,10 +21,21 @@ const stubNoMatchForAll = (): SuperAgentRequest =>
     },
   })
 
+const stubMatchLearnerSuccess = (): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'POST',
+      urlPattern: '/match/.*',
+    },
+    response: {
+      status: 201,
+    },
+  })
+
 const stubLearnerEventsExactMatch = (
   givenName: string = 'Darcie',
   familyName: string = 'Tucker',
-  uln: string = '1026893096',
+  uln: string = '1023456078',
 ): SuperAgentRequest =>
   stubFor({
     request: {
@@ -67,7 +78,7 @@ const stubLearnerResultsPossibleMatch = (): SuperAgentRequest =>
           {
             createdDate: '2012-05-25',
             lastUpdatedDate: '2012-05-25',
-            uln: '1026893096',
+            uln: '1023456078',
             versionNumber: '1',
             title: 'Mr',
             givenName: 'John',
@@ -145,5 +156,6 @@ export default {
   stubLearnerResultsPossibleMatch,
   stubLearnerResultsTooManyMatches,
   stubLearnerResultsNoMatches,
+  stubMatchLearnerSuccess,
   stubLearnerRecordsHealth: stubPing(),
 }

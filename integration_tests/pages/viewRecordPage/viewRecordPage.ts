@@ -1,3 +1,4 @@
+import MatchConfirmedPage from '../matchConfirmed/matchConfirmedPage'
 import Page, { PageElement } from '../page'
 
 export default class ViewRecordPage extends Page {
@@ -26,9 +27,16 @@ export default class ViewRecordPage extends Page {
     return this
   }
 
+  clickMatch(): MatchConfirmedPage {
+    this.matchRecordButton().click()
+    return Page.verifyOnPage(MatchConfirmedPage)
+  }
+
   private ulnValue = (): PageElement => cy.get('#uln')
 
   private learnerRecordTable = (): PageElement => cy.get('#learnerRecordTable')
 
   private matchRecordTable = (): PageElement => cy.get('#matchRecordTable')
+
+  private matchRecordButton = (): PageElement => cy.get('#matchRecordButton')
 }

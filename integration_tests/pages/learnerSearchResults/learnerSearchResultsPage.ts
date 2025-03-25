@@ -6,8 +6,8 @@ export default class LearnerSearchResultsPage extends Page {
     super('Search results for')
   }
 
-  selectPrisoner(prisonerName: string): ViewRecordPage {
-    this.learnerSearchResultsTable().contains(prisonerName).click()
+  selectPrisoner(uln: string, prisonerId: string): ViewRecordPage {
+    this.learnerSearchResultsTable().get(`a[href="/view-record/${prisonerId}/${uln}"]`).click()
     return Page.verifyOnPage(ViewRecordPage)
   }
 
