@@ -12,6 +12,7 @@ import viewRecordRoutes from './viewRecord'
 import apiRoutes from './imageApi'
 import matchConfirmedRoutes from './matchConfirmed/index'
 import noMatchFoundRoutes from './noMatchFound'
+import alreadyMatchedRoutes from './alreadyMatched'
 
 export default function routes(services: Services): Router {
   const router = Router()
@@ -31,6 +32,7 @@ export default function routes(services: Services): Router {
   noMatchFoundRoutes(router)
   viewRecordRoutes(router, services)
   matchConfirmedRoutes(router, services)
+  alreadyMatchedRoutes(router, services)
 
   return router
 }

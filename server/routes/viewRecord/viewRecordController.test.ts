@@ -4,6 +4,7 @@ import ViewRecordController from './viewRecordController'
 import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 import LearnerRecordsService from '../../services/learnerRecordsService'
+import { SanitisedError } from '../../sanitisedError'
 
 jest.mock('../../services/auditService')
 jest.mock('../../services/prisonerSearch/prisonerSearchService')
@@ -137,6 +138,13 @@ describe('ViewRecordController', () => {
       learnerRecordsService.confirmMatch.mockRejectedValue(error)
       await controller.postViewRecord(req, res, next)
       expect(next).toHaveBeenCalledWith(error)
+    })
+    it('should show already matched page if CONFLICT', async () => {
+      const error = new Error('Failed when calling api') as SanitisedError
+      error.status = 409
+      learnerRecordsService.confirmMatch.mockRejectedValue(error)
+      await controller.postViewRecord(req, res, next)
+      expect(res.redirect).toHaveBeenCalledWith(`/already-matched/A1234BC/1234567890`)
     })
   })
 })

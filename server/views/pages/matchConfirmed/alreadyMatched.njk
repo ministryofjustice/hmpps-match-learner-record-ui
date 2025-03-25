@@ -1,0 +1,38 @@
+{% extends "../../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - Already matched" %}
+{% set mainClasses = "app-container govuk-body" %}
+{% set backLink = "/view-record/" + prisonerNumber + "/" + uln %}
+
+{% set panelContent %}
+  <h2 class="govuk-heading-m">ULN: {{ uln }}</h2>
+{% endset %}
+
+{% block content %}
+<div class="govuk-width-container">
+
+  <h1 class="govuk-heading-l">Already Matched</h1>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ mojTicketPanel({
+        items: [{
+          html: panelContent
+        }]
+      }) }}
+
+    </div>
+  </div>
+
+  <p>The ULN you are trying to match is already matched to a different prisoner.</p>
+
+  <div class="govuk-button-group">
+    {{ govukButton({
+      text: "Return to Search",
+      href: backBase + prisonerNumber
+    }) }}
+    <a class="govuk-link" href="/">Finish</a>
+  </div>
+</div>
+{% endblock %}
