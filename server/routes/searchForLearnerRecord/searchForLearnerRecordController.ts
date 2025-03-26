@@ -94,10 +94,7 @@ export default class SearchForLearnerRecordController {
     }
 
     try {
-      const prisoner = await this.prisonerSearchService.getPrisonerByPrisonNumber(
-        req.params.prisonNumber,
-        req.user.username,
-      )
+      const prisoner = res.locals.prisonerSummary
 
       const selectedLearner = {
         uln: searchByUlnForm.uln,

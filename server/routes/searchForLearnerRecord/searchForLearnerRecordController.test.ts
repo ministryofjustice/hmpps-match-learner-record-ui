@@ -215,11 +215,12 @@ describe('searchForLearnerRecordController', () => {
         dateOfBirth: new Date(),
       } as PrisonerSummary
 
+      res.locals.prisonerSummary = prisoner
+
       mockedSearchByUlnValidator.mockReturnValue([])
-      prisonerSearchService.getPrisonerByPrisonNumber.mockResolvedValue(prisoner)
       learnerRecordsService.getLearnerEvents.mockResolvedValue({ learnerRecord: [] } as LearnerEventsResponse)
 
-      await controller.postSearchForLearnerRecordByUln(req, res, null)
+      await controller.postSearchForLearnerRecordByUln(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(`/view-record/${req.params.prisonNumber}/${req.body.uln}`)
     })
