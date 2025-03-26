@@ -46,10 +46,7 @@ export default class ViewRecordController {
   getViewRecord: RequestHandler = async (req, res, next): Promise<void> => {
     this.logPageView(req.user.username, req.id)
     try {
-      const prisoner = await this.prisonerSearchService.getPrisonerByPrisonNumber(
-        req.params.prisonNumber,
-        req.user.username,
-      )
+      const prisoner = res.locals.prisonerSummary
       req.session.prisoner = prisoner
 
       const selectedLearner = this.getSelectedLearner(req, prisoner)

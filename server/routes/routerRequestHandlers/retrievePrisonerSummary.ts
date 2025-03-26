@@ -15,6 +15,7 @@ const retrievePrisonerSummary = (prisonerSearchService: PrisonerSearchService): 
         prisonNumber,
         req.user.username,
       )
+
       next()
     } catch (error) {
       next(createError(error.status, `Prisoner ${prisonNumber} not returned by the Prisoner Search Service API`))
