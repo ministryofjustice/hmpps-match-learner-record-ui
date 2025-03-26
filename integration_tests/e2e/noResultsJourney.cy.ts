@@ -12,7 +12,7 @@ context('No Results Journey', () => {
     cy.task('stubPrisonerApiGetPrisonerById', chosenPrisoner.prisonerNumber)
     cy.task('stubLearnerRecordsNoMatchForAll')
     cy.task('stubLearnerRecordsLearnersNoMatches')
-    cy.task('stubSignIn')
+    cy.task('stubSignIn', { name: 'Someone Withaname', roles: ['ROLE_MATCH_LEARNER_RECORD_RW'] })
   })
 
   it('should be shown page indicating no results when none are found', () => {

@@ -13,7 +13,7 @@ context('Search By Information Journey', () => {
     cy.task('stubLearnerRecordsNoMatchForAll')
     cy.task('stubLearnerRecordsEventsExactMatch')
     cy.task('stubLearnerRecordsLearnersPossibleMatch')
-    cy.task('stubSignIn')
+    cy.task('stubSignIn', { name: 'Someone Withaname', roles: ['ROLE_MATCH_LEARNER_RECORD_RW'] })
   })
 
   it('should be able to search for multiple records by information', () => {

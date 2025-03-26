@@ -6,7 +6,7 @@ context('Prisoner Search Api Down Journey', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubPrisonerApiPrisonerSearch500Error')
-    cy.task('stubSignIn')
+    cy.task('stubSignIn', { name: 'Someone Withaname', roles: ['ROLE_MATCH_LEARNER_RECORD_RW'] })
   })
 
   it('should be presented with the 500 error page if the prisoner search API returns an error', () => {

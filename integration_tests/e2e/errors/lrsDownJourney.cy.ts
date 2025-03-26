@@ -14,7 +14,7 @@ context('LRS Down Journey', () => {
     cy.task('stubLearnerRecordsNoMatchForAll')
     cy.task('stubLearnerRecordsEventsExactMatch')
     cy.task('stubLearnerRecordsLearnersLRSDownError')
-    cy.task('stubSignIn')
+    cy.task('stubSignIn', { name: 'Someone Withaname', roles: ['ROLE_MATCH_LEARNER_RECORD_RW'] })
   })
 
   it('should be presented with the 500 error page if LRS is unavailable', () => {

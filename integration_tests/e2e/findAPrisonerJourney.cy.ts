@@ -11,7 +11,7 @@ context('Match By Information Journey', () => {
     cy.task('stubPrisonApiPrisonerImage')
     cy.task('stubPrisonerApiGetPrisonerById', chosenPrisoner.prisonerNumber)
     cy.task('stubLearnerRecordsNoMatchForAll')
-    cy.task('stubSignIn')
+    cy.task('stubSignIn', { name: 'Someone Withaname', roles: ['ROLE_MATCH_LEARNER_RECORD_RW'] })
   })
 
   it('should render landing page', () => {

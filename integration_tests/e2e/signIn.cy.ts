@@ -5,7 +5,7 @@ import Page from '../pages/page'
 context('Sign In', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn')
+    cy.task('stubSignIn', { name: 'John Smith', roles: ['ROLE_MATCH_LEARNER_RECORD_RW'] })
   })
 
   it('Unauthenticated user directed to auth', () => {
@@ -49,7 +49,7 @@ context('Sign In', () => {
     Page.verifyOnPage(AuthSignInPage)
 
     cy.task('stubVerifyToken', true)
-    cy.task('stubSignIn', { name: 'bobby brown' })
+    cy.task('stubSignIn', { name: 'bobby brown', roles: ['ROLE_MATCH_LEARNER_RECORD_RW'] })
 
     cy.signIn()
 
