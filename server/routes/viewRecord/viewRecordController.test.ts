@@ -45,7 +45,10 @@ describe('ViewRecordController', () => {
     render: jest.fn(),
     redirect: jest.fn(),
     status: jest.fn(),
-    locals: { user: { username: 'test-user' } },
+    locals: {
+      user: { username: 'test-user' },
+      prisonerSummary: { prisonerNumber: 'A1234BC' },
+    },
   } as unknown as Response
 
   const next = jest.fn()

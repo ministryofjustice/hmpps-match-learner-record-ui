@@ -37,7 +37,8 @@
       { text: record.awardingOrganisationName },
       { text: record.level or "Not Specified" },
       { text: record.grade },
-      { text: record.achievementAwardDate | date }
+      { text: record.achievementAwardDate | date },
+      { text: record.source }
     ] %}
     {% set tableRows = (tableRows.push(row), tableRows) %}
   {% endfor %}
@@ -71,8 +72,10 @@
           text: "Awarded on",
           attributes: {
             "aria-sort": "none"
-          },
-          format: "numeric"
+          }
+        },
+        {
+          text: "Source"
         }
       ],
       rows: tableRows
