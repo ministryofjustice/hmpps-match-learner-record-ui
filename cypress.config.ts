@@ -5,6 +5,7 @@ import prisonerSearchApi from './integration_tests/mockApis/prisonerSearchApi'
 import prisonApi from './integration_tests/mockApis/prisonApi'
 import learnerRecordsApi from './integration_tests/mockApis/learnerRecordsApi'
 import tokenVerification from './integration_tests/mockApis/tokenVerification'
+import componentsApi from './integration_tests/mockApis/componentApi'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -25,6 +26,7 @@ export default defineConfig({
         ...prisonApi,
         ...prisonerSearchApi,
         ...tokenVerification,
+        ...componentsApi,
       })
     },
     baseUrl: 'http://localhost:3007',

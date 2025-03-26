@@ -127,8 +127,8 @@ export default {
       url: get('COMPONENT_API_URL', 'http://localhost:8082', requiredInProduction),
       healthPath: '/health/ping',
       timeout: {
-        response: Number(get('COMPONENT_API_TIMEOUT_SECONDS', 5000)),
-        deadline: Number(get('COMPONENT_API_TIMEOUT_SECONDS', 5000)),
+        response: Number(get('COMPONENT_API_TIMEOUT_SECONDS', 500)),
+        deadline: Number(get('COMPONENT_API_TIMEOUT_SECONDS', 500)),
       },
       agent: new AgentConfig(Number(get('COMPONENT_API_TIMEOUT_SECONDS', 5000))),
     },
