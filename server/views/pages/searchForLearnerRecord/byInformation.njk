@@ -15,11 +15,17 @@
         label: "Sub navigation",
         items: [{
           text: "Unique learner number",
-          href: "/search-for-learner-record-by-uln/" + prisonerSummary.prisonerNumber
+          href: "/search-for-learner-record-by-uln/" + prisonerSummary.prisonerNumber,
+          attributes: {
+            id: "ulnTabLink"
+          }
         }, {
           text: "Personal information",
           active: true,
-          href: "#"
+          href: "#",
+          attributes: {
+            id: "informationTabLink"
+          }
         }]
       }) }}
 
@@ -121,7 +127,8 @@
 
         {{ govukButton({
           text: "Search",
-          type: "submit"
+          type: "submit",
+          id: "searchButton"
         }) }}
       </form>
     </div>

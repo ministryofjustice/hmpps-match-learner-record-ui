@@ -23,7 +23,7 @@
                 hint: {
                   text: "Name or prison number"
                 },
-                id: "search-hint",
+                id: "searchInput",
                 name: "search",
                 classes: "moj-search__input",
                 value: search,
@@ -33,6 +33,7 @@
               {{ govukButton({
                 text: "Search",
                 classes: "moj-search__button",
+                id: "searchButton",
                 type: "submit"
               }) }}
               
@@ -94,7 +95,8 @@
         {% if data and data | length > 0 %}
           {{ govukTable({
             attributes: {
-              "data-module": "moj-sortable-table"
+              "data-module": "moj-sortable-table",
+              id: "prisonerListTable"
             },
             head: [
               {
