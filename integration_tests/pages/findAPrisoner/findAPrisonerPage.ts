@@ -30,7 +30,7 @@ export default class FindAPrisonerPage extends Page {
 
   private searchField = (): PageElement => cy.get('#searchInput')
 
-  private searchButton = (): PageElement => cy.get('#searchButton')
+  searchButton = (): PageElement => cy.get('#searchButton')
 
   prisonerListTable = (): PageElement => cy.get('#prisonerListTable')
 }

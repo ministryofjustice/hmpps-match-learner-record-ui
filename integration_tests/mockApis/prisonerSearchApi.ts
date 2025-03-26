@@ -19,8 +19,28 @@ const stubPrisonerApiPrisonerSearch = (): SuperAgentRequest =>
     },
   })
 
+const stubPrisonerApiPrisonerSearch500Error = (): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'POST',
+      urlPattern: '/prisoner-search-api/prisoner-search/match-prisoners',
+    },
+    response: {
+      status: 500,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        status: 500,
+        errorCode: 'string',
+        userMessage: 'string',
+        developerMessage: 'string',
+        moreInfo: 'string',
+      },
+    },
+  })
+
 export default {
   stubPrisonerApiGetPrisonerById,
   stubPrisonerApiPrisonerSearch,
+  stubPrisonerApiPrisonerSearch500Error,
   stubPrisonerApiPing: stubPing('prisoner-search-api'),
 }

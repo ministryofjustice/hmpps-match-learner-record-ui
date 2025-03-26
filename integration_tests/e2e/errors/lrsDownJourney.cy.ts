@@ -17,7 +17,7 @@ context('LRS Down Journey', () => {
     cy.task('stubSignIn')
   })
 
-  it('should be able to search for multiple records by information', () => {
+  it('should be presented with the 500 error page if LRS is unavailable', () => {
     cy.signIn()
     cy.visit('/')
 
@@ -39,6 +39,8 @@ context('LRS Down Journey', () => {
     searchByInformationPage.enterGivenName('John').enterFamilyName('Doe').enterDateOfBirthName('01', '01', '1990')
 
     searchByInformationPage.searchButton().click()
+
+    // Error Page
     Page.verifyOnPage(Error500Page)
   })
 })
