@@ -14,7 +14,7 @@ context('Match Prisoner Journey', () => {
     cy.task('stubLearnerRecordsEventsExactMatch')
     cy.task('stubLearnerRecordsLearnersPossibleMatch')
     cy.task('stubLearnerRecordsMatchSuccess')
-    cy.task('stubSignIn')
+    cy.task('stubSignIn', { name: 'Someone Withaname', roles: ['ROLE_MATCH_LEARNER_RECORD_RW'] })
   })
 
   it('should be able to match a prisoner to a uln', () => {

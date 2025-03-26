@@ -12,7 +12,7 @@ context('Search By ULN Journey', () => {
     cy.task('stubPrisonerApiGetPrisonerById', chosenPrisoner.prisonerNumber)
     cy.task('stubLearnerRecordsNoMatchForAll')
     cy.task('stubLearnerRecordsEventsExactMatch')
-    cy.task('stubSignIn')
+    cy.task('stubSignIn', { name: 'Someone Withaname', roles: ['ROLE_MATCH_LEARNER_RECORD_RW'] })
   })
 
   it('should be able to search for an individual record by ULN', () => {
