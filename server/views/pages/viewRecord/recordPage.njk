@@ -35,6 +35,7 @@
     {% set row = [
       { text: record.subject },
       { text: record.awardingOrganisationName },
+      { text: record.qualificationType },
       { text: record.level or "Not Specified" },
       { text: record.grade },
       { text: record.achievementAwardDate | date },
@@ -58,6 +59,9 @@
           attributes: {
             "aria-sort": "none"
           }
+        },
+        {
+          text: "Qualification Type"
         },
         {
           text: "Level",
