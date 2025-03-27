@@ -12,16 +12,11 @@
 
 
 {% block head %}
+  {% for css in feComponents.cssIncludes %}
+    <link href="{{ css }}" nonce="{{ cspNonce }}" rel="stylesheet" />
+  {% endfor %}
   <link href="{{ '/assets/css/app.css' | assetMap }}" rel="stylesheet"/>
 {% endblock %}
-
-{% for js in feComponents.jsIncludes %}
-  <script src="{{ js }}" nonce="{{ cspNonce }}"></script>
-{% endfor %}
-
-{% for css in feComponents.cssIncludes %}
-  <link href="{{ css }}" nonce="{{ cspNonce }}" rel="stylesheet" />
-{% endfor %}
 
 {% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
 
@@ -67,6 +62,9 @@
 {% block bodyEnd %}
   <script src="/assets/js/jquery.min.js"></script>
   <script type="module" src="{{ '/assets/js/app.js' | assetMap }}"></script>
+  {% for js in feComponents.jsIncludes %}
+    <script src="{{ js }}" nonce="{{ cspNonce }}"></script>
+  {% endfor %}
 {% endblock %}
 
 {% block footer %}
