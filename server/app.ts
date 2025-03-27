@@ -14,14 +14,12 @@ import setUpCurrentUser from './middleware/setUpCurrentUser'
 import setUpHealthChecks from './middleware/setUpHealthChecks'
 import setUpStaticResources from './middleware/setUpStaticResources'
 import setUpWebRequestParsing from './middleware/setupRequestParsing'
-import setUpWebSecurity from './middleware/setUpWebSecurity'
 import setUpWebSession from './middleware/setUpWebSession'
 
 import routes from './routes'
 import type { Services } from './services'
 import errorMessageMiddleware from './middleware/errorMessageMiddleware'
 import problemHandler from './middleware/problemHandler'
-import getFrontendComponents from './middleware/setUpDPSFrontendComponents'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -32,7 +30,6 @@ export default function createApp(services: Services): express.Application {
 
   app.use(appInsightsMiddleware())
   app.use(setUpHealthChecks(services.applicationInfo))
-  app.use(setUpWebSecurity())
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
@@ -42,7 +39,6 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser())
   app.use(errorMessageMiddleware)
-  app.use('*', getFrontendComponents(services))
 
   app.use(routes(services))
   app.use(problemHandler)
