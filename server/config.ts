@@ -132,6 +132,20 @@ export default {
       },
       agent: new AgentConfig(Number(get('COMPONENT_API_TIMEOUT_SECONDS', 5000))),
     },
+    manageUsersApi: {
+      url: get(
+        'MANAGE_USERS_API_URL',
+        'https://manage-users-api-dev.hmpps.service.justice.gov.uk',
+        requiredInProduction,
+      ),
+      healthPath: '/health/ping',
+      timeout: {
+        response: Number(get('MANAGE_USERS_API_TIMEOUT_RESPONSE', 5000)),
+        deadline: Number(get('MANAGE_USERS_API_TIMEOUT_DEADLINE', 5000)),
+      },
+      agent: new AgentConfig(Number(get('MANAGE_USERS_API_TIMEOUT_RESPONSE', 5000))),
+      includeInHealthCheck: true,
+    },
   },
   sqs: {
     audit: auditConfig(),

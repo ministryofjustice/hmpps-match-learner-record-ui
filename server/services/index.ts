@@ -8,6 +8,8 @@ import PrisonApiService from './prisonApi/prisonApiService'
 import PrisonApiClient from '../data/prisonApi/prisonApiClient'
 import FrontendComponentsApiClient from '../api/frontendComponentsApiClient'
 import FrontEndComponentsService from './frontEndComponentsService'
+import UserService from './userService'
+import ManageUsersApiClient from '../data/manageUsersApiClient'
 
 export const services = () => {
   const { applicationInfo, hmppsAuditClient, hmppsAuthClient } = dataAccess()
@@ -18,6 +20,7 @@ export const services = () => {
   const prisonerSearchService = new PrisonerSearchService(hmppsAuthClient, new PrisonerSearchClient())
   const prisonApiService = new PrisonApiService(hmppsAuthClient, new PrisonApiClient())
   const frontEndComponentService = new FrontEndComponentsService(new FrontendComponentsApiClient())
+  const userService = new UserService(new ManageUsersApiClient())
 
   return {
     applicationInfo,
@@ -26,6 +29,7 @@ export const services = () => {
     prisonerSearchService,
     prisonApiService,
     frontEndComponentService,
+    userService,
   }
 }
 
