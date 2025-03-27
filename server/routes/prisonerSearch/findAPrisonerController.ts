@@ -25,7 +25,7 @@ export default class FindAPrisonerController {
 
   getFindAPrisoner: RequestHandler = async (req, res, next): Promise<void> => {
     this.logPageView(res.locals.user.username, req.id)
-    console.log(res.locals.user)
+
     return res.render('pages/findAPrisoner/index', req.session.searchResults)
   }
 
