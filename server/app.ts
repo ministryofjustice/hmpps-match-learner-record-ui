@@ -17,7 +17,7 @@ import setUpStaticResources from './middleware/setUpStaticResources'
 import setUpWebRequestParsing from './middleware/setupRequestParsing'
 import setUpWebSession from './middleware/setUpWebSession'
 
-import routes, { standardGetPaths } from './routes'
+import routes from './routes'
 import type { Services } from './services'
 import errorMessageMiddleware from './middleware/errorMessageMiddleware'
 import problemHandler from './middleware/problemHandler'
