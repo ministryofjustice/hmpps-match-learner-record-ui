@@ -5,7 +5,6 @@ import prisonerSearchApi from './integration_tests/mockApis/prisonerSearchApi'
 import prisonApi from './integration_tests/mockApis/prisonApi'
 import learnerRecordsApi from './integration_tests/mockApis/learnerRecordsApi'
 import tokenVerification from './integration_tests/mockApis/tokenVerification'
-import frontendComponentsApi from './integration_tests/mockApis/frontentComponentsApi'
 import manageUsersApi from './integration_tests/mockApis/manageUsersApi'
 
 export default defineConfig({
@@ -26,7 +25,6 @@ export default defineConfig({
         ...learnerRecordsApi,
         ...prisonApi,
         ...prisonerSearchApi,
-        ...frontendComponentsApi,
         ...manageUsersApi,
         ...tokenVerification,
       })

@@ -2,6 +2,7 @@ import passport from 'passport'
 import flash from 'connect-flash'
 import { Router } from 'express'
 import { Strategy } from 'passport-oauth2'
+import dpsComponents from '@ministryofjustice/hmpps-connect-dps-components'
 import config from '../config'
 import tokenVerifier from '../data/tokenVerification'
 import { HmppsUser } from '../interfaces/hmppsUser'
@@ -41,11 +42,14 @@ export default function setupAuthentication() {
   router.use(passport.session())
   router.use(flash())
 
-  router.get('/autherror', (req, res) => {
-    res.status(401)
-    return res.render('autherror')
-  })
-
+  router.get(
+    '/autherror',
+    dpsComponents.getPageComponents({ dpsUrl: config.serviceUrls.digitalPrison }),
+    (req, res) => {
+      res.status(401)
+      return res.render('autherror')
+    },
+  )
   router.get('/sign-in', passport.authenticate('oauth2'))
 
   router.get('/sign-in/callback', (req, res, next) =>
