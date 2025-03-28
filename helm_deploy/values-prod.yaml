@@ -16,6 +16,7 @@ generic-service:
     PRISON_API_URL: "https://prison-api.prison.service.justice.gov.uk"
     COMPONENT_API_URL: "https://frontend-components.hmpps.service.justice.gov.uk"
     MANAGE_USERS_API_URL: "https://manage-users-api.hmpps.service.justice.gov.uk"
+    DPS_HOME_PAGE_URL: "https://digital.prison.service.justice.gov.uk"
 
 generic-prometheus-alerts:
   alertSeverity: education-alerts
