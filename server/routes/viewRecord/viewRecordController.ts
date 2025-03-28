@@ -88,6 +88,7 @@ export default class ViewRecordController {
         learnerEvents: learnerEventsResponse.learnerRecord,
         backBase,
         matchType: responseType,
+        mode: req.params.mode,
       })
     } catch (error) {
       return next(error)

@@ -111,7 +111,7 @@ export default class SearchForLearnerRecordController {
 
       req.session.returnTo = '/search-for-learner-record-by-uln/'
 
-      return res.redirect(`/view-record/${req.params.prisonNumber}/${selectedLearner.uln}`)
+      return res.redirect(`/view-record/${req.params.prisonNumber}/${selectedLearner.uln}/0`)
     } catch (error) {
       logger.error(`Error communicating with BOLD - LRS API:`, error)
       return next(error)

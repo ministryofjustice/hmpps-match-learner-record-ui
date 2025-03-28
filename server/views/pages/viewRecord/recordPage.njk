@@ -1,13 +1,25 @@
 {% extends "../../partials/layout.njk" %}
 {% set pageTitle = "View and match learner record – " + applicationName + " - GOV.UK" %}
 {% set mainClasses = "govuk-main-wrapper--l" %}
-{% set backLink = backBase + prisoner.prisonerNumber %}
+{% if mode == '0' %}
+  {% set backLink = backBase + prisoner.prisonerNumber %}
+{% endif %}
+{% if mode == '1' %}
+  {% set backLink = '/find-a-prisoner' %}
+{% endif %}
 
 {% block content %}
 
+
 <div class="govuk-width-container">
 
-  <h1 class="govuk-heading-l">View and match learner record</h1>
+  {% if mode == '0' %}
+    <h1 class="govuk-heading-l">View and match learner record</h1>
+  {% endif %}
+  {% if mode == '1' %}
+    <h1 class="govuk-heading-l">View learner record</h1>
+  {% endif %}
+
   <p class="govuk-body">Information from Learner Records Service (LRS).</p>
 
   {% set panelContent %}
@@ -23,11 +35,13 @@
     </div>
   {% endset %}
 
-  {{ mojTicketPanel({
-    items: [{
-      html: panelContent
-    }]
-  }) }}
+  {% if mode == '0' %}
+    {{ mojTicketPanel({
+      items: [{
+        html: panelContent
+      }]
+    }) }}
+  {% endif %}
 
   {% set tableRows = [] %}
   
@@ -88,44 +102,51 @@
     <p class="govuk-body">A learning record was found but it is empty.</p>
   {% endif %}
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+  {% if mode == '0' %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
 
-      <h3 class="govuk-heading-m">Match this learner record to {{ prisoner.firstName }} {{ prisoner.lastName }}</h3>
-      <p class="govuk-body">By clicking 'Match record' you will link the following prisoner and learner records:</p>
+        <h3 class="govuk-heading-m">Match this learner record to {{ prisoner.firstName }} {{ prisoner.lastName }}</h3>
+        <p class="govuk-body">By clicking 'Match record' you will link the following prisoner and learner records:</p>
 
-      {{ govukTable({
-        attributes: {
-          id: "matchRecordTable"
-        },
-        head: [
-          { text: "Prisoner" },
-          { text: "LRS Record"}
-        ],
-        rows: [
-          [
-            {
-              html: prisoner.firstName + " " + prisoner.lastName  + "<br>Prison number: " + prisoner.prisonerNumber
-            },
-            {
-              html: learner.givenName + " " + learner.familyName  + "<br>ULN: " + learner.uln
-            }
+        {{ govukTable({
+          attributes: {
+            id: "matchRecordTable"
+          },
+          head: [
+            { text: "Prisoner" },
+            { text: "LRS Record"}
+          ],
+          rows: [
+            [
+              {
+                html: prisoner.firstName + " " + prisoner.lastName  + "<br>Prison number: " + prisoner.prisonerNumber
+              },
+              {
+                html: learner.givenName + " " + learner.familyName  + "<br>ULN: " + learner.uln
+              }
+            ]
           ]
-        ]
-      }) }}
+        }) }}
 
+      </div>
     </div>
-  </div>
+  {% endif %}
 
   <form action="#" method="post">
     <div class="govuk-button-group">
-      {{ govukButton({
-        text: "Match record",
-        type: "submit",
-        id: "matchRecordButton"
-      }) }}
+      {% if mode == '0' %}
+        {{ govukButton({
+          text: "Match record",
+          type: "submit",
+          id: "matchRecordButton"
+        }) }}
+      {% endif %}
       <a class="govuk-link" href="{{ backLink }}">Cancel and return to search</a>
-    </div>  
+      {% if mode == '1' %}
+        <a class="govuk-link" href="/">Finish</a>
+      {% endif %}
+    </div>
     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
     <input type="hidden" name="matchingUln" value="{{ learner.uln }}">
     <input type="hidden" name="givenName" value="{{ learner.givenName }}">
