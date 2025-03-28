@@ -9,9 +9,9 @@ export default function viewRecordRoutes(router: Router, services: Services) {
     services.learnerRecordsService,
     services.auditService,
   )
-  router.get('/view-record/:prisonNumber/:uln', [
+  router.get('/view-record/:prisonNumber/:uln/:mode', [
     retrievePrisonerSummary(services.prisonerSearchService),
     viewRecordController.getViewRecord,
   ])
-  router.post('/view-record/:prisonNumber/:uln', viewRecordController.postViewRecord)
+  router.post('/view-record/:prisonNumber/:uln/:mode', viewRecordController.postViewRecord)
 }

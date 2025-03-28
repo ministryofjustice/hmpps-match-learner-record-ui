@@ -13,7 +13,7 @@
 
         {% for record in results %}
           {% set recordLink %}
-            <a class="govuk-link" href="/view-record/{{ prisonerNumber }}/{{ record.uln }}">View record</a>
+            <a class="govuk-link" href="/view-record/{{ prisonerNumber }}/{{ record.uln }}/0">View record</a>
           {% endset %}
           {% set row = [
             { text: record.givenName or "Not Specified" },
