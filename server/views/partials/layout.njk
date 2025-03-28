@@ -12,30 +12,16 @@
 
 
 {% block head %}
+  {% for css in feComponents.cssIncludes %}
+    <link href="{{ css }}" nonce="{{ cspNonce }}" rel="stylesheet" />
+  {% endfor %}
   <link href="{{ '/assets/css/app.css' | assetMap }}" rel="stylesheet"/>
-
-  {% if feComponents.jsIncludes %}
-    {% for js in feComponents.jsIncludes %}
-      <script src="{{ js }}" nonce="{{ cspNonce }}"></script>
-    {% endfor %}
-  {% endif %}
-
-  {% if feComponents.cssIncludes %}
-    {% for css in feComponents.cssIncludes %}
-      <link href="{{ css }}" nonce="{{ cspNonce }}" rel="stylesheet" />
-    {% endfor %}
-  {% endif %}
-
 {% endblock %}
 
 {% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
 
 {% block header %}
-  {% if feComponents.header %}
-    {{ feComponents.header | safe }}
-  {% else %}
-    {% include "./header.njk" %}
-  {% endif %}
+  {{ feComponents.header | safe }}
 
   {% if backLink is string %}
     <div class="govuk-width-container">
@@ -52,36 +38,35 @@
 {% endblock %}
 
 {% block main %}
-    {% block beforeContent %}{% endblock %}
-    <main class="govuk-main-wrapper {{ mainClasses }}" id="main-content" role="main">
-      {% if errors.length > 0 %}
-      <div class="govuk-width-container">
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            {{ govukErrorSummary({
-              titleText: 'There is a problem',
-              errorList: errors,
-              attributes: { 'data-qa-errors': true }
-            }) }}
-          </div>
+  {% block beforeContent %}{% endblock %}
+  <main class="govuk-main-wrapper {{ mainClasses }}" id="main-content" role="main">
+    {% if errors.length > 0 %}
+    <div class="govuk-width-container">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          {{ govukErrorSummary({
+            titleText: 'There is a problem',
+            errorList: errors,
+            attributes: { 'data-qa-errors': true }
+          }) }}
         </div>
+      </div>
       <div>
-      {% endif %}
+        {% endif %}
 
-      {% block content %}{% endblock %}
-    </main>
+        {% block content %}{% endblock %}
+  </main>
   </div>
 {% endblock %}
 
 {% block bodyEnd %}
   <script src="/assets/js/jquery.min.js"></script>
   <script type="module" src="{{ '/assets/js/app.js' | assetMap }}"></script>
+  {% for js in feComponents.jsIncludes %}
+    <script src="{{ js }}" nonce="{{ cspNonce }}"></script>
+  {% endfor %}
 {% endblock %}
 
 {% block footer %}
-  {% if feComponents.footer %}
-    {{ feComponents.footer | safe }}
-  {% else %}
-    {% include "./footer.njk" %}
-  {% endif %}
+  {{ feComponents.footer | safe }}
 {% endblock %}

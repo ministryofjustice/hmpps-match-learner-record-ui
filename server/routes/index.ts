@@ -14,6 +14,8 @@ import matchConfirmedRoutes from './matchConfirmed/index'
 import noMatchFoundRoutes from './noMatchFound'
 import alreadyMatchedRoutes from './alreadyMatched'
 
+export const standardGetPaths = /^(?!\/api|\/save-backlink|^\/$).*/
+
 export default function routes(services: Services): Router {
   const router = Router()
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))

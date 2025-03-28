@@ -123,18 +123,12 @@ export default {
       },
       agent: new AgentConfig(Number(get('PRISON_API_TIMEOUT_RESPONSE', 15000))),
     },
-    frontendComponents: {
-      url: get('COMPONENT_API_URL', 'http://localhost:8082', requiredInProduction),
-      healthPath: '/health/ping',
-      timeout: {
-        response: Number(get('COMPONENT_API_TIMEOUT_SECONDS', 5000)),
-        deadline: Number(get('COMPONENT_API_TIMEOUT_SECONDS', 5000)),
-      },
-      agent: new AgentConfig(Number(get('COMPONENT_API_TIMEOUT_SECONDS', 5000))),
-    },
   },
   sqs: {
     audit: auditConfig(),
+  },
+  serviceUrls: {
+    digitalPrison: get('DPS_HOME_PAGE_URL', 'http://localhost:3001', requiredInProduction),
   },
   ingressUrl: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   environmentName: get('ENVIRONMENT_NAME', ''),
