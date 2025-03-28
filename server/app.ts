@@ -41,11 +41,10 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpAuthentication())
   app.use(authorisationMiddleware(['ROLE_MATCH_LEARNER_RECORD_RW']))
   app.use(setUpCsrf())
-  app.use(setUpCurrentUser())
+  app.use(setUpCurrentUser(services))
   app.use(errorMessageMiddleware)
 
-  app.get(
-    '*',
+  app.use(
     dpsComponents.getPageComponents({
       dpsUrl: config.serviceUrls.digitalPrison,
       logger,

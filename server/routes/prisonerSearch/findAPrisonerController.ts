@@ -25,6 +25,7 @@ export default class FindAPrisonerController {
 
   getFindAPrisoner: RequestHandler = async (req, res, next): Promise<void> => {
     this.logPageView(res.locals.user.username, req.id)
+
     return res.render('pages/findAPrisoner/index', req.session.searchResults)
   }
 
@@ -40,7 +41,11 @@ export default class FindAPrisonerController {
     }
 
     try {
-      const searchResult = await this.prisonerSearchService.searchPrisoners(findAPrisonerForm.search, req.user.username)
+      const searchResult = await this.prisonerSearchService.searchPrisoners(
+        findAPrisonerForm.search,
+        req.user.username,
+        res.locals.user.activeCaseLoadId,
+      )
       const mappedResult = await Promise.all(
         searchResult.map(async record => {
           const response = await this.learnerRecordsService.checkMatch(record.prisonerNumber, req.user.username)

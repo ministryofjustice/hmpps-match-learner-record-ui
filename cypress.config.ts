@@ -5,6 +5,7 @@ import prisonerSearchApi from './integration_tests/mockApis/prisonerSearchApi'
 import prisonApi from './integration_tests/mockApis/prisonApi'
 import learnerRecordsApi from './integration_tests/mockApis/learnerRecordsApi'
 import tokenVerification from './integration_tests/mockApis/tokenVerification'
+import manageUsersApi from './integration_tests/mockApis/manageUsersApi'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -24,6 +25,7 @@ export default defineConfig({
         ...learnerRecordsApi,
         ...prisonApi,
         ...prisonerSearchApi,
+        ...manageUsersApi,
         ...tokenVerification,
       })
     },
