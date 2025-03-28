@@ -222,7 +222,7 @@ describe('searchForLearnerRecordController', () => {
 
       await controller.postSearchForLearnerRecordByUln(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(`/view-record/${req.params.prisonNumber}/${req.body.uln}`)
+      expect(res.redirect).toHaveBeenCalledWith(`/view-record/${req.params.prisonNumber}/${req.body.uln}/0`)
     })
   })
 })
