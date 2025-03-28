@@ -1,5 +1,6 @@
 import type { LearnersResponse } from 'learnerRecordsApi'
 import type { PrisonerSummary } from 'viewModels'
+import type { UserDetails } from '../../services/userService'
 
 export declare module 'express-session' {
   // Declare that the session will potentially contain these additional fields
@@ -16,7 +17,7 @@ export declare module 'express-session' {
 
 export declare global {
   namespace Express {
-    interface User {
+    interface User extends Partial<UserDetails> {
       username: string
       token: string
       authSource: string

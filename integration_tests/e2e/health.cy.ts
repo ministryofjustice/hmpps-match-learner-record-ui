@@ -7,6 +7,7 @@ context('Healthcheck', () => {
       cy.task('stubPrisonApiPing')
       cy.task('stubPrisonerApiPing')
       cy.task('stubFrontendComponentsPing')
+      cy.task('stubManageUsersApiPing')
       cy.task('stubTokenVerificationPing')
     })
 
@@ -30,6 +31,8 @@ context('Healthcheck', () => {
       cy.task('stubLearnerRecordsHealth')
       cy.task('stubPrisonApiPing')
       cy.task('stubPrisonerApiPing')
+      cy.task('stubFrontendComponentsPing')
+      cy.task('stubManageUsersApiPing')
       cy.task('stubTokenVerificationPing', 500)
     })
 

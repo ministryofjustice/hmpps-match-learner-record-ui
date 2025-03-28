@@ -41,7 +41,11 @@ export default class FindAPrisonerController {
     }
 
     try {
-      const searchResult = await this.prisonerSearchService.searchPrisoners(findAPrisonerForm.search, req.user.username)
+      const searchResult = await this.prisonerSearchService.searchPrisoners(
+        findAPrisonerForm.search,
+        req.user.username,
+        res.locals.user.activeCaseLoadId,
+      )
       const mappedResult = await Promise.all(
         searchResult.map(async record => {
           const response = await this.learnerRecordsService.checkMatch(record.prisonerNumber, req.user.username)
