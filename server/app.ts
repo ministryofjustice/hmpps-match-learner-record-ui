@@ -44,8 +44,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCurrentUser(services))
   app.use(errorMessageMiddleware)
 
-  app.get(
-    '*',
+  app.use(
     dpsComponents.getPageComponents({
       dpsUrl: config.serviceUrls.digitalPrison,
       logger,
