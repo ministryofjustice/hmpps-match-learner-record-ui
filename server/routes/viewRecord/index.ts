@@ -13,5 +13,9 @@ export default function viewRecordRoutes(router: Router, services: Services) {
     retrievePrisonerSummary(services.prisonerSearchService),
     viewRecordController.getViewRecord,
   ])
+  router.get('/view-matched-record/:prisonNumber/:uln', [
+    retrievePrisonerSummary(services.prisonerSearchService),
+    viewRecordController.getViewMatchedRecord,
+  ])
   router.post('/view-record/:prisonNumber/:uln', viewRecordController.postViewRecord)
 }
