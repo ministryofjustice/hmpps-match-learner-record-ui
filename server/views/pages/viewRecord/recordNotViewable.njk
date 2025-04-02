@@ -2,7 +2,11 @@
 
 {% set pageTitle = "Record not viewable – " + applicationName + " - GOV.UK" %}
 {% set mainClasses = "govuk-main-wrapper--l" %}
-{% set backLink = backBase + prisonerNumber %}
+{% if backBase == "/learner-search-results/" %}
+  {% set backLink = backBase + prisonerNumber %}
+{% else %}
+  {% set backLink = backBase %}
+{% endif %}
 
 {% if responseType == "Learner opted to not share data" %}
  {% set paragraphText = "The learner you selected has opted not to share their PLR data so we are unable to show their learner record." %}

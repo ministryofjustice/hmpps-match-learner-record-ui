@@ -8,7 +8,7 @@
 <div class="govuk-width-container">
 
   <h1 class="govuk-heading-l">View and match learner record</h1>
-  <p class="govuk-body">Information from Learner Records Service (LRS).</p>
+  <p class="govuk-body">Information from Learner Records Service (LRS):</p>
 
   {% set panelContent %}
     <h2 class="govuk-heading-m" id="uln">ULN: {{ learner.uln }}</h2>
@@ -30,7 +30,7 @@
   }) }}
 
   {% set tableRows = [] %}
-  
+
   {% for record in learnerEvents %}
     {% set row = [
       { text: record.subject },
@@ -75,11 +75,14 @@
         {
           text: "Awarded on",
           attributes: {
-            "aria-sort": "none"
+            "aria-sort": "ascending"
           }
         },
         {
-          text: "Source"
+          text: "Source",
+          attributes: {
+            "aria-sort": "none"
+          }
         }
       ],
       rows: tableRows
@@ -124,8 +127,8 @@
         type: "submit",
         id: "matchRecordButton"
       }) }}
-      <a class="govuk-link" href="{{ backLink }}">Cancel and return to search</a>
-    </div>  
+      <a class="govuk-link" href="{{ backLink }}">Cancel and return to search results</a>
+    </div>
     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
     <input type="hidden" name="matchingUln" value="{{ learner.uln }}">
     <input type="hidden" name="givenName" value="{{ learner.givenName }}">

@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express'
+import { RequestHandler, Response, NextFunction } from 'express'
 import type { ConfirmMatchRequest, LearnerEventsRequest, LearnerRecord } from 'learnerRecordsApi'
 import type { PrisonerSummary } from 'viewModels'
 import type { Request } from 'express'
@@ -43,7 +43,13 @@ export default class ViewRecordController {
     }
   }
 
-  getViewRecord: RequestHandler = async (req, res, next): Promise<void> => {
+  private getRecord = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    backBase: string,
+    viewName: string,
+  ): Promise<void> => {
     this.logPageView(req.user.username, req.id)
     try {
       const prisoner = res.locals.prisonerSummary
@@ -64,9 +70,6 @@ export default class ViewRecordController {
 
       const { responseType } = learnerEventsResponse
 
-      const backBase = req.session.returnTo || '/learner-search-results/'
-      req.session.returnTo = backBase
-
       this.auditService.logAuditEvent({
         what: 'VIEW_LEARNER_RECORD',
         who: req.user.username,
@@ -82,7 +85,7 @@ export default class ViewRecordController {
         })
       }
 
-      return res.render('pages/viewRecord/recordPage', {
+      return res.render(viewName, {
         prisoner,
         learner: selectedLearner,
         learnerEvents: learnerEventsResponse.learnerRecord,
@@ -92,6 +95,18 @@ export default class ViewRecordController {
     } catch (error) {
       return next(error)
     }
+  }
+
+  getViewRecord: RequestHandler = async (req, res, next): Promise<void> => {
+    const backBase = '/learner-search-results/'
+    const viewName = 'pages/viewRecord/recordPage'
+    return this.getRecord(req, res, next, backBase, viewName)
+  }
+
+  getViewMatchedRecord: RequestHandler = async (req, res, next): Promise<void> => {
+    const backBase = '/find-a-prisoner'
+    const viewName = 'pages/viewRecord/matchedRecordPage'
+    return this.getRecord(req, res, next, backBase, viewName)
   }
 
   postViewRecord: RequestHandler = async (req, res, next): Promise<void> => {

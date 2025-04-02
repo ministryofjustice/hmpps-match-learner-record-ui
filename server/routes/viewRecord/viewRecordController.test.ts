@@ -130,6 +130,72 @@ describe('ViewRecordController', () => {
     })
   })
 
+  describe('getViewMatchedRecord', () => {
+    it('should render the view matched Record page', async () => {
+      await controller.getViewMatchedRecord(req, res, null)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
+        who: req.user.username,
+        correlationId: undefined,
+      })
+      expect(auditService.logAuditEvent).toHaveBeenCalledWith({
+        what: 'VIEW_LEARNER_RECORD',
+        who: req.user.username,
+        subjectId: req.params.uln,
+        subjectType: 'ULN',
+      })
+      expect(res.render).toHaveBeenCalledWith('pages/viewRecord/matchedRecordPage', {
+        learner: { uln: '1234567890' },
+        learnerEvents: [],
+        prisoner: { prisonerNumber: 'A1234BC' },
+        matchType: 'Exact Match',
+        backBase: '/find-a-prisoner',
+      })
+    })
+
+    it('should render the learner not sharing data page', async () => {
+      learnerRecordsService.getLearnerEvents = jest.fn().mockResolvedValue({
+        responseType: 'Learner opted to not share data',
+        learnerRecord: [],
+      })
+      req.session.returnTo = ''
+      await controller.getViewMatchedRecord(req, res, null)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
+        who: req.user.username,
+        correlationId: undefined,
+      })
+      expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordNotViewable', {
+        responseType: 'Learner opted to not share data',
+        prisonerNumber: 'A1234BC',
+        backBase: '/find-a-prisoner',
+      })
+    })
+
+    it('should render the learner not verified page', async () => {
+      learnerRecordsService.getLearnerEvents = jest.fn().mockResolvedValue({
+        responseType: 'Learner could not be verified',
+        learnerRecord: [],
+      })
+      req.session.returnTo = ''
+      await controller.getViewMatchedRecord(req, res, null)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
+        who: req.user.username,
+        correlationId: undefined,
+      })
+      expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordNotViewable', {
+        responseType: 'Learner could not be verified',
+        prisonerNumber: 'A1234BC',
+        backBase: '/find-a-prisoner',
+      })
+    })
+
+    it('should pass errors to middleware for handling', async () => {
+      const error = new Error('Failed when calling api')
+      learnerRecordsService.getLearnerEvents.mockRejectedValue(error)
+      await controller.getViewMatchedRecord(req, res, next)
+      expect(next).toHaveBeenCalledWith(error)
+    })
+  })
+
   describe('postViewRecord', () => {
     it('should save the match and redirect to confirmed match page', async () => {
       await controller.postViewRecord(req, res, null)
