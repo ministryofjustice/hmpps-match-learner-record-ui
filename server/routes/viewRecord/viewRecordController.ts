@@ -70,8 +70,6 @@ export default class ViewRecordController {
 
       const { responseType } = learnerEventsResponse
 
-      req.session.returnTo = backBase
-
       this.auditService.logAuditEvent({
         what: 'VIEW_LEARNER_RECORD',
         who: req.user.username,
@@ -100,13 +98,13 @@ export default class ViewRecordController {
   }
 
   getViewRecord: RequestHandler = async (req, res, next): Promise<void> => {
-    const backBase = req.session.returnTo || '/learner-search-results/'
+    const backBase = '/learner-search-results/'
     const viewName = 'pages/viewRecord/recordPage'
     return this.getRecord(req, res, next, backBase, viewName)
   }
 
   getViewMatchedRecord: RequestHandler = async (req, res, next): Promise<void> => {
-    const backBase = req.session.returnTo || '/find-a-prisoner'
+    const backBase = '/find-a-prisoner'
     const viewName = 'pages/viewRecord/matchedRecordPage'
     return this.getRecord(req, res, next, backBase, viewName)
   }
