@@ -29,7 +29,18 @@ export default class SearchForLearnerRecordController {
 
   getSearchForLearnerRecordViewByInformation: RequestHandler = async (req, res, next): Promise<void> => {
     this.logPageView(Page.SEARCH_BY_INFORMATION_PAGE, req.user.username, req.id)
-    return res.render('pages/searchForLearnerRecord/byInformation', { form: req.session.searchByInformationForm })
+
+    const matchedPerson = req.session.searchResults
+    const form = {
+      givenName: matchedPerson?.data[0]?.firstName,
+      familyName: matchedPerson?.data[0]?.lastName,
+      'dob-day': matchedPerson?.data[0]?.dateOfBirth.split('-')[0],
+      'dob-month': matchedPerson?.data[0]?.dateOfBirth.split('-')[1],
+      'dob-year': matchedPerson?.data[0]?.dateOfBirth.split('-')[2],
+      // postcode and sex are optional and can be added if available
+    }
+
+    res.render('pages/searchForLearnerRecord/byInformation', { form })
   }
 
   postSearchForLearnerRecordByInformation: RequestHandler = async (req, res, next): Promise<void> => {
