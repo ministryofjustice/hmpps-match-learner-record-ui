@@ -157,6 +157,25 @@ describe('ViewRecordController', () => {
         sourcePage: 'uln',
       })
     })
+
+    it('should render the learner not sharing data page', async () => {
+      req.session.returnTo = '/search-for-learner-record-by-uln/'
+      learnerRecordsService.getLearnerEvents = jest.fn().mockResolvedValue({
+        responseType: 'Learner opted to not share data',
+        learnerRecord: [],
+      })
+      await controller.getViewRecord(req, res, null)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
+        who: req.user.username,
+        correlationId: undefined,
+      })
+      expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordNotViewable', {
+        responseType: 'Learner opted to not share data',
+        prisonerNumber: 'A1234BC',
+        backBase: '/search-for-learner-record-by-uln/',
+        sourcePage: 'uln',
+      })
+    })
   })
 
   describe('getViewMatchedRecord', () => {
