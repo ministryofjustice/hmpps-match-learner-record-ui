@@ -134,6 +134,31 @@ describe('ViewRecordController', () => {
     })
   })
 
+  describe('getViewRecordWithSourcePage', () => {
+    it('should render the view Record page with Source Page', async () => {
+      req.session.returnTo = '/search-for-learner-record-by-uln/'
+      await controller.getViewRecord(req, res, null)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
+        who: req.user.username,
+        correlationId: undefined,
+      })
+      expect(auditService.logAuditEvent).toHaveBeenCalledWith({
+        what: 'VIEW_LEARNER_RECORD',
+        who: req.user.username,
+        subjectId: req.params.uln,
+        subjectType: 'ULN',
+      })
+      expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordPage', {
+        learner: { uln: '1234567890' },
+        learnerEvents: [],
+        prisoner: { prisonerNumber: 'A1234BC' },
+        matchType: 'Exact Match',
+        backBase: '/search-for-learner-record-by-uln/',
+        sourcePage: 'uln',
+      })
+    })
+  })
+
   describe('getViewMatchedRecord', () => {
     it('should render the view matched Record page', async () => {
       await controller.getViewMatchedRecord(req, res, null)
@@ -181,7 +206,6 @@ describe('ViewRecordController', () => {
         responseType: 'Learner could not be verified',
         learnerRecord: [],
       })
-      req.session.returnTo = ''
       await controller.getViewMatchedRecord(req, res, null)
       expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
         who: req.user.username,
