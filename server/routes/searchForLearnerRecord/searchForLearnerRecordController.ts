@@ -23,11 +23,13 @@ export default class SearchForLearnerRecordController {
   }
 
   getSearchForLearnerRecordViewByUln: RequestHandler = async (req, res, next): Promise<void> => {
+    req.session.returnTo = ''
     this.logPageView(Page.SEARCH_BY_ULN_PAGE, req.user.username, req.id)
     return res.render('pages/searchForLearnerRecord/byUln', { form: req.session.searchByUlnForm })
   }
 
   getSearchForLearnerRecordViewByInformation: RequestHandler = async (req, res, next): Promise<void> => {
+    req.session.returnTo = ''
     this.logPageView(Page.SEARCH_BY_INFORMATION_PAGE, req.user.username, req.id)
     return res.render('pages/searchForLearnerRecord/byInformation', { form: req.session.searchByInformationForm })
   }

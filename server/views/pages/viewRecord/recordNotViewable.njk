@@ -2,10 +2,10 @@
 
 {% set pageTitle = "Record not viewable – " + applicationName + " - GOV.UK" %}
 {% set mainClasses = "govuk-main-wrapper--l" %}
-{% if backBase == "/learner-search-results/" %}
-  {% set backLink = backBase + prisonerNumber %}
-{% else %}
+{% if sourcePage == null %}
   {% set backLink = backBase %}
+{% else %}
+  {% set backLink = backBase + prisonerNumber %}
 {% endif %}
 
 {% if responseType == "Learner opted to not share data" %}

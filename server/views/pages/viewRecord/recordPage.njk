@@ -1,7 +1,11 @@
 {% extends "../../partials/layout.njk" %}
 {% set pageTitle = "View and match learner record – " + applicationName + " - GOV.UK" %}
 {% set mainClasses = "govuk-main-wrapper--l" %}
-{% set backLink = backBase + prisoner.prisonerNumber %}
+{% if sourcePage == "uln" %}
+  {% set backLink = "/search-for-learner-record-by-uln/" + prisoner.prisonerNumber %}
+{% else %}
+  {% set backLink = backBase + prisoner.prisonerNumber %}
+{% endif %}
 
 {% block content %}
 
@@ -12,12 +16,12 @@
 
   {% set panelContent %}
     <h2 class="govuk-heading-m" id="uln">ULN: {{ learner.uln }}</h2>
-    <div class="govuk-flex">
+    <div class="govuk-flex {% if sourcePage == 'uln' %}govuk-visually-hidden{% endif %}">
       <p class="govuk-body govuk-!-margin-right-3" id="givenName">Given name: {{ learner.givenName }}</p>
       <p class="govuk-body govuk-!-margin-right-3" id="familyName">Family name: {{ learner.familyName }}</p>
       <p class="govuk-body govuk-!-margin-right-3" id="dob">Date of birth: {{ learner.dateOfBirth | date}} </p>
     </div>
-    <div class="govuk-flex">
+    <div class="govuk-flex {% if sourcePage == 'uln' %}govuk-visually-hidden{% endif %}">
       <p class="govuk-body govuk-!-margin-right-3" id="postcode">Postcode: {{ learner.lastKnownPostCode }}</p>
       <p class="govuk-body govuk-!-margin-right-3" id="sex">Sex: {{ learner.gender }}</p>
     </div>
@@ -97,25 +101,28 @@
       <h3 class="govuk-heading-m">Match this learner record to {{ prisoner.firstName }} {{ prisoner.lastName }}</h3>
       <p class="govuk-body">By clicking 'Match record' you will link the following prisoner and learner records:</p>
 
-      {{ govukTable({
-        attributes: {
-          id: "matchRecordTable"
-        },
-        head: [
-          { text: "Prisoner" },
-          { text: "LRS Record"}
-        ],
-        rows: [
-          [
-            {
-              html: prisoner.firstName + " " + prisoner.lastName  + "<br>Prison number: " + prisoner.prisonerNumber
-            },
-            {
-              html: learner.givenName + " " + learner.familyName  + "<br>ULN: " + learner.uln
-            }
-          ]
-        ]
-      }) }}
+    <table class="govuk-table" id="matchRecordTable">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Prisoner</th>
+          <th scope="col" class="govuk-table__header">LRS Record</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            {{ prisoner.firstName }} {{ prisoner.lastName }}<br>
+            Prison number: {{ prisoner.prisonerNumber }}
+          </td>
+          <td class="govuk-table__cell">
+            {% if sourcePage != 'uln' %}
+              {{ learner.givenName }} {{ learner.familyName }}<br>
+            {% endif %}
+            ULN: {{ learner.uln }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     </div>
   </div>
