@@ -27,6 +27,7 @@ describe('ViewRecordController', () => {
 
   const req = {
     session: {
+      returnTo: '',
       searchByInformationResults: {
         matchedLearners: [
           {
@@ -83,6 +84,7 @@ describe('ViewRecordController', () => {
         prisoner: { prisonerNumber: 'A1234BC' },
         matchType: 'Exact Match',
         backBase: '/learner-search-results/',
+        sourcePage: '',
       })
     })
 
@@ -101,6 +103,7 @@ describe('ViewRecordController', () => {
         responseType: 'Learner opted to not share data',
         prisonerNumber: 'A1234BC',
         backBase: '/learner-search-results/',
+        sourcePage: '',
       })
     })
 
@@ -119,6 +122,7 @@ describe('ViewRecordController', () => {
         responseType: 'Learner could not be verified',
         prisonerNumber: 'A1234BC',
         backBase: '/learner-search-results/',
+        sourcePage: '',
       })
     })
 
@@ -149,6 +153,7 @@ describe('ViewRecordController', () => {
         prisoner: { prisonerNumber: 'A1234BC' },
         matchType: 'Exact Match',
         backBase: '/find-a-prisoner',
+        sourcePage: undefined,
       })
     })
 
@@ -167,6 +172,7 @@ describe('ViewRecordController', () => {
         responseType: 'Learner opted to not share data',
         prisonerNumber: 'A1234BC',
         backBase: '/find-a-prisoner',
+        sourcePage: undefined,
       })
     })
 
@@ -185,6 +191,7 @@ describe('ViewRecordController', () => {
         responseType: 'Learner could not be verified',
         prisonerNumber: 'A1234BC',
         backBase: '/find-a-prisoner',
+        sourcePage: undefined,
       })
     })
 
