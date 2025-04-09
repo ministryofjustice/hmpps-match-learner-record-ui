@@ -12,6 +12,9 @@ export declare module 'express-session' {
     searchByInformationResults: LearnersResponse
     prisoner: PrisonerSummary
     searchResults: SearchResults
+    data: {
+      [key: string]: unknown
+    }
   }
 }
 

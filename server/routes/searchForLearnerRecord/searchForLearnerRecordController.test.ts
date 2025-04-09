@@ -107,13 +107,65 @@ describe('searchForLearnerRecordController', () => {
   })
 
   describe('getSearchForLearnerRecordViewByInformation', () => {
-    it('should get search for learner record view by information page', async () => {
+    it('should log actor that ran this step', async () => {
       await controller.getSearchForLearnerRecordViewByInformation(req, res, next)
       expect(auditService.logPageView).toHaveBeenCalledWith(Page.SEARCH_BY_INFORMATION_PAGE, {
         who: req.user.username,
         correlationId: req.id,
       })
-      expect(res.render).toHaveBeenCalledWith('pages/searchForLearnerRecord/byInformation', {})
+    })
+
+    it('should render with empty form when searchResults is undefined', async () => {
+      req.session.searchResults = undefined
+
+      await controller.getSearchForLearnerRecordViewByInformation(req, res, next)
+
+      expect(res.render).toHaveBeenCalledWith(
+        'pages/searchForLearnerRecord/byInformation',
+        expect.objectContaining({
+          form: expect.any(Object),
+        }),
+      )
+
+      expect(res.render).toHaveBeenCalledWith('pages/searchForLearnerRecord/byInformation', {
+        form: {
+          givenName: undefined,
+          familyName: undefined,
+          'dob-day': undefined,
+          'dob-month': undefined,
+          'dob-year': undefined,
+        },
+      })
+    })
+
+    it('should get search for learner record view by information page', async () => {
+      req.session.searchResults = {
+        data: [
+          {
+            firstName: 'John',
+            lastName: 'Doe',
+            dateOfBirth: '01-01-1950',
+          },
+        ],
+        search: 'doe',
+      }
+
+      await controller.getSearchForLearnerRecordViewByInformation(req, res, next)
+
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.SEARCH_BY_INFORMATION_PAGE, {
+        who: req.user.username,
+        correlationId: req.id,
+      })
+
+      expect(res.render).toHaveBeenCalledWith('pages/searchForLearnerRecord/byInformation', {
+        form: {
+          givenName: 'John',
+          familyName: 'Doe',
+          'dob-day': '01',
+          'dob-month': '01',
+          'dob-year': '1950',
+        },
+      })
     })
   })
 
