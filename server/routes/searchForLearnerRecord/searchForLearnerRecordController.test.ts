@@ -102,7 +102,11 @@ describe('searchForLearnerRecordController', () => {
         who: req.user.username,
         correlationId: req.id,
       })
-      expect(res.render).toHaveBeenCalledWith('pages/searchForLearnerRecord/byUln', {})
+      expect(res.render).toHaveBeenCalledWith('pages/searchForLearnerRecord/byUln', {
+        form: {
+          uln: undefined,
+        },
+      })
     })
   })
 
@@ -113,7 +117,15 @@ describe('searchForLearnerRecordController', () => {
         who: req.user.username,
         correlationId: req.id,
       })
-      expect(res.render).toHaveBeenCalledWith('pages/searchForLearnerRecord/byInformation', {})
+      expect(res.render).toHaveBeenCalledWith('pages/searchForLearnerRecord/byInformation', {
+        form: {
+          'dob-day': undefined,
+          'dob-month': undefined,
+          'dob-year': undefined,
+          familyName: undefined,
+          givenName: undefined,
+        },
+      })
     })
   })
 
