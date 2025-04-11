@@ -97,6 +97,7 @@ describe('searchForLearnerRecordController', () => {
 
   describe('getSearchForLearnerRecordViewByUln', () => {
     it('should get search for learner record view by uln page', async () => {
+      req.params.prisonNumber = ''
       await controller.getSearchForLearnerRecordViewByUln(req, res, next)
       expect(auditService.logPageView).toHaveBeenCalledWith(Page.SEARCH_BY_ULN_PAGE, {
         who: req.user.username,
@@ -108,10 +109,43 @@ describe('searchForLearnerRecordController', () => {
         },
       })
     })
+
+    it('should get search for learner record view by uln page - from searchResults', async () => {
+      req.params.prisonNumber = 'A1898EC'
+      req.session.searchResults = {
+        data: [
+          {
+            age: 48,
+            matchedUln: '1026893096',
+            status: 'Matched',
+            imageId: 'placeholder',
+            prisonerNumber: 'A1898EC',
+            firstName: 'Darcie',
+            lastName: 'Tucker',
+            prisonId: 'BXI',
+            prisonName: 'Brixton (HMP)',
+            cellLocation: 'A-1-040',
+            dateOfBirth: '16-08-1976',
+          },
+        ],
+      }
+
+      await controller.getSearchForLearnerRecordViewByUln(req, res, next)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.SEARCH_BY_ULN_PAGE, {
+        who: req.user.username,
+        correlationId: req.id,
+      })
+      expect(res.render).toHaveBeenCalledWith('pages/searchForLearnerRecord/byUln', {
+        form: {
+          uln: '1026893096',
+        },
+      })
+    })
   })
 
   describe('getSearchForLearnerRecordViewByInformation', () => {
     it('should get search for learner record view by information page', async () => {
+      req.params.prisonNumber = ''
       await controller.getSearchForLearnerRecordViewByInformation(req, res, next)
       expect(auditService.logPageView).toHaveBeenCalledWith(Page.SEARCH_BY_INFORMATION_PAGE, {
         who: req.user.username,
@@ -124,6 +158,41 @@ describe('searchForLearnerRecordController', () => {
           'dob-year': undefined,
           familyName: undefined,
           givenName: undefined,
+        },
+      })
+    })
+
+    it('should get search for learner record view by information page - from searchResult', async () => {
+      req.params.prisonNumber = 'A1898EC'
+      req.session.searchResults = {
+        data: [
+          {
+            age: 48,
+            matchedUln: '1026893096',
+            status: 'Matched',
+            imageId: 'placeholder',
+            prisonerNumber: 'A1898EC',
+            firstName: 'Darcie',
+            lastName: 'Tucker',
+            prisonId: 'BXI',
+            prisonName: 'Brixton (HMP)',
+            cellLocation: 'A-1-040',
+            dateOfBirth: '16-08-1976',
+          },
+        ],
+      }
+      await controller.getSearchForLearnerRecordViewByInformation(req, res, next)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.SEARCH_BY_INFORMATION_PAGE, {
+        who: req.user.username,
+        correlationId: req.id,
+      })
+      expect(res.render).toHaveBeenCalledWith('pages/searchForLearnerRecord/byInformation', {
+        form: {
+          'dob-day': '16',
+          'dob-month': '08',
+          'dob-year': 1976,
+          familyName: 'Tucker',
+          givenName: 'Darcie',
         },
       })
     })
