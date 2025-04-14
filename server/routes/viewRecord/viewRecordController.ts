@@ -49,6 +49,7 @@ export default class ViewRecordController {
     next: NextFunction,
     backBase: string,
     viewName: string,
+    sourcePage?: string,
   ): Promise<void> => {
     this.logPageView(req.user.username, req.id)
     try {
@@ -82,6 +83,7 @@ export default class ViewRecordController {
           responseType,
           prisonerNumber: prisoner.prisonerNumber,
           backBase,
+          sourcePage,
         })
       }
 
@@ -90,6 +92,7 @@ export default class ViewRecordController {
         learner: selectedLearner,
         learnerEvents: learnerEventsResponse.learnerRecord,
         backBase,
+        sourcePage,
         matchType: responseType,
       })
     } catch (error) {
@@ -98,9 +101,12 @@ export default class ViewRecordController {
   }
 
   getViewRecord: RequestHandler = async (req, res, next): Promise<void> => {
-    const backBase = '/learner-search-results/'
+    const sourcePage = req.session.returnTo.includes('/search-for-learner-record-by-uln/') ? 'uln' : ''
+    const backBase = req.session.returnTo.includes('/search-for-learner-record-by-uln/')
+      ? '/search-for-learner-record-by-uln/'
+      : '/learner-search-results/'
     const viewName = 'pages/viewRecord/recordPage'
-    return this.getRecord(req, res, next, backBase, viewName)
+    return this.getRecord(req, res, next, backBase, viewName, sourcePage)
   }
 
   getViewMatchedRecord: RequestHandler = async (req, res, next): Promise<void> => {

@@ -27,6 +27,7 @@ describe('ViewRecordController', () => {
 
   const req = {
     session: {
+      returnTo: '',
       searchByInformationResults: {
         matchedLearners: [
           {
@@ -83,6 +84,7 @@ describe('ViewRecordController', () => {
         prisoner: { prisonerNumber: 'A1234BC' },
         matchType: 'Exact Match',
         backBase: '/learner-search-results/',
+        sourcePage: '',
       })
     })
 
@@ -101,6 +103,7 @@ describe('ViewRecordController', () => {
         responseType: 'Learner opted to not share data',
         prisonerNumber: 'A1234BC',
         backBase: '/learner-search-results/',
+        sourcePage: '',
       })
     })
 
@@ -119,6 +122,7 @@ describe('ViewRecordController', () => {
         responseType: 'Learner could not be verified',
         prisonerNumber: 'A1234BC',
         backBase: '/learner-search-results/',
+        sourcePage: '',
       })
     })
 
@@ -127,6 +131,50 @@ describe('ViewRecordController', () => {
       learnerRecordsService.getLearnerEvents.mockRejectedValue(error)
       await controller.getViewRecord(req, res, next)
       expect(next).toHaveBeenCalledWith(error)
+    })
+  })
+
+  describe('getViewRecordWithSourcePage', () => {
+    it('should render the view Record page with Source Page', async () => {
+      req.session.returnTo = '/search-for-learner-record-by-uln/'
+      await controller.getViewRecord(req, res, null)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
+        who: req.user.username,
+        correlationId: undefined,
+      })
+      expect(auditService.logAuditEvent).toHaveBeenCalledWith({
+        what: 'VIEW_LEARNER_RECORD',
+        who: req.user.username,
+        subjectId: req.params.uln,
+        subjectType: 'ULN',
+      })
+      expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordPage', {
+        learner: { uln: '1234567890' },
+        learnerEvents: [],
+        prisoner: { prisonerNumber: 'A1234BC' },
+        matchType: 'Exact Match',
+        backBase: '/search-for-learner-record-by-uln/',
+        sourcePage: 'uln',
+      })
+    })
+
+    it('should render the learner not sharing data page', async () => {
+      req.session.returnTo = '/search-for-learner-record-by-uln/'
+      learnerRecordsService.getLearnerEvents = jest.fn().mockResolvedValue({
+        responseType: 'Learner opted to not share data',
+        learnerRecord: [],
+      })
+      await controller.getViewRecord(req, res, null)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
+        who: req.user.username,
+        correlationId: undefined,
+      })
+      expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordNotViewable', {
+        responseType: 'Learner opted to not share data',
+        prisonerNumber: 'A1234BC',
+        backBase: '/search-for-learner-record-by-uln/',
+        sourcePage: 'uln',
+      })
     })
   })
 
@@ -149,6 +197,7 @@ describe('ViewRecordController', () => {
         prisoner: { prisonerNumber: 'A1234BC' },
         matchType: 'Exact Match',
         backBase: '/find-a-prisoner',
+        sourcePage: undefined,
       })
     })
 
@@ -167,6 +216,7 @@ describe('ViewRecordController', () => {
         responseType: 'Learner opted to not share data',
         prisonerNumber: 'A1234BC',
         backBase: '/find-a-prisoner',
+        sourcePage: undefined,
       })
     })
 
@@ -175,7 +225,6 @@ describe('ViewRecordController', () => {
         responseType: 'Learner could not be verified',
         learnerRecord: [],
       })
-      req.session.returnTo = ''
       await controller.getViewMatchedRecord(req, res, null)
       expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
         who: req.user.username,
@@ -185,6 +234,7 @@ describe('ViewRecordController', () => {
         responseType: 'Learner could not be verified',
         prisonerNumber: 'A1234BC',
         backBase: '/find-a-prisoner',
+        sourcePage: undefined,
       })
     })
 
