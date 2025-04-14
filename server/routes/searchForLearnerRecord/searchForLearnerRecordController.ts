@@ -1,3 +1,5 @@
+import { parse } from 'date-fns'
+
 import type { SearchByInformationForm, SearchByUlnForm } from 'forms'
 import { RequestHandler } from 'express'
 import type { LearnerRecord } from 'learnerRecordsApi'
@@ -23,15 +25,39 @@ export default class SearchForLearnerRecordController {
   }
 
   getSearchForLearnerRecordViewByUln: RequestHandler = async (req, res, next): Promise<void> => {
+    const { prisonNumber } = req.params
     req.session.returnTo = ''
     this.logPageView(Page.SEARCH_BY_ULN_PAGE, req.user.username, req.id)
-    return res.render('pages/searchForLearnerRecord/byUln', { form: req.session.searchByUlnForm })
+
+    const prisoner =
+      req.session.searchResults?.data?.find((p: { prisonerNumber: string }) => p.prisonerNumber === prisonNumber) || {}
+    const form = {
+      uln: prisoner.matchedUln,
+      ...req.session.searchByUlnForm,
+    }
+    return res.render('pages/searchForLearnerRecord/byUln', { form })
   }
 
   getSearchForLearnerRecordViewByInformation: RequestHandler = async (req, res, next): Promise<void> => {
+    const { prisonNumber } = req.params
     req.session.returnTo = ''
     this.logPageView(Page.SEARCH_BY_INFORMATION_PAGE, req.user.username, req.id)
-    return res.render('pages/searchForLearnerRecord/byInformation', { form: req.session.searchByInformationForm })
+
+    const prisoner =
+      req.session.searchResults?.data?.find((p: { prisonerNumber: string }) => p.prisonerNumber === prisonNumber) || {}
+    const form = {
+      givenName: prisoner.firstName,
+      familyName: prisoner.lastName,
+      'dob-day':
+        prisoner.dateOfBirth &&
+        parse(prisoner.dateOfBirth, 'dd-MM-yyyy', new Date()).getDate().toString().padStart(2, '0'),
+      'dob-month':
+        prisoner.dateOfBirth &&
+        (parse(prisoner.dateOfBirth, 'dd-MM-yyyy', new Date()).getMonth() + 1).toString().padStart(2, '0'),
+      'dob-year': prisoner.dateOfBirth && parse(prisoner.dateOfBirth, 'dd-MM-yyyy', new Date()).getFullYear(),
+      ...req.session.searchByInformationForm,
+    }
+    return res.render('pages/searchForLearnerRecord/byInformation', { form })
   }
 
   postSearchForLearnerRecordByInformation: RequestHandler = async (req, res, next): Promise<void> => {
