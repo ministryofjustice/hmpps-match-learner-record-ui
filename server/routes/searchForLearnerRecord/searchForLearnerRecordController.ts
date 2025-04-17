@@ -48,6 +48,8 @@ export default class SearchForLearnerRecordController {
     const form = {
       givenName: prisoner.firstName,
       familyName: prisoner.lastName,
+      sex: prisoner.gender?.toUpperCase(),
+      postcode: prisoner.postalCode,
       'dob-day':
         prisoner.dateOfBirth &&
         parse(prisoner.dateOfBirth, 'dd-MM-yyyy', new Date()).getDate().toString().padStart(2, '0'),

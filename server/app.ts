@@ -16,6 +16,7 @@ import setUpHealthChecks from './middleware/setUpHealthChecks'
 import setUpStaticResources from './middleware/setUpStaticResources'
 import setUpWebRequestParsing from './middleware/setupRequestParsing'
 import setUpWebSession from './middleware/setUpWebSession'
+import setUpLocals from './middleware/setUpLocals'
 
 import routes from './routes'
 import type { Services } from './services'
@@ -43,6 +44,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use(errorMessageMiddleware)
+  app.use(setUpLocals())
 
   app.use(
     dpsComponents.getPageComponents({
