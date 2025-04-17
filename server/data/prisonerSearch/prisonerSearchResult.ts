@@ -28,4 +28,10 @@ export default class PrisonerSearchResult {
 
   @Expose()
   nationality: string
+
+  @Expose()
+  gender: string
+
+  @Expose()
+  postalCode: string
 }
