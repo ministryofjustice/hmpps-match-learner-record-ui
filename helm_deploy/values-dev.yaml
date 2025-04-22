@@ -19,6 +19,8 @@ generic-service:
     COMPONENT_API_URL: "https://frontend-components-dev.hmpps.service.justice.gov.uk"
     MANAGE_USERS_API_URL: 'https://manage-users-api-dev.hmpps.service.justice.gov.uk'
     DPS_HOME_PAGE_URL: "https://digital-dev.prison.service.justice.gov.uk"
+    # Open LRS link
+    OPEN_LRS_LINK: "https://cmp-idp.dev.lrs.education.gov.uk/"
 
 generic-prometheus-alerts:
   alertSeverity: education-alerts-non-prod

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Expose, Type, Transform } from 'class-transformer'
 
 export default class PrisonerSearchResult {
@@ -28,4 +29,14 @@ export default class PrisonerSearchResult {
 
   @Expose()
   nationality: string
+
+  @Expose()
+  gender: string
+
+  @Transform(({ obj }) => {
+    const address = obj.addresses?.find((addr: any) => addr.primaryAddress) || obj.addresses?.[0]
+    return address?.postalCode ?? ''
+  })
+  @Expose()
+  postalCode: string
 }

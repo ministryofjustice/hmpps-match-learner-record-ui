@@ -146,4 +146,5 @@ export default {
   },
   ingressUrl: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   environmentName: get('ENVIRONMENT_NAME', ''),
+  openLrsLink: get('OPEN_LRS_LINK', ''),
 }
