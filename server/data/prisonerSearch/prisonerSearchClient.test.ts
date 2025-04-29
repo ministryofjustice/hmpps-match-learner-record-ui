@@ -92,6 +92,8 @@ describe('prisonerSearchClient', () => {
         cellLocation: 'LEI-1-2',
         nationality: 'British',
         dateOfBirth: '02-01-1990',
+        gender: undefined,
+        postalCode: '',
       },
     ])
   })

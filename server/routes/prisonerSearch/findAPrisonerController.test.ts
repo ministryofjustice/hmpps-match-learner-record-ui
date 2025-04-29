@@ -76,6 +76,8 @@ describe('FindPrisonerController', () => {
         cellLocation: '',
         dateOfBirth: undefined,
         nationality: '',
+        gender: '',
+        postalCode: '',
       }
 
       const checkResponse: CheckMatchResponse = {
