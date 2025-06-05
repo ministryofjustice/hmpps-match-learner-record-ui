@@ -33,7 +33,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => H
   nunjucksSetup(app)
   app.use(setUpWebSession())
   app.use((req, res, next) => {
-    req.user = userSupplier() as Express.User
+    req.user = userSupplier()
     req.flash = flashProvider
     res.locals = {
       user: { ...req.user } as HmppsUser,
