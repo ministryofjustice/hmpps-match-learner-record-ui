@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { Services } from '../../services'
 import FindAPrisonerController from './findAPrisonerController'
+import noCacheMiddleware from '../../middleware/disableSensitiveCaching'
 
 export default function findAPrisonerRoutes(router: Router, services: Services) {
   const findAPrisonerController = new FindAPrisonerController(
@@ -9,7 +10,7 @@ export default function findAPrisonerRoutes(router: Router, services: Services) 
     services.prisonApiService,
     services.learnerRecordsService,
   )
-  router.get('/find-a-prisoner', findAPrisonerController.getFindAPrisoner)
+  router.get('/find-a-prisoner', [noCacheMiddleware, findAPrisonerController.getFindAPrisoner])
   router.post('/find-a-prisoner', findAPrisonerController.postFindAPrisoner)
-  router.get('/find-a-prisoner-clear', findAPrisonerController.clearResultsAndRedirect)
+  router.get('/find-a-prisoner-clear', [noCacheMiddleware, findAPrisonerController.clearResultsAndRedirect])
 }

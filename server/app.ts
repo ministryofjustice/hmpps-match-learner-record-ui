@@ -2,8 +2,8 @@ import express from 'express'
 import 'reflect-metadata'
 
 import createError from 'http-errors'
-
 import dpsComponents from '@ministryofjustice/hmpps-connect-dps-components'
+
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
 import { appInsightsMiddleware } from './utils/azureAppInsights'
@@ -40,7 +40,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpStaticResources())
   nunjucksSetup(app)
   app.use(setUpAuthentication())
-  app.use(authorisationMiddleware(['ROLE_MATCH_LEARNER_RECORD_RW']))
+  app.use(authorisationMiddleware(['MATCH_LEARNER_RECORD_RW']))
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use(errorMessageMiddleware)
