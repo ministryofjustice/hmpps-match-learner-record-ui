@@ -62,6 +62,9 @@ generic-service:
   allowlist:
     groups:
       - internal
+      - prisons
+      - private_prisons
+      - prisons-education
 
 generic-prometheus-alerts:
   targetApplication: hmpps-match-learner-record-ui
