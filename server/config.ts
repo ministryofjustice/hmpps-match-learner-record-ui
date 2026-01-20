@@ -139,7 +139,7 @@ export default {
     },
     componentApi: {
       url: get('COMPONENT_API_URL', 'http://localhost:8082', requiredInProduction),
-      healthPath: '/health/ping',
+      healthPath: '/ping',
       timeout: {
         response: Number(get('COMPONENT_TIMEOUT_RESPONSE', 10000)),
         deadline: Number(get('COMPONENT_TIMEOUT_DEADLINE', 10000)),
