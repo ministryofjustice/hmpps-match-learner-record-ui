@@ -161,6 +161,12 @@
     "tmp": "0.2.4",
     "@jgoz/esbuild-plugin-typecheck": {
       "esbuild": "$esbuild"
+    },
+    "mocha": {
+      "diff": "8.0.3"
+    },
+    "sinon": {
+      "diff": "8.0.3"
     }
   }
 }
