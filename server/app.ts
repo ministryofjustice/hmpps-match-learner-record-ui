@@ -47,9 +47,11 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpLocals())
 
   app.use(
-    dpsComponents.getPageComponents({
-      dpsUrl: config.serviceUrls.digitalPrison,
+    dpsComponents.getFrontendComponents({
       logger,
+      componentApiConfig: config.apis.componentApi,
+      dpsUrl: config.serviceUrls.digitalPrison,
+      requestOptions: { includeSharedData: true },
     }),
   )
 

@@ -4,6 +4,7 @@ import { Router } from 'express'
 import { Strategy } from 'passport-oauth2'
 import dpsComponents from '@ministryofjustice/hmpps-connect-dps-components'
 import config from '../config'
+import logger from '../../logger'
 import tokenVerifier from '../data/tokenVerification'
 import { HmppsUser } from '../interfaces/hmppsUser'
 import generateOauthClientToken from '../authentication/clientCredentials'
@@ -44,7 +45,12 @@ export default function setupAuthentication() {
 
   router.get(
     '/autherror',
-    dpsComponents.getPageComponents({ dpsUrl: config.serviceUrls.digitalPrison }),
+    dpsComponents.getFrontendComponents({
+      logger,
+      componentApiConfig: config.apis.componentApi,
+      dpsUrl: config.serviceUrls.digitalPrison,
+      requestOptions: { includeSharedData: true },
+    }),
     (req, res) => {
       res.status(401)
       return res.render('autherror')
