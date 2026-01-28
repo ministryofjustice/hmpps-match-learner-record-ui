@@ -1,4 +1,5 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{%- from "moj/components/alert/macro.njk" import mojAlert -%}
 
 {% extends "../partials/layout.njk" %}
 
@@ -10,6 +11,12 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l">Match someone's learner record</h1>
+
+        {{ mojAlert({
+              variant: "information",
+              dismissible: false,
+              html: 'For help to use this service, email us at <a href="mailto:getreadyforwork@justice.gov.uk">getreadyforwork@justice.gov.uk</a>'
+            }) }}
 
         <p class="govuk-body">Use this product to:</p>
 
