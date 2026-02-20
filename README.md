@@ -28,7 +28,7 @@ COMPONENT_API_URL=
 HMPPS_AUTH_URL=
 LEARNER_RECORDS_API_URL=
 ```
-Install dependencies using `npm install`, ensuring you are using `node v20`
+Install dependencies using `npm run setup`, ensuring you are using `node v20`
 
 Note: Using `nvm` (or [fnm](https://github.com/Schniz/fnm)), run `nvm install --latest-npm` within the repository folder
 to use the correct version of node, and the latest version of npm. This matches the `engines` config in `package.json`
@@ -49,7 +49,6 @@ The easiest way to run the app is to use docker compose to create the service an
 ### Dependencies
 
 * `hmpps-auth` - Standard HMPPS Digital configuration; used for authentication and retrieves the user profile. Uses the user token.
-* `prison-api` – Used to pull image data for a prisoner. `PRISON_API_URL` environment variable sets the url.
 * `prisoner-search` - Used to return a list of prisoners which relate to the search term provided on the 'Find a prisoner' page. `PRISONER_SEARCH_API_URL` env variable sets the url.
 * `hmpps-learner-records-api` - Used to interact with DFE's Learner Records Service (LRS). `LEARNER_RECORDS_API_URL` environment variable sets the url.
 * `hmpps-audit` - HMPPS Audit Service; used to send user action events to HMPPS Audit via the AWS SQS queue specified by the environment variable `AUDIT_SQS_QUEUE_URL`

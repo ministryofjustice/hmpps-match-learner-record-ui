@@ -8,7 +8,6 @@ context('Match By Information Journey', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubPrisonerApiPrisonerSearch')
-    cy.task('stubPrisonApiPrisonerImage')
     cy.task('stubPrisonerApiGetPrisonerById', chosenPrisoner.prisonerNumber)
     cy.task('stubLearnerRecordsNoMatchForAll')
     cy.task('stubSignIn', { name: 'Someone Withaname', roles: ['ROLE_MATCH_LEARNER_RECORD_RW'] })

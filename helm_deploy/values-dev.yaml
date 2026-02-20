@@ -15,7 +15,6 @@ generic-service:
     AUDIT_ENABLED: "false"
     LEARNER_RECORDS_API_URL: "https://learner-records-api-dev.hmpps.service.justice.gov.uk"
     PRISONER_SEARCH_API_URL: "https://prisoner-search-dev.prison.service.justice.gov.uk"
-    PRISON_API_URL: "https://prison-api-dev.prison.service.justice.gov.uk"
     COMPONENT_API_URL: "https://frontend-components-dev.hmpps.service.justice.gov.uk"
     MANAGE_USERS_API_URL: 'https://manage-users-api-dev.hmpps.service.justice.gov.uk'
     DPS_HOME_PAGE_URL: "https://digital-dev.prison.service.justice.gov.uk"

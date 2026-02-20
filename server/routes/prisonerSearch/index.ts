@@ -7,7 +7,6 @@ export default function findAPrisonerRoutes(router: Router, services: Services) 
   const findAPrisonerController = new FindAPrisonerController(
     services.auditService,
     services.prisonerSearchService,
-    services.prisonApiService,
     services.learnerRecordsService,
   )
   router.get('/find-a-prisoner', [noCacheMiddleware, findAPrisonerController.getFindAPrisoner])
