@@ -132,6 +132,30 @@ describe('ViewRecordController', () => {
       await controller.getViewRecord(req, res, next)
       expect(next).toHaveBeenCalledWith(error)
     })
+
+    it('should render the view Record page, without prior source page', async () => {
+      // `returnTo` is not available yet
+      req.session.returnTo = undefined
+      await controller.getViewRecord(req, res, null)
+      expect(auditService.logPageView).toHaveBeenCalledWith(Page.VIEW_AND_MATCH_RECORD_PAGE, {
+        who: req.user.username,
+        correlationId: undefined,
+      })
+      expect(auditService.logAuditEvent).toHaveBeenCalledWith({
+        what: 'VIEW_LEARNER_RECORD',
+        who: req.user.username,
+        subjectId: req.params.uln,
+        subjectType: 'ULN',
+      })
+      expect(res.render).toHaveBeenCalledWith('pages/viewRecord/recordPage', {
+        learner: { uln: '1234567890' },
+        learnerEvents: [],
+        prisoner: { prisonerNumber: 'A1234BC' },
+        matchType: 'Exact Match',
+        backBase: '/learner-search-results/',
+        sourcePage: '',
+      })
+    })
   })
 
   describe('getViewRecordWithSourcePage', () => {
