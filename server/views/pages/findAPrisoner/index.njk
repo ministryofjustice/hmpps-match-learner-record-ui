@@ -51,14 +51,7 @@
         {% set tableRows = [] %}
 
         {% for prisoner in data %}
-          {% set imageHtml %}
-            <img src="/api/image/{{prisoner.imageId}}" alt="Image of {{ prisoner.number }}" data-qa="prisoner-photo" class="hmpps-prisoner-list__photo" />
-          {% endset %}
           {% set row = [
-            {
-              html: imageHtml,
-              classes: 'hmpps-prisoner-list__cell'
-            },
             {
               html: '<a class="govuk-link" href="/search-for-learner-record-by-uln/' + prisoner.prisonerNumber + '">' + prisoner.firstName + " " + prisoner.lastName + '</a>',
               attributes: {
@@ -99,9 +92,6 @@
               id: "prisonerListTable"
             },
             head: [
-              {
-                text: ""
-              },
               {
                 text: "Name",
                 attributes: {
