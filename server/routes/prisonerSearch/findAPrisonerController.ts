@@ -4,7 +4,6 @@ import type { FindAPrisonerForm } from 'forms'
 import AuditService, { Page } from '../../services/auditService'
 import PrisonerSearchService from '../../services/prisonerSearch/prisonerSearchService'
 import validateFindAPrisonerForm from './findAPrisonerValidator'
-import PrisonApiService from '../../services/prisonApi/prisonApiService'
 import LearnerRecordsService from '../../services/learnerRecordsService'
 import clearSessionData from '../../utils/sessionUtils'
 
@@ -12,7 +11,6 @@ export default class FindAPrisonerController {
   constructor(
     private readonly auditService: AuditService,
     private readonly prisonerSearchService: PrisonerSearchService,
-    private readonly prisonApiService: PrisonApiService,
     private readonly learnerRecordsService: LearnerRecordsService,
   ) {}
 
@@ -49,15 +47,12 @@ export default class FindAPrisonerController {
       const mappedResult = await Promise.all(
         searchResult.map(async record => {
           const response = await this.learnerRecordsService.checkMatch(record.prisonerNumber, req.user.username)
-          const images = await this.prisonApiService.getPrisonerImageData(record.prisonerNumber, 'default-username')
-          const image = images.find(img => img.active)?.imageId || 'placeholder'
           return {
             age: record.dateOfBirth
               ? differenceInYears(new Date(), parse(record.dateOfBirth as unknown as string, 'dd-MM-yyyy', new Date()))
               : undefined,
             matchedUln: response.matchedUln,
             status: this.asText(response.status),
-            imageId: image,
             ...record,
           }
         }),

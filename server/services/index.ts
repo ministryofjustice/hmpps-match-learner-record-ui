@@ -4,8 +4,6 @@ import LearnerRecordsService from './learnerRecordsService'
 import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
 import AuditService from './auditService'
 import PrisonerSearchService from './prisonerSearch/prisonerSearchService'
-import PrisonApiService from './prisonApi/prisonApiService'
-import PrisonApiClient from '../data/prisonApi/prisonApiClient'
 import UserService from './userService'
 import ManageUsersApiClient from '../data/manageUsersApiClient'
 
@@ -16,7 +14,6 @@ export const services = () => {
   const learnerRecordsService = new LearnerRecordsService(hmppsAuthClient, new LearnerRecordsApiClient())
 
   const prisonerSearchService = new PrisonerSearchService(hmppsAuthClient, new PrisonerSearchClient())
-  const prisonApiService = new PrisonApiService(hmppsAuthClient, new PrisonApiClient())
   const userService = new UserService(new ManageUsersApiClient())
 
   return {
@@ -24,7 +21,6 @@ export const services = () => {
     auditService,
     learnerRecordsService,
     prisonerSearchService,
-    prisonApiService,
     userService,
   }
 }
