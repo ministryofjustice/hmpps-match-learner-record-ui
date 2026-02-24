@@ -101,8 +101,9 @@ export default class ViewRecordController {
   }
 
   getViewRecord: RequestHandler = async (req, res, next): Promise<void> => {
-    const sourcePage = req.session.returnTo.includes('/search-for-learner-record-by-uln/') ? 'uln' : ''
-    const backBase = req.session.returnTo.includes('/search-for-learner-record-by-uln/')
+    const returnTo = req.session?.returnTo ?? ''
+    const sourcePage = returnTo.includes('/search-for-learner-record-by-uln/') ? 'uln' : ''
+    const backBase = returnTo.includes('/search-for-learner-record-by-uln/')
       ? '/search-for-learner-record-by-uln/'
       : '/learner-search-results/'
     const viewName = 'pages/viewRecord/recordPage'

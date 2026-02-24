@@ -8,7 +8,6 @@ context('Search By ULN Journey', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubPrisonerApiPrisonerSearch')
-    cy.task('stubPrisonApiPrisonerImage')
     cy.task('stubPrisonerApiGetPrisonerById', chosenPrisoner.prisonerNumber)
     cy.task('stubLearnerRecordsNoMatchForAll')
     cy.task('stubLearnerRecordsEventsExactMatch')
