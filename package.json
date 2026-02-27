@@ -170,6 +170,9 @@
     },
     "glob": {
       "minimatch": "^10.2.1"
+    },
+    "@aws-sdk/client-sqs": {
+      "fast-xml-parser": "^5.3.8"
     }
   }
 }
