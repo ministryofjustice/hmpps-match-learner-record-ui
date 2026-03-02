@@ -163,7 +163,8 @@
       "esbuild": "$esbuild"
     },
     "mocha": {
-      "diff": "8.0.3"
+      "diff": "8.0.3",
+      "serialize-javascript": "^7.0.3"
     },
     "sinon": {
       "diff": "8.0.3"
