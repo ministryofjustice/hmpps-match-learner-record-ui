@@ -1,33 +1,17 @@
 # Stage: base image
-FROM node:22-alpine AS base
-
-
-
-LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
-
-RUN apk --update-cache upgrade --available \
-  && apk --no-cache add tzdata \
-  && rm -rf /var/cache/apk/*
-
-
-ENV TZ=Europe/London
-RUN ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
-
-RUN addgroup --gid 2000 --system appgroup && \
-    adduser --uid 2000 --system appuser --ingroup appgroup
+FROM ghcr.io/ministryofjustice/hmpps-node:24-alpine AS base
 
 ARG BUILD_NUMBER
 ARG GIT_REF
 ARG GIT_BRANCH
 
-WORKDIR /app
-
-
+LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
 # Cache breaking and ensure required build / git args defined
 RUN test -n "$BUILD_NUMBER" || (echo "BUILD_NUMBER not set" && false)
 RUN test -n "$GIT_REF" || (echo "GIT_REF not set" && false)
 RUN test -n "$GIT_BRANCH" || (echo "GIT_BRANCH not set" && false)
+
 
 # Define env variables for runtime health / info
 ENV BUILD_NUMBER=${BUILD_NUMBER}
