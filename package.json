@@ -174,7 +174,7 @@
       "minimatch": "^10.2.1"
     },
     "minimatch": {
-      "brace-expansion": "^2.0.3"
+      "brace-expansion": "^1.1.13"
     },
     "@aws-sdk/client-sqs": {
       "fast-xml-parser": "^5.3.8"
