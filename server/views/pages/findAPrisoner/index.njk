@@ -32,14 +32,14 @@
 
               {{ govukButton({
                 text: "Search",
-                classes: "moj-search__button",
+                classes: "govuk-button moj-search__button",
                 id: "searchButton",
                 type: "submit"
               }) }}
+{#              </div>#}
 
               <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             </form>
-          </div>
         {% endset %}
 
         {{ mojTicketPanel({
