@@ -83,7 +83,7 @@
     "@ministryofjustice/hmpps-connect-dps-components": "5.4.0",
     "@ministryofjustice/hmpps-monitoring": "1.0.2",
     "agentkeepalive": "^4.6.0",
-    "applicationinsights": "^2.9.8",
+    "applicationinsights": "^3.15.1",
     "body-parser": "^2.2.0",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
@@ -161,7 +161,7 @@
   },
   "overrides": {
     "uuid": "11.1.1",
-    "tmp": "0.2.6",
+    "tmp": "0.2.7",
     "qs": "6.15.2",
     "@jgoz/esbuild-plugin-typecheck": {
       "esbuild": "$esbuild"
@@ -176,9 +176,10 @@
     "glob": {
       "minimatch": "^10.2.1"
     },
-    "minimatch": {
-      "brace-expansion": "^1.1.13"
-    },
+    "brace-expansion@^1.1.7": "1.1.18",
+    "@opentelemetry/core": "^2.10.0",
+    "@opentelemetry/resources": "^2.10.0",
+    "@opentelemetry/sdk-trace-base": "^2.10.0",
     "@aws-sdk/client-sqs": {
       "fast-xml-parser": "^5.3.8"
     }
