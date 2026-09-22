@@ -9,7 +9,6 @@ generic-service:
     INGRESS_URL: "https://match-learner-record.hmpps.service.justice.gov.uk"
     HMPPS_AUTH_URL: "https://sign-in.hmpps.service.justice.gov.uk/auth"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api.prison.service.justice.gov.uk"
-    AUDIT_ENABLED: "false"
     ENVIRONMENT_NAME: PRODUCTION
     LEARNER_RECORDS_API_URL: "https://learner-records-api.hmpps.service.justice.gov.uk"
     LEARNER_RECORDS_TIMEOUT_RESPONSE: "40000"
