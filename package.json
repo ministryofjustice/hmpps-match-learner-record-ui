@@ -105,7 +105,7 @@
     "nunjucks": "^3.2.4",
     "passport": "^0.7.0",
     "passport-oauth2": "^1.8.0",
-    "qs": "6.15.2",
+    "qs": "6.16.0",
     "redis": "^4.7.1",
     "reflect-metadata": "^0.2.2",
     "superagent": "^10.2.3"
@@ -137,7 +137,7 @@
     "brace-expansion": "^5.0.5",
     "chokidar": "^3.6.0",
     "concurrently": "^9.1.2",
-    "cypress": "^14.0.3",
+    "cypress": "^16.1.0",
     "cypress-multi-reporters": "^2.0.5",
     "esbuild": "^0.25.9",
     "esbuild-plugin-clean": "^1.0.1",
@@ -162,13 +162,23 @@
   "overrides": {
     "uuid": "11.1.1",
     "tmp": "0.2.7",
-    "qs": "6.15.2",
-    "@jgoz/esbuild-plugin-typecheck": {
-      "esbuild": "$esbuild"
+    "qs": "6.16.0",
+    "@eslint/eslintrc": {
+      "js-yaml": "4.3.2"
     },
     "mocha": {
       "diff": "8.0.3",
+      "js-yaml": "4.3.2",
       "serialize-javascript": "^7.0.3"
+    },
+    "@istanbuljs/load-nyc-config": {
+      "js-yaml": "3.15.2"
+    },
+    "eslint": {
+      "@humanfs/node": "0.16.8"
+    },
+    "@jgoz/esbuild-plugin-typecheck": {
+      "esbuild": "$esbuild"
     },
     "sinon": {
       "diff": "8.0.3"
