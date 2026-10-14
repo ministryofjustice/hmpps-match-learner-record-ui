@@ -167,7 +167,7 @@
       "js-yaml": "4.3.2"
     },
     "mocha": {
-      "diff": "8.0.3",
+      "diff": "9.0.0",
       "js-yaml": "4.3.2",
       "serialize-javascript": "^7.0.3"
     },
@@ -181,7 +181,7 @@
       "esbuild": "$esbuild"
     },
     "sinon": {
-      "diff": "8.0.3"
+      "diff": "9.0.0"
     },
     "glob": {
       "minimatch": "^10.2.1"
