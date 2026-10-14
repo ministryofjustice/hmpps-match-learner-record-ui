@@ -4,9 +4,9 @@ import 'reflect-metadata'
 import createError from 'http-errors'
 import { getFrontendComponents } from '@ministryofjustice/hmpps-connect-dps-components'
 
+import { telemetryMiddleware } from '@ministryofjustice/hmpps-azure-telemetry'
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
-import { appInsightsMiddleware } from './utils/azureAppInsights'
 import authorisationMiddleware from './middleware/authorisationMiddleware'
 
 import setUpAuthentication from './middleware/setUpAuthentication'
@@ -33,7 +33,6 @@ export default function createApp(services: Services): express.Application {
   app.set('trust proxy', true)
   app.set('port', process.env.PORT || 3000)
 
-  app.use(appInsightsMiddleware())
   app.use(setUpHealthChecks(services.applicationInfo))
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
@@ -43,6 +42,7 @@ export default function createApp(services: Services): express.Application {
   app.use(authorisationMiddleware(['MATCH_LEARNER_RECORD_RW']))
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
+  app.use(telemetryMiddleware.addUserMetadataToTelemetry())
   app.use(errorMessageMiddleware)
   app.use(setUpLocals())
 
