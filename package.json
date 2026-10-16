@@ -160,6 +160,8 @@
     "typescript": "^5.7.3"
   },
   "overrides": {
+    "argparse": "2.0.1",
+    "moment": "2.31.0",
     "uuid": "11.1.1",
     "tmp": "0.2.7",
     "qs": "6.16.0",
@@ -186,7 +188,7 @@
     "glob": {
       "minimatch": "^10.2.1"
     },
-    "brace-expansion@^1.1.7": "1.1.18",
+    "brace-expansion@^1.1.7": "1.1.21",
     "@opentelemetry/core": "^2.10.0",
     "@opentelemetry/resources": "^2.10.0",
     "@opentelemetry/sdk-trace-base": "^2.10.0",
