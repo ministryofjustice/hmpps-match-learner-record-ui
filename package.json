@@ -88,7 +88,7 @@
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
     "class-transformer": "^0.5.1",
-    "compression": "^1.8.0",
+    "compression": "^1.8.2",
     "connect-flash": "^0.1.1",
     "connect-redis": "^8.1.0",
     "csrf-sync": "^4.2.1",
@@ -134,7 +134,7 @@
     "@typescript-eslint/parser": "^8.24.0",
     "audit-ci": "^7.1.0",
     "aws-sdk-client-mock": "^4.1.0",
-    "brace-expansion": "^5.0.5",
+    "brace-expansion": "^5.0.12",
     "chokidar": "^3.6.0",
     "concurrently": "^9.1.2",
     "cypress": "^16.1.0",
@@ -160,6 +160,7 @@
     "typescript": "^5.7.3"
   },
   "overrides": {
+    "moment": "2.31.0",
     "uuid": "11.1.1",
     "tmp": "0.2.7",
     "qs": "6.16.0",
@@ -186,7 +187,7 @@
     "glob": {
       "minimatch": "^10.2.1"
     },
-    "brace-expansion@^1.1.7": "1.1.18",
+    "brace-expansion@^1.1.7": "1.1.21",
     "@opentelemetry/core": "^2.10.0",
     "@opentelemetry/resources": "^2.10.0",
     "@opentelemetry/sdk-trace-base": "^2.10.0",
